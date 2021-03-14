@@ -1,6 +1,14 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/windows,linux,macos,node,visualstudiocode,sublimetext,intellij+all
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,macos,node,visualstudiocode,sublimetext,intellij+all
+# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,linux,node,visualstudiocode,intellij+all,sublimetext,database
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,linux,node,visualstudiocode,intellij+all,sublimetext,database
+
+### Database ###
+*.accdb
+*.db
+*.dbf
+*.mdb
+*.pdb
+*.sqlite3
 
 ### Intellij+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
@@ -329,4 +337,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,node,visualstudiocode,sublimetext,intellij+all
+# End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,node,visualstudiocode,intellij+all,sublimetext,database
