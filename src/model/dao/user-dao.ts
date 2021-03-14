@@ -10,7 +10,11 @@ export class UserDao implements AbstractDao {
             try {
                 const data = await knex(this.TABLE_NAME)
                     .where('ID', id).limit(1);
-                resolve(UserModel.fromDB(data, UserModel));
+                if (data.length > 0) {
+                    resolve(UserModel.fromDB(data[0], UserModel));
+                } else {
+                    reject('ERROR: no user found');
+                }
             } catch (e) {
                 reject(e);
             }
@@ -34,7 +38,11 @@ export class UserDao implements AbstractDao {
                 const data = await knex(this.TABLE_NAME)
                     .where('username', username)
                     .where('password', password).limit(1);
-                resolve(UserModel.fromDB(data, UserModel));
+                if (data.length > 0) {
+                    resolve(UserModel.fromDB(data[0], UserModel));
+                } else {
+                    reject('ERROR: no user found');
+                }
             } catch (e) {
                 reject(e);
             }
