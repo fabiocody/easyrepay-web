@@ -1,5 +1,5 @@
-import express from 'express';
+import {Application} from 'express';
 
 export interface AbstractController {
-    handle: (req: express.Request, res: express.Response, next: express.NextFunction) => void;
+    setupRoutes(app: Application): void;
 }

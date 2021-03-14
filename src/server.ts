@@ -1,5 +1,6 @@
 import express from 'express';
 import {TestController} from "./controllers/test-controller";
+import {UserController} from "./controllers/user-controller";
 
 
 /** SERVER PARAMETERS **/
@@ -9,7 +10,8 @@ const port: number = /*parseInt(process.env.PORT, 10) ||*/ 8080;
 
 
 /** ROUTING **/
-app.route('/').get(new TestController().handle);
+new TestController().setupRoutes(app);
+new UserController().setupRoutes(app);
 
 
 /** START SERVER **/
