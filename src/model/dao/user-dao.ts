@@ -1,8 +1,7 @@
-import {AbstractDao} from "./abstract-dao";
 import {knex} from "../../../knex/knex";
 import {UserModel} from "../user-model";
 
-export class UserDao implements AbstractDao {
+export class UserDao {
     public readonly TABLE_NAME: string = 'USER';
 
     public get(id: number): Promise<UserModel> {
@@ -11,9 +10,9 @@ export class UserDao implements AbstractDao {
                 const data = await knex(this.TABLE_NAME)
                     .where('ID', id).limit(1);
                 if (data.length > 0) {
-                    resolve(UserModel.fromDB(data[0], UserModel));
+                    resolve(UserModel.fromObject(data[0], UserModel));
                 } else {
-                    reject('ERROR: no user found');
+                    reject(`UserNotFoundError: no user with id=${id} found`);
                 }
             } catch (e) {
                 reject(e);
@@ -25,7 +24,7 @@ export class UserDao implements AbstractDao {
         return new Promise<UserModel[]>(async (resolve, reject) => {
             try {
                 const data = await knex(this.TABLE_NAME);
-                resolve(data.map(obj => UserModel.fromDB(obj, UserModel)));
+                resolve(data.map(obj => UserModel.fromObject(obj, UserModel)));
             } catch (e) {
                 reject(e);
             }
@@ -39,9 +38,9 @@ export class UserDao implements AbstractDao {
                     .where('username', username)
                     .where('password', password).limit(1);
                 if (data.length > 0) {
-                    resolve(UserModel.fromDB(data[0], UserModel));
+                    resolve(UserModel.fromObject(data[0], UserModel));
                 } else {
-                    reject('ERROR: no user found');
+                    reject(`UserNotFoundError: no user with username=${username} and password=${password} found`);
                 }
             } catch (e) {
                 reject(e);

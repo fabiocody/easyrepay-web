@@ -10,12 +10,13 @@ export class AuthMiddleware {
         if (token == null) {
             res.sendStatus(401);
         } else {
-            jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-                console.log(err);
+            console.log(new Date());
+            jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, payload: any) => {
                 if (err) {
+                    console.log(err);
                     res.sendStatus(401);
                 } else {
-                    req.user = user;
+                    req.authPayload = payload;
                     next();
                 }
             });
@@ -23,6 +24,6 @@ export class AuthMiddleware {
     }
 
     public static generateToken(credentials: string): string {
-        return jwt.sign({credentials: credentials}, process.env.TOKEN_SECRET as string, {expiresIn: 3600});
+        return jwt.sign({credentials: credentials}, process.env.TOKEN_SECRET as string, {expiresIn: '1h'});
     }
 }

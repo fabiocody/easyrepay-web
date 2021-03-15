@@ -8,9 +8,9 @@ export class UserController implements AbstractController {
     private userService = new UserService();
 
     setupRoutes(app: Application): void {
-        app.route('/user')
+        app.route('/api/users')
             .get(this.getAllUsers.bind(this));
-        app.route('/login')
+        app.route('/api/login')
             .post(this.login.bind(this));
     }
 
@@ -22,9 +22,9 @@ export class UserController implements AbstractController {
         const authHeader: string | undefined = req.headers.authorization;
         if (authHeader) {
             const credentials: string = authHeader.split(' ')[1];
-            this.userService.login(credentials).then(loginDto => {
-                res.json(loginDto);
-            }).catch(_ => res.sendStatus(403));
+            this.userService.login(credentials)
+                .then(loginDto => res.json(loginDto))
+                .catch(_ => res.sendStatus(403));
         } else {
             res.sendStatus(400);
         }
