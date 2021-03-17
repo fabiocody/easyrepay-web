@@ -14,14 +14,22 @@ export class ApiService {
   private refresh: string | null;
   private authHeader = {Authorization: ''};
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
     this.token = localStorage.getItem('token');
     this.refresh = localStorage.getItem('refresh');
-    this.authHeader.Authorization = this.token || '';
+    if (this.token) {
+      this.authHeader.Authorization = 'Bearer ' + this.token;
+    }
   }
 
-  public authenticate(username: string, password: string): Observable<boolean> {
-    return this.http.post<Login>(environment.apiUrl + '/api/authenticate', {username, password})
+  public hasToken(): boolean {
+    return this.token !== null;
+  }
+
+  public login(username: string, password: string): Observable<Login> {
+    return this.http.post<Login>(environment.apiUrl + '/api/token', {username, password})
       .pipe(
         map(login => {
           console.log('LOGIN', login);
@@ -29,10 +37,19 @@ export class ApiService {
           localStorage.setItem('token', this.token);
           this.refresh = login.refresh;
           localStorage.setItem('refresh', this.refresh);
-          this.authHeader.Authorization = login.access;
-          return true;
+          this.authHeader.Authorization = 'Bearer ' + login.access;
+          return login;
         })
       );
+  }
+
+  public logout(): void {
+    this.token = null;
+    localStorage.removeItem('token');
+    this.refresh = null;
+    localStorage.removeItem('refresh');
+    this.authHeader.Authorization = '';
+    this.refresh = null;
   }
 
   public getUserInfo(): Observable<User> {
