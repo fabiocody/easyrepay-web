@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Theme, ThemeService} from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'easyrepay-angular';
+  public title = 'EasyRepay';
+
+  constructor(
+    private themeService: ThemeService,
+  ) {}
+
+  public getTheme(): Theme {
+    return this.themeService.getTheme();
+  }
 }
