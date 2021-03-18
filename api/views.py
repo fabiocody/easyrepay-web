@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .dtos import Person
-from .models import Transaction, User
+from .models import Transaction
 from .serializers import TransactionSerializer, UserSerializer, PersonSerializer
 
 
