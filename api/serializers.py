@@ -16,5 +16,5 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 class PersonSerializer(serializers.Serializer):
     name = serializers.CharField()
-    n_transactions = serializers.IntegerField()
+    count = serializers.IntegerField()
     total = serializers.FloatField()

@@ -1,5 +1,5 @@
 class Person:
-    def __init__(self, name, n_transactions, total):
+    def __init__(self, name, count, total):
         self.name = name
-        self.n_transactions = n_transactions
+        self.count = count
         self.total = total

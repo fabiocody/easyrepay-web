@@ -28,9 +28,9 @@ class MyPeopleView(APIView):
         people = list()
         for name in names:
             p_transactions = list(filter(lambda t: t.other == name, transactions))
-            n_transactions = len(p_transactions)
+            count = len(p_transactions)
             total = reduce(lambda a, b: a+b, map(lambda t: t.signed_amount, p_transactions))
-            people.append(Person(name, n_transactions, total))
+            people.append(Person(name, count, total))
         return Response(PersonSerializer(people, many=True).data)
 
 
