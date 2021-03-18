@@ -14,25 +14,44 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatDividerModule} from '@angular/material/divider';
 import {LoginComponent} from './pages/login/login.component';
 import {HttpClientModule} from '@angular/common/http';
+import {MatCardModule} from '@angular/material/card';
+import {MomentModule} from 'ngx-moment';
+import {TranslationPipe} from './pipes/translation.pipe';
+import {PeopleListComponent} from './pages/people-list/people-list.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    TranslationPipe,
+    PeopleListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MomentModule,
     MatButtonModule,
     NgbModule,
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
     FlexLayoutModule,
-    MatDividerModule
+    MatDividerModule,
+    MatCardModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Theme, ThemeOption, ThemeService} from '../../services/theme.service';
 import {UserService} from '../../services/user.service';
+import {TranslationService} from '../../services/translation.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,7 @@ export class NavbarComponent implements OnInit {
   public userName = '';
 
   constructor(
+    private translationService: TranslationService,
     private themeService: ThemeService,
     private userService: UserService,
   ) {}
@@ -24,6 +26,10 @@ export class NavbarComponent implements OnInit {
         this.userName = '';
       }
     });
+  }
+
+  public setLanguage(lang: string): void {
+    this.translationService.use(lang).then();
   }
 
   public getThemes(): ThemeOption[] {

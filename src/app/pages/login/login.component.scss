@@ -1,0 +1,13 @@
+.login-div {
+  height: 100%;
+  width: 100%;
+}
+
+.login-card {
+  text-align: center;
+  min-width: 300px;
+}
+
+.button-spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: white;
+}

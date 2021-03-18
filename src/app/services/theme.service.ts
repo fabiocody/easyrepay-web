@@ -40,8 +40,15 @@ export class ThemeService {
   }
 
   public setTheme(theme: Theme): void {
-    console.log(theme);
     this.themeSubject.next(theme);
     localStorage.setItem('theme', theme);
+    const body = document.getElementsByClassName('main-body')[0] as HTMLElement;
+    switch (theme) {
+      case Theme.LIGHT:
+        body.classList.remove('easyrepay-dark-theme');
+        break;
+      case Theme.DARK:
+        body.classList.add('easyrepay-dark-theme');
+    }
   }
 }

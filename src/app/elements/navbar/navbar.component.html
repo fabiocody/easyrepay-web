@@ -7,22 +7,36 @@
     <mat-icon>{{userName === '' ? 'person_outline' : 'person'}}</mat-icon>
   </button>
   <mat-menu #userMenu>
+    <button mat-menu-item [matMenuTriggerFor]="languageMenu">
+      <mat-icon>language</mat-icon>
+      {{'LANGUAGE' | translate}}
+    </button>
+    <mat-menu #languageMenu>
+      <button mat-menu-item (click)="setLanguage('it')">
+        {{'ITALIAN' | translate}}
+      </button>
+      <button mat-menu-item (click)="setLanguage('en')">
+        {{'ENGLISH' | translate}}
+      </button>
+    </mat-menu>
     <button mat-menu-item [matMenuTriggerFor]="appearanceMenu">
       <mat-icon>settings_brightness</mat-icon>
-      {{'APPEARANCE'}}
+      {{'APPEARANCE' | translate}}
     </button>
     <mat-menu #appearanceMenu>
       <ng-container *ngFor="let theme of getThemes()">
         <button mat-menu-item (click)="setTheme(theme.label)">
           <mat-icon>{{theme.icon}}</mat-icon>
-          {{theme.label}}
+          {{theme.label | translate}}
         </button>
       </ng-container>
     </mat-menu>
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      {{'LOGOUT'}}
-    </button>
+    <ng-container *ngIf="userName !== ''">
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        {{'LOGOUT' | translate}}
+      </button>
+    </ng-container>
   </mat-menu>
 </mat-toolbar>

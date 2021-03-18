@@ -34,8 +34,14 @@ export class UserService {
       this.apiService.getUserInfo().subscribe(user => {
         console.log('USER', user);
         this.userSubject.next(user);
-      }, error => console.error(error));
-    }, error => console.error(error));
+      }, error => {
+        console.error(error);
+        this.userSubject.next(null);
+      });
+    }, error => {
+      console.error(error);
+      this.userSubject.next(null);
+    });
   }
 
   public logout(): void {
