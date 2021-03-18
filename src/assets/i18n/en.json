@@ -5,7 +5,10 @@
   "ITALIAN": "Italian",
   "LANGUAGE": "Language",
   "LIGHT": "Light",
+  "LOGIN": "Login",
+  "LOGIN_ERROR": "An error occurred",
   "LOGOUT": "Logout",
   "PASSWORD": "Password",
+  "PEOPLE": "People",
   "USERNAME": "Username"
 }

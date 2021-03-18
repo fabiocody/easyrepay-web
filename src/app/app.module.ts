@@ -30,7 +30,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     NavbarComponent,
     LoginComponent,
     TranslationPipe,
-    PeopleListComponent
+    PeopleListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 <div class="login-div" fxLayoutAlign="center center">
-  <mat-card class="login-card m-5">
+  <mat-card class="login-card mt-5 mx-2 m-md-5">
     <mat-card-title class="mb-4">Login</mat-card-title>
     <mat-card-content>
       <ng-form [formGroup]="form">
@@ -16,20 +16,22 @@
           </mat-form-field>
         </div>
       </ng-form>
-      <span>
+      <div *ngIf="error" class="alert alert-danger login-error" role="alert">
+        <mat-icon class="login-error">error</mat-icon>
+        <span class="login-error ml-1">{{error | translate}}</span>
+      </div>
       <button mat-flat-button color="primary" (click)="login()" [disabled]="!form.valid">
-      <ng-container [ngSwitch]="loading">
-        <ng-container *ngSwitchCase="true">
-          <div class="button-spinner d-flex justify-content-center m-2">
-            <mat-spinner diameter="20"></mat-spinner>
-          </div>
+        <ng-container [ngSwitch]="loading">
+          <ng-container *ngSwitchCase="true">
+            <div class="button-spinner d-flex justify-content-center m-2">
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="false">
+            {{'LOGIN' | translate}}
+          </ng-container>
         </ng-container>
-        <ng-container *ngSwitchCase="false">
-          {{'LOGIN' | translate}}
-        </ng-container>
-      </ng-container>
-    </button>
-    </span>
+      </button>
     </mat-card-content>
   </mat-card>
 </div>

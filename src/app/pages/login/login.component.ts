@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {FormBuilder, Validators} from '@angular/forms';
+import {skip} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   public loading = false;
+  public error: string | null = null;
 
   public form = this.fb.group({
     username: ['', Validators.required],
@@ -21,13 +23,19 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.user.subscribe(user => {
+    this.userService.user.pipe(skip(1)).subscribe(user => {
       this.loading = false;
+      if (user) {
+        this.error = null;
+      } else {
+        this.error = 'LOGIN_ERROR';
+      }
     });
   }
 
   public login(): void {
     this.loading = true;
+    this.error = null;
     const usernameField = this.form.get('username');
     const passwordField = this.form.get('password');
     const username = usernameField ? usernameField.value : '';

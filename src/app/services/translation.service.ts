@@ -7,7 +7,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class TranslationService {
-  public data: any = {};
+  private data: any = {};
   private languageSubject = new BehaviorSubject<string>('it');
   public language = this.languageSubject.asObservable();
 
@@ -20,6 +20,10 @@ export class TranslationService {
 
   public get currentLanguage(): string {
     return this.languageSubject.value;
+  }
+
+  public get(key: string): string {
+    return this.data[key] || key;
   }
 
   public use(lang: string): Promise<{}> {

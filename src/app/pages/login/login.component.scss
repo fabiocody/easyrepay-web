@@ -5,7 +5,12 @@
 
 .login-card {
   text-align: center;
-  min-width: 300px;
+  width: 300px;
+}
+
+.login-error {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .button-spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {

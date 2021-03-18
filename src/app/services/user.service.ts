@@ -17,22 +17,14 @@ export class UserService {
       this.apiService.getUserInfo().subscribe(user => {
         this.userSubject.next(user);
       });
+    } else {
+      this.userSubject.next(null);
     }
-  }
-
-  public getUser(): User | null {
-    return this.userSubject.value;
-  }
-
-  public isLogged(): boolean {
-    return this.getUser() !== null;
   }
 
   public login(username: string, password: string): void {
     this.apiService.login(username, password).subscribe(login => {
-      console.log('LOGGED');
       this.apiService.getUserInfo().subscribe(user => {
-        console.log('USER', user);
         this.userSubject.next(user);
       }, error => {
         console.error(error);

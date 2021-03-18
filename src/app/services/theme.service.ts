@@ -22,6 +22,7 @@ export class ThemeService {
     const item = localStorage.getItem('theme') || Theme.LIGHT;
     this.themeSubject = new BehaviorSubject<Theme>(item as Theme);
     this.theme = this.themeSubject.asObservable();
+    this.setTheme(item as Theme);
   }
 
   public readonly THEMES: ThemeOption[] = [
