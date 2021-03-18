@@ -24,10 +24,10 @@ class MyPeopleView(APIView):
 
     def get(self, request):
         transactions = Transaction.objects.filter(owner=request.user)
-        names = set(map(lambda t: t.other, transactions))
+        names = set(map(lambda t: t.person, transactions))
         people = list()
         for name in names:
-            p_transactions = list(filter(lambda t: t.other == name, transactions))
+            p_transactions = list(filter(lambda t: t.person == name, transactions))
             count = len(p_transactions)
             total = reduce(lambda a, b: a+b, map(lambda t: t.signed_amount, p_transactions))
             people.append(Person(name, count, total))

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Transaction(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    other = models.CharField(max_length=128)
+    person = models.CharField(max_length=128)
     type = models.CharField(max_length=2, choices=[
         ('C', 'CREDIT'),
         ('D', 'DEBT'),
