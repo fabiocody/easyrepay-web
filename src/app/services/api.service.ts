@@ -5,6 +5,7 @@ import {Login} from '../model/login';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {User} from '../model/user';
+import {Person} from '../model/person';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,12 @@ export class ApiService {
 
   public getUserInfo(): Observable<User> {
     return this.http.get<User>(environment.apiUrl + '/api/me', {
+      headers: this.authHeader
+    });
+  }
+
+  public getPeople(): Observable<Person[]> {
+    return this.http.get<Person[]>(environment.apiUrl + '/api/people', {
       headers: this.authHeader
     });
   }

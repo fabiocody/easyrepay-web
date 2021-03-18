@@ -8,7 +8,9 @@
   "LOGIN": "Entra",
   "LOGIN_ERROR": "Si è verificato un errore",
   "LOGOUT": "Esci",
+  "NUMBER_OF_TRANSACTIONS": "Transazioni",
   "PASSWORD": "Password",
   "PEOPLE": "Persone",
+  "TOTAL": "Totale",
   "USERNAME": "Username"
 }

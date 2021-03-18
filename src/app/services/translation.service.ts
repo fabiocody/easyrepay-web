@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import '@angular/common/locales/global/it';
+import '@angular/common/locales/global/en';
 import * as moment from 'moment';
 
 @Injectable({
@@ -20,6 +22,14 @@ export class TranslationService {
 
   public get currentLanguage(): string {
     return this.languageSubject.value;
+  }
+
+  public get localeId(): string {
+    if (this.currentLanguage === 'it') {
+      return 'it-IT';
+    } else {
+      return 'en-US';
+    }
   }
 
   public get(key: string): string {

@@ -1,1 +1,7 @@
 <mat-card-title>{{'PEOPLE' | translate}}</mat-card-title>
+
+<div *ngIf="people.length > 0" class="row mt-4">
+  <ng-container *ngFor="let p of people">
+    <app-person-card class="col-12 col-sm-6 col-xl-3 mb-3" [person]="p"></app-person-card>
+  </ng-container>
+</div>

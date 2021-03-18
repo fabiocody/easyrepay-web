@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -23,6 +23,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { PersonCardComponent } from './pages/people-list/person-card/person-card.component';
+import {TranslationService} from './services/translation.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     LoginComponent,
     TranslationPipe,
     PeopleListComponent,
+    PersonCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatInputModule,
     MatTooltipModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: LOCALE_ID,
+      deps: [TranslationService],
+      useFactory: (translationService: TranslationService) => translationService.localeId
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

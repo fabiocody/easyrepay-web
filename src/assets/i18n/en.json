@@ -8,7 +8,9 @@
   "LOGIN": "Login",
   "LOGIN_ERROR": "An error occurred",
   "LOGOUT": "Logout",
+  "NUMBER_OF_TRANSACTIONS": "Transactions",
   "PASSWORD": "Password",
   "PEOPLE": "People",
+  "TOTAL": "Totale",
   "USERNAME": "Username"
 }
