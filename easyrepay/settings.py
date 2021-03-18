@@ -80,11 +80,16 @@ WSGI_APPLICATION = 'easyrepay.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'dev': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'production': {
+        'ENGINE': 'django.db.backends.postgresql'
     }
 }
+
+DATABASES['default'] = DATABASES['dev' if DEBUG else 'production']
 
 
 # Password validation
@@ -142,3 +147,9 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+try:
+    import django_heroku
+    django_heroku.settings(locals())
+except ImportError:
+    pass
