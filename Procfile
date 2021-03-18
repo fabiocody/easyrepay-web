@@ -1,2 +1,2 @@
-release: python manage.py migrate && python manage.py createsuperuser
+release: python manage.py migrate
 web: gunicorn easyrepay.wsgi
