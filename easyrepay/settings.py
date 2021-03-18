@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
 
@@ -21,11 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$y)vabz%dfnp%ru!kp@356%vj9avwbrnz91cztfro$h8)j74!$'
+SECRET_KEY = os.getenv('SECRET_KEY', '$y)vabz%dfnp%ru!kp@356%vj9avwbrnz91cztfro$h8)j74!$')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-print('isDebug =', DEBUG)
+print('DEBUG =', DEBUG)
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -155,6 +156,5 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 try:
     import django_heroku
     django_heroku.settings(locals())
-    print('After django_heroku isDebug =', DEBUG)
 except ImportError:
     pass
