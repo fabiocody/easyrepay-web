@@ -41,7 +41,6 @@ export class NavbarComponent implements OnInit {
   }
 
   public logout(): void {
-    console.log('LOGOUT');
     this.userService.logout();
   }
 }
