@@ -12,3 +12,9 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
+
+
+class PersonSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    n_transactions = serializers.IntegerField()
+    total = serializers.FloatField()

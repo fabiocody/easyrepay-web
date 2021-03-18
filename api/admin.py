@@ -1,5 +1,4 @@
 from django.contrib import admin
-from api.models import Login, Transaction
+from api.models import Transaction
 
-admin.site.register(Login)
 admin.site.register(Transaction)
