@@ -25,8 +25,12 @@ SECRET_KEY = '$y)vabz%dfnp%ru!kp@356%vj9avwbrnz91cztfro$h8)j74!$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+print('isDebug =', DEBUG)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'easyrepay.herokuapp.com'
+]
 
 
 # Application definition
@@ -146,10 +150,11 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = DEBUG
 
 try:
     import django_heroku
     django_heroku.settings(locals())
+    print('After django_heroku isDebug =', DEBUG)
 except ImportError:
     pass
