@@ -1,0 +1,15 @@
+.circle {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .initialism {
+    color: white;
+    font-size: 20px;
+    line-height: 19px;
+    letter-spacing: 0.2625px;
+  }
+}

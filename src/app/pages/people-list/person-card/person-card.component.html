@@ -1,6 +1,7 @@
 <mat-card class="mat-elevation-z3">
   <mat-card-header class="mt-2">
-    <mat-icon mat-card-avatar color="accent">account_circle</mat-icon>
+    <!--mat-icon mat-card-avatar color="accent">account_circle</mat-icon-->
+    <app-avatar mat-card-avatar [name]="person.name" color="red"></app-avatar>
     <mat-card-title>{{person.name}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>

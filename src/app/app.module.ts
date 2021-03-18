@@ -25,6 +25,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { PersonCardComponent } from './pages/people-list/person-card/person-card.component';
 import {TranslationService} from './services/translation.service';
+import { AvatarComponent } from './elements/avatar/avatar.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {TranslationService} from './services/translation.service';
     TranslationPipe,
     PeopleListComponent,
     PersonCardComponent,
+    AvatarComponent,
   ],
   imports: [
     BrowserModule,
