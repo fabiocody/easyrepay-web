@@ -28,11 +28,32 @@ $dark-accent: mat-palette($mat-amber, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-.easyrepay-dark-theme {
-  @include angular-material-color($dark-theme);
+@mixin avatar-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  app-avatar {
+    .avatar-primary {
+      background-color: mat-color($primary);
+    }
+    .avatar-accent {
+      background-color: mat-color($accent);
+    }
+  }
 }
 
 @include angular-material-theme($light-theme);
+@include avatar-theme($light-theme);
+
+.easyrepay-dark-theme {
+  @include angular-material-color($dark-theme);
+  @include avatar-theme($dark-theme);
+}
+
+
 
 /* You can add global styles to this file, and also import other style files */
 
