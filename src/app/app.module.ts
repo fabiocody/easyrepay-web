@@ -32,6 +32,7 @@ import {TransactionsListComponent} from './pages/transactions-list/transactions-
 import {SpinnerComponent} from './elements/spinner/spinner.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
 import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component';
+import { TransactionCardComponent } from './pages/transactions-list/transaction-card/transaction-card.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component
     TransactionsListComponent,
     SpinnerComponent,
     InfoDialogComponent,
+    TransactionCardComponent,
   ],
   imports: [
     BrowserModule,

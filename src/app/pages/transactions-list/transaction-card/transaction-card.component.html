@@ -1,0 +1,10 @@
+<mat-card class="mat-elevation-z3">
+  <mat-card-title>{{transaction.description}}</mat-card-title>
+  <mat-card-content>
+    <div>
+      <mat-card-subtitle class="card-content float-left">{{transaction.dateTime | amCalendar}}</mat-card-subtitle>
+      <span class="card-content float-right">{{transaction.amount | currency:'EUR'}}</span>
+    </div>
+    <div style="clear: both"></div>
+  </mat-card-content>
+</mat-card>
