@@ -67,4 +67,3 @@ class TransactionsView(APIView):
     def get(self, request):
         transactions = Transaction.objects.filter(person__user=request.user)
         return Response(TransactionSerializer(transactions, many=True).data)
-
