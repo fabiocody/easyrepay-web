@@ -11,6 +11,7 @@ import {AddPersonComponent} from '../../dialogs/add-person/add-person.component'
 })
 export class PeopleListComponent implements OnInit {
   public people: PersonDto[] = [];
+  public loading = false;
 
   constructor(
     private apiService: ApiService,
@@ -18,12 +19,14 @@ export class PeopleListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.updatePeople();
   }
 
   private updatePeople(): void {
     this.apiService.getPeople().subscribe(people => {
       this.people = people;
+      this.loading = false;
     });
   }
 

@@ -1,12 +1,11 @@
 <mat-card class="mat-elevation-z3">
   <mat-card-header class="mt-2">
-    <!--mat-icon mat-card-avatar color="accent">account_circle</mat-icon-->
     <app-avatar mat-card-avatar [name]="person.name" color="primary"></app-avatar>
     <mat-card-title>{{person.name}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div>
-      <span class="card-content float-left">{{'NUMBER_OF_TRANSACTIONS' | translate}}</span>
+      <span class="card-content float-left">{{'TRANSACTIONS' | translate}}</span>
       <span class="card-content float-right">{{person.count | number}}</span>
     </div>
     <div style="clear: both"></div>

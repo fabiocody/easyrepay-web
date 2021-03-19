@@ -7,7 +7,7 @@ import {User} from '../model/user';
   providedIn: 'root'
 })
 export class UserService {
-  private userSubject = new BehaviorSubject<User | null>(null);
+  private userSubject = new BehaviorSubject<User | null | undefined>(undefined);
   public user = this.userSubject.asObservable();
 
   constructor(

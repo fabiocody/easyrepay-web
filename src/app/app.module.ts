@@ -29,6 +29,7 @@ import { AvatarComponent } from './elements/avatar/avatar.component';
 import { AddPersonComponent } from './dialogs/add-person/add-person.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { TransactionsListComponent } from './pages/transactions-list/transactions-list.component';
+import { SpinnerComponent } from './elements/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { TransactionsListComponent } from './pages/transactions-list/transaction
     AvatarComponent,
     AddPersonComponent,
     TransactionsListComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,

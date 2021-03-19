@@ -12,11 +12,10 @@
   "LOGIN": "Entra",
   "LOGOUT": "Esci",
   "NAME": "Nome",
-  "NUMBER_OF_TRANSACTIONS": "Transazioni",
   "OK": "OK",
   "PASSWORD": "Password",
   "PEOPLE": "Persone",
   "TOTAL": "Totale",
-  "TRANSACTIONS_TITLE": "Transazioni con $$",
+  "TRANSACTIONS": "Transazioni",
   "USERNAME": "Username"
 }

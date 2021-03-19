@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   public title = 'EasyRepay';
-  public loading = true;
+  public loading = false;
 
   constructor(
     private router: Router,
@@ -18,8 +18,12 @@ export class AppComponent {
     this.userService.user.subscribe(user => {
       if (user) {
         this.router.navigate(['/people']);
-      } else {
+        this.loading = false;
+      } else if (user === null) {
         this.router.navigate(['/login']);
+        this.loading = false;
+      } else {
+        this.loading = true;
       }
     });
   }
