@@ -13,46 +13,58 @@ import {AddPersonDto} from '../model/dto/add-person-dto';
   providedIn: 'root'
 })
 export class ApiService {
-  private token: string | null;
-  private refresh: string | null;
+  private token: string | null = null;
+  private refresh: string | null = null;
   private authHeader = {Authorization: ''};
 
   constructor(
     private http: HttpClient,
   ) {
-    this.token = localStorage.getItem('token');
-    this.refresh = localStorage.getItem('refresh');
-    if (this.token) {
-      this.authHeader.Authorization = 'Bearer ' + this.token;
-    }
+    this.saveTokens(localStorage.getItem('token'), localStorage.getItem('refresh'));
+    this.refreshToken().subscribe(tokenDto => {
+      this.saveTokens(tokenDto.access, tokenDto.refresh);
+    });
   }
 
   public hasToken(): boolean {
     return this.token !== null;
   }
 
+  private saveTokens(access: string | null, refresh: string | null): void {
+    this.token = access;
+    if (access) {
+      localStorage.setItem('token', access);
+      this.authHeader.Authorization = 'Bearer ' + access;
+    } else {
+      localStorage.removeItem('token');
+      this.authHeader.Authorization = '';
+    }
+    this.refresh = refresh;
+    if (refresh) {
+      localStorage.setItem('refresh', refresh);
+    } else {
+      localStorage.removeItem('refresh');
+    }
+  }
+
   public login(loginDto: LoginDto): Observable<TokenDto> {
     return this.http.post<TokenDto>(environment.apiUrl + '/api/token', loginDto)
       .pipe(
-        map(login => {
-          console.log('LOGIN', login);
-          this.token = login.access;
-          localStorage.setItem('token', this.token);
-          this.refresh = login.refresh;
-          localStorage.setItem('refresh', this.refresh);
-          this.authHeader.Authorization = 'Bearer ' + login.access;
-          return login;
+        map(tokenDto => {
+          this.saveTokens(tokenDto.access, tokenDto.refresh);
+          return tokenDto;
         })
       );
   }
 
   public logout(): void {
-    this.token = null;
-    localStorage.removeItem('token');
-    this.refresh = null;
-    localStorage.removeItem('refresh');
-    this.authHeader.Authorization = '';
-    this.refresh = null;
+    this.saveTokens(null, null);
+  }
+
+  private refreshToken(): Observable<TokenDto> {
+    return this.http.post<TokenDto>(environment.apiUrl + '/api/token/refresh', {
+      refresh: this.refresh
+    });
   }
 
   public getUserInfo(): Observable<User> {

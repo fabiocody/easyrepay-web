@@ -31,7 +31,6 @@ export class PeopleListComponent implements OnInit {
   }
 
   public addPerson(): void {
-    console.log('add person');
     this.dialog.open(AddPersonComponent).afterClosed().subscribe(value => {
       if (value) {
         this.updatePeople();
