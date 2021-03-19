@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-add-person',
@@ -6,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-person.component.scss']
 })
 export class AddPersonComponent implements OnInit {
+  public name = new FormControl('', Validators.required);
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
   }
-
 }

@@ -1,7 +1,12 @@
 <h1 mat-dialog-title>{{'ADD_PERSON' | translate}}</h1>
 
 <mat-dialog-content>
-
+  <ng-form>
+    <mat-form-field [formControl]="name" appearance="outline">
+      <mat-label>{{'NAME' | translate}}</mat-label>
+      <input matInput required>
+    </mat-form-field>
+  </ng-form>
 </mat-dialog-content>
 
 <mat-dialog-actions class="float-right">
