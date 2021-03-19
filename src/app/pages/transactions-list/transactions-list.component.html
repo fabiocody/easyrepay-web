@@ -1,1 +1,7 @@
-<mat-card-title>{{('TRANSACTIONS_TITLE' | translate).replace('$$', person.name)}}</mat-card-title>
+<div class="center-spinner-wrapper" *ngIf="person === null">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-container *ngIf="person !== null">
+  <mat-card-title>{{person.name}}</mat-card-title>
+</ng-container>

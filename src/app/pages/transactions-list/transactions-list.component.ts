@@ -9,12 +9,7 @@ import {PersonDto} from '../../model/dto/person-dto';
   styleUrls: ['./transactions-list.component.scss']
 })
 export class TransactionsListComponent implements OnInit {
-  public person: PersonDto = {
-    id: 0,
-    name: '',
-    count: 0,
-    total: 0
-  };
+  public person: PersonDto | null = null;
 
   constructor(
     private route: ActivatedRoute,
