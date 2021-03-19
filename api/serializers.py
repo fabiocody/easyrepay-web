@@ -21,6 +21,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 
 class PersonDtoSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField()
     count = serializers.IntegerField()
     total = serializers.FloatField()

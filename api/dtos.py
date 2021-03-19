@@ -1,5 +1,6 @@
 class PersonDto:
-    def __init__(self, name, count, total):
+    def __init__(self, id, name, count, total):
+        self.id = id
         self.name = name
         self.count = count
         self.total = total

@@ -31,7 +31,7 @@ class PeopleView(APIView):
             p_transactions = list(filter(lambda t: t.person == person, transactions))
             count = len(p_transactions)
             total = reduce(lambda a, b: a+b, map(lambda t: t.signed_amount, p_transactions), 0)
-            people_dtos.append(PersonDto(person.name, count, total))
+            people_dtos.append(PersonDto(person.id, person.name, count, total))
         return Response(PersonDtoSerializer(people_dtos, many=True).data)
 
     def post(self, request):
@@ -47,6 +47,17 @@ class PeopleView(APIView):
                 return Response(status=status.HTTP_409_CONFLICT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class PersonView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        person = Person.objects.filter(id=id, user=request.user).first()
+        if person:
+            return Response(PersonDtoSerializer(PersonDto(person.id, person.name, 0, 0)).data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class TransactionsView(APIView):
