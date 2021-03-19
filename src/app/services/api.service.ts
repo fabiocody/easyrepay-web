@@ -72,4 +72,10 @@ export class ApiService {
       headers: this.authHeader
     });
   }
+
+  public getPerson(id: number): Observable<PersonDto> {
+    return this.http.get<PersonDto>(environment.apiUrl + `/api/people/${id}`, {
+      headers: this.authHeader
+    });
+  }
 }

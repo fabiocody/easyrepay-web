@@ -28,6 +28,7 @@ import {TranslationService} from './services/translation.service';
 import { AvatarComponent } from './elements/avatar/avatar.component';
 import { AddPersonComponent } from './dialogs/add-person/add-person.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { TransactionsListComponent } from './pages/transactions-list/transactions-list.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     PersonCardComponent,
     AvatarComponent,
     AddPersonComponent,
+    TransactionsListComponent,
   ],
   imports: [
     BrowserModule,

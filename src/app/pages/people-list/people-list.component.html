@@ -6,6 +6,6 @@
 
 <div *ngIf="people.length > 0" class="row mt-4">
   <ng-container *ngFor="let p of people">
-    <app-person-card class="col-12 col-md-6 col-lg-4 mb-3" [person]="p"></app-person-card>
+    <app-person-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [person]="p" [routerLink]="['/transactions/', p.id]"></app-person-card>
   </ng-container>
 </div>

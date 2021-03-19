@@ -7,14 +7,14 @@ import {PersonDto} from '../../../model/dto/person-dto';
   styleUrls: ['./person-card.component.scss']
 })
 export class PersonCardComponent implements OnInit {
-  @Input() public person: PersonDto;
+  @Input() public person: PersonDto = {
+    id: 0,
+    name: '',
+    count: 0,
+    total: 0,
+  };
 
   constructor() {
-    this.person = {
-      name: '',
-      count: 0,
-      total: 0
-    };
   }
 
   ngOnInit(): void {
