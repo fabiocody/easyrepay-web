@@ -74,3 +74,7 @@ button:focus {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.mat-flat-button .mat-icon {
+  transform: translateY(-5%);
+}

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{data.title | translate}}</h1>
+
+<mat-dialog-content>
+  <p>{{data.body | translate}}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="float-right">
+  <button mat-flat-button color="primary" mat-dialog-close *ngIf="data.cancelBtnText">
+    {{data.cancelBtnText | translate}}
+  </button>
+  <button mat-flat-button [color]="data.okBtnColor || 'primary'" [mat-dialog-close]="true">
+    {{(data.okBtnText || 'OK') | translate}}
+  </button>
+</mat-dialog-actions>

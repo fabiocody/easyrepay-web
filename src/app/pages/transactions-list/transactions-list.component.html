@@ -3,3 +3,29 @@
 </ng-container>
 
 <app-spinner [loading]="person === null"></app-spinner>
+
+<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary">
+  <mat-icon>add</mat-icon>
+</button>
+
+<div class="mt-3" *ngIf="person !== null">
+  <button mat-flat-button color="primary" (click)="navigateBack()">
+    <mat-icon style="margin-left: -5px">navigate_before</mat-icon>
+    {{'BACK' | translate}}
+  </button>
+  <button mat-flat-button class="ml-2" color="primary" (click)="editPerson()">
+    <mat-icon style="margin-left: -2px">create</mat-icon>
+    {{'EDIT' | translate}}
+  </button>
+  <button mat-flat-button class="ml-2" color="warn" (click)="deletePerson()">
+    <mat-icon style="margin-left: -3px">delete</mat-icon>
+    {{'DELETE' | translate}}
+  </button>
+</div>
+
+<div *ngIf="transactions.length > 0" class="row mt-4">
+  <ng-container *ngFor="let t of transactions">
+    <p>{{t}}</p>
+    <!--app-person-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [person]="p" [routerLink]="['/transactions/', p.id]"></app-person-card-->
+  </ng-container>
+</div>

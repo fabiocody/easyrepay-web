@@ -31,6 +31,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {TransactionsListComponent} from './pages/transactions-list/transactions-list.component';
 import {SpinnerComponent} from './elements/spinner/spinner.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
+import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {RequestInterceptorService} from './services/request-interceptor.service'
     AddPersonComponent,
     TransactionsListComponent,
     SpinnerComponent,
+    InfoDialogComponent,
   ],
   imports: [
     BrowserModule,

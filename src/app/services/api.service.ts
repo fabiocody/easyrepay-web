@@ -8,6 +8,7 @@ import {User} from '../model/user';
 import {PersonDto} from '../model/dto/person-dto';
 import {LoginDto} from '../model/dto/login-dto';
 import {AddPersonDto} from '../model/dto/add-person-dto';
+import {Transaction} from '../model/transaction';
 
 export enum LoginStatus {
   LOGGED_OUT,
@@ -89,6 +90,18 @@ export class ApiService {
   }
 
   public getPerson(id: number): Observable<PersonDto> {
-    return this.http.get<PersonDto>(environment.apiUrl + `/api/people/${id}`);
+    return this.http.get<PersonDto>(environment.apiUrl + `/api/person/${id}`);
+  }
+
+  public getTransactions(personId: number): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(environment.apiUrl + `/api/transactions/${personId}`);
+  }
+
+  public editPerson(personId: number, personDto: AddPersonDto): Observable<any> {
+    return this.http.post(environment.apiUrl + `/api/person/${personId}`, personDto);
+  }
+
+  public deletePerson(personId: number): Observable<any> {
+    return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
   }
 }
