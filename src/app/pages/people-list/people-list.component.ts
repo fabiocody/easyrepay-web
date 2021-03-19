@@ -3,7 +3,6 @@ import {PersonDto} from '../../model/dto/person-dto';
 import {ApiService} from '../../services/api.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-people-list',
@@ -16,7 +15,6 @@ export class PeopleListComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private dialog: MatDialog,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -36,9 +34,5 @@ export class PeopleListComponent implements OnInit {
         this.updatePeople();
       }
     });
-  }
-
-  public selectPerson(person: PersonDto): void {
-    console.log(person);
   }
 }
