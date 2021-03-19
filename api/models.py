@@ -26,3 +26,7 @@ class Transaction(models.Model):
     @property
     def signed_amount(self):
         return self.amount if self.type in ['C', 'SD'] else -self.amount
+
+    def __str__(self):
+        return f'Transaction(id={self.id}, person={self.person}, type={self.type}, amount={self.amount}, ' \
+               f'description={self.description}, completed={self.completed}, dateTime={self.dateTime})'

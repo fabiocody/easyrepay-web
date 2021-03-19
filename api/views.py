@@ -16,6 +16,7 @@ class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """Return the current user"""
         return Response(UserSerializer(request.user).data)
 
 
@@ -24,6 +25,7 @@ class PeopleView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """Return the list of PersonDtos associated to the current user"""
         people = Person.objects.filter(user=request.user)
         transactions = Transaction.objects.filter(person__user=request.user)
         people_dtos = list()
@@ -35,6 +37,7 @@ class PeopleView(APIView):
         return Response(PersonDtoSerializer(people_dtos, many=True).data)
 
     def post(self, request):
+        """Add a new person"""
         serializer = AddPersonSerializer(data=request.data)
         if serializer.is_valid():
             name = serializer.data['name']
@@ -43,20 +46,39 @@ class PeopleView(APIView):
                 person = Person(name=name, user=request.user)
                 person.save()
                 return Response()
-            else:
-                return Response(status=status.HTTP_409_CONFLICT)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_409_CONFLICT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class PersonView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, id):
-        person = Person.objects.filter(id=id, user=request.user).first()
+    def get(self, request, person_id):
+        """Return the requested person"""
+        person = Person.objects.filter(id=person_id, user=request.user).first()
         if person:
             return Response(PersonDtoSerializer(PersonDto(person.id, person.name, 0, 0)).data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request, person_id):
+        """Update the requested person"""
+        serializer = AddPersonSerializer(data=request.data)
+        if serializer.is_valid():
+            name = serializer.data['name']
+            person = Person.objects.filter(id=person_id, user=request.user).first()
+            if person:
+                person.name = name
+                person.save()
+                return Response()
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, person_id):
+        person = Person.objects.filter(id=person_id, user=request.user).first()
+        if person:
+            person.delete()
+            return Response()
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
@@ -64,6 +86,7 @@ class TransactionsView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        transactions = Transaction.objects.filter(person__user=request.user)
+    def get(self, request, person_id):
+        """Return the transactions related to the provided person"""
+        transactions = Transaction.objects.filter(person__id=person_id).order_by('dateTime')
         return Response(TransactionSerializer(transactions, many=True).data)
