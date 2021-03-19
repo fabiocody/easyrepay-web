@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
       if (user) {
         this.error = null;
       } else {
-        this.error = 'LOGIN_ERROR';
+        this.error = 'ERROR_GENERIC';
       }
     });
   }

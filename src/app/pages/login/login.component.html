@@ -16,9 +16,9 @@
           </mat-form-field>
         </div>
       </ng-form>
-      <div *ngIf="error" class="alert alert-danger login-error" role="alert">
-        <mat-icon class="login-error">error</mat-icon>
-        <span class="login-error ml-1">{{error | translate}}</span>
+      <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
+        <mat-icon class="error-alert">error</mat-icon>
+        <span class="error-alert ml-1">{{error | translate}}</span>
       </div>
       <button mat-flat-button color="primary" (click)="login()" [disabled]="!form.valid">
         <ng-container [ngSwitch]="loading">

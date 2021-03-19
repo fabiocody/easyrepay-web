@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Login} from '../model/login';
+import {TokenDto} from '../model/dto/token-dto';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {User} from '../model/user';
-import {Person} from '../model/person';
+import {PersonDto} from '../model/dto/person-dto';
+import {LoginDto} from '../model/dto/login-dto';
+import {AddPersonDto} from '../model/dto/add-person-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +31,8 @@ export class ApiService {
     return this.token !== null;
   }
 
-  public login(username: string, password: string): Observable<Login> {
-    return this.http.post<Login>(environment.apiUrl + '/api/token', {username, password})
+  public login(loginDto: LoginDto): Observable<TokenDto> {
+    return this.http.post<TokenDto>(environment.apiUrl + '/api/token', loginDto)
       .pipe(
         map(login => {
           console.log('LOGIN', login);
@@ -59,8 +61,14 @@ export class ApiService {
     });
   }
 
-  public getPeople(): Observable<Person[]> {
-    return this.http.get<Person[]>(environment.apiUrl + '/api/people', {
+  public getPeople(): Observable<PersonDto[]> {
+    return this.http.get<PersonDto[]>(environment.apiUrl + '/api/people', {
+      headers: this.authHeader
+    });
+  }
+
+  public addPerson(personDto: AddPersonDto): Observable<any> {
+    return this.http.post(environment.apiUrl + '/api/people', personDto, {
       headers: this.authHeader
     });
   }

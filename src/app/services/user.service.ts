@@ -23,7 +23,7 @@ export class UserService {
   }
 
   public login(username: string, password: string): void {
-    this.apiService.login(username, password).subscribe(login => {
+    this.apiService.login({username, password}).subscribe(login => {
       this.apiService.getUserInfo().subscribe(user => {
         this.userSubject.next(user);
       }, error => {
