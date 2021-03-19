@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ApiService} from './api.service';
+import {ApiService, LoginStatus} from './api.service';
 import {BehaviorSubject} from 'rxjs';
 import {User} from '../model/user';
 
@@ -13,13 +13,18 @@ export class UserService {
   constructor(
     private apiService: ApiService,
   ) {
-    if (this.apiService.hasToken()) {
-      this.apiService.getUserInfo().subscribe(user => {
-        this.userSubject.next(user);
-      });
-    } else {
-      this.userSubject.next(null);
-    }
+    this.apiService.loginStatus.subscribe(status => {
+      switch (status) {
+        case LoginStatus.LOGGED_IN:
+          this.apiService.getUserInfo().subscribe(user => this.userSubject.next(user));
+          break;
+        case LoginStatus.LOGGED_OUT:
+          this.userSubject.next(null);
+          break;
+        default:
+          this.userSubject.next(undefined);
+      }
+    });
   }
 
   public login(username: string, password: string): void {

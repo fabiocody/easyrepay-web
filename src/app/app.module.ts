@@ -13,7 +13,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatDividerModule} from '@angular/material/divider';
 import {LoginComponent} from './pages/login/login.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {MomentModule} from 'ngx-moment';
 import {TranslationPipe} from './pipes/translation.pipe';
@@ -23,13 +23,14 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { PersonCardComponent } from './pages/people-list/person-card/person-card.component';
+import {PersonCardComponent} from './pages/people-list/person-card/person-card.component';
 import {TranslationService} from './services/translation.service';
-import { AvatarComponent } from './elements/avatar/avatar.component';
-import { AddPersonComponent } from './dialogs/add-person/add-person.component';
+import {AvatarComponent} from './elements/avatar/avatar.component';
+import {AddPersonComponent} from './dialogs/add-person/add-person.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { TransactionsListComponent } from './pages/transactions-list/transactions-list.component';
-import { SpinnerComponent } from './elements/spinner/spinner.component';
+import {TransactionsListComponent} from './pages/transactions-list/transactions-list.component';
+import {SpinnerComponent} from './elements/spinner/spinner.component';
+import {RequestInterceptorService} from './services/request-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,11 @@ import { SpinnerComponent } from './elements/spinner/spinner.component';
       provide: LOCALE_ID,
       deps: [TranslationService],
       useFactory: (translationService: TranslationService) => translationService.localeId
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptorService,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

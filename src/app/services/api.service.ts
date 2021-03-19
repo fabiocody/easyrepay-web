@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {TokenDto} from '../model/dto/token-dto';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
@@ -9,35 +9,39 @@ import {PersonDto} from '../model/dto/person-dto';
 import {LoginDto} from '../model/dto/login-dto';
 import {AddPersonDto} from '../model/dto/add-person-dto';
 
+export enum LoginStatus {
+  LOGGED_OUT,
+  TOKEN_EXPIRED,
+  LOGGED_IN
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private token: string | null = null;
   private refresh: string | null = null;
-  private authHeader = {Authorization: ''};
+  public loginStatusSubject = new BehaviorSubject<LoginStatus>(LoginStatus.LOGGED_OUT);
+  public loginStatus = this.loginStatusSubject.asObservable();
 
   constructor(
     private http: HttpClient,
   ) {
     this.saveTokens(localStorage.getItem('token'), localStorage.getItem('refresh'));
-    this.refreshToken().subscribe(tokenDto => {
-      this.saveTokens(tokenDto.access, tokenDto.refresh);
-    });
   }
 
-  public hasToken(): boolean {
-    return this.token !== null;
+  public get authHeader(): string {
+    return 'Bearer ' + this.token;
   }
 
   private saveTokens(access: string | null, refresh: string | null): void {
     this.token = access;
     if (access) {
       localStorage.setItem('token', access);
-      this.authHeader.Authorization = 'Bearer ' + access;
+      this.loginStatusSubject.next(LoginStatus.LOGGED_IN);
     } else {
       localStorage.removeItem('token');
-      this.authHeader.Authorization = '';
+      this.loginStatusSubject.next(LoginStatus.LOGGED_OUT);
     }
     this.refresh = refresh;
     if (refresh) {
@@ -61,33 +65,30 @@ export class ApiService {
     this.saveTokens(null, null);
   }
 
-  private refreshToken(): Observable<TokenDto> {
+  public refreshToken(): Observable<TokenDto> {
     return this.http.post<TokenDto>(environment.apiUrl + '/api/token/refresh', {
       refresh: this.refresh
-    });
+    }).pipe(
+      map(tokenDto => {
+        this.saveTokens(tokenDto.access, tokenDto.refresh);
+        return tokenDto;
+      })
+    );
   }
 
   public getUserInfo(): Observable<User> {
-    return this.http.get<User>(environment.apiUrl + '/api/me', {
-      headers: this.authHeader
-    });
+    return this.http.get<User>(environment.apiUrl + '/api/me');
   }
 
   public getPeople(): Observable<PersonDto[]> {
-    return this.http.get<PersonDto[]>(environment.apiUrl + '/api/people', {
-      headers: this.authHeader
-    });
+    return this.http.get<PersonDto[]>(environment.apiUrl + '/api/people');
   }
 
   public addPerson(personDto: AddPersonDto): Observable<any> {
-    return this.http.post(environment.apiUrl + '/api/people', personDto, {
-      headers: this.authHeader
-    });
+    return this.http.post(environment.apiUrl + '/api/people', personDto);
   }
 
   public getPerson(id: number): Observable<PersonDto> {
-    return this.http.get<PersonDto>(environment.apiUrl + `/api/people/${id}`, {
-      headers: this.authHeader
-    });
+    return this.http.get<PersonDto>(environment.apiUrl + `/api/people/${id}`);
   }
 }
