@@ -2,9 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Person(models.Model):
+    name = models.CharField(max_length=128)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
 class Transaction(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    person = models.CharField(max_length=128)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
     type = models.CharField(max_length=2, choices=[
         ('C', 'CREDIT'),
         ('D', 'DEBT'),

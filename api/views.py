@@ -5,12 +5,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .dtos import Person
-from .models import Transaction
-from .serializers import TransactionSerializer, UserSerializer, PersonSerializer
+from .dtos import PersonDto
+from .models import Person, Transaction
+from .serializers import TransactionSerializer, UserSerializer, PersonDtoSerializer
 
 
-class MyUserView(APIView):
+class UserView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -18,20 +18,20 @@ class MyUserView(APIView):
         return Response(UserSerializer(request.user).data)
 
 
-class MyPeopleView(APIView):
+class PeopleView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        transactions = Transaction.objects.filter(owner=request.user)
-        names = set(map(lambda t: t.person, transactions))
-        people = list()
-        for name in names:
-            p_transactions = list(filter(lambda t: t.person == name, transactions))
+        people = Person.objects.filter(user=request.user)
+        transactions = Transaction.objects.filter(person__user=request.user)
+        people_dtos = list()
+        for person in people:
+            p_transactions = list(filter(lambda t: t.person == person, transactions))
             count = len(p_transactions)
-            total = reduce(lambda a, b: a+b, map(lambda t: t.signed_amount, p_transactions))
-            people.append(Person(name, count, total))
-        return Response(PersonSerializer(people, many=True).data)
+            total = reduce(lambda a, b: a+b, map(lambda t: t.signed_amount, p_transactions), 0)
+            people_dtos.append(PersonDto(person.name, count, total))
+        return Response(PersonDtoSerializer(people_dtos, many=True).data)
 
 
 class TransactionsView(APIView):
@@ -39,6 +39,6 @@ class TransactionsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        transactions = Transaction.objects.filter(owner=request.user)
+        transactions = Transaction.objects.filter(person__user=request.user)
         return Response(TransactionSerializer(transactions, many=True).data)
 
