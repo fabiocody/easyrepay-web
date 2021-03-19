@@ -1,5 +1,6 @@
 from functools import reduce
 
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -7,7 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .dtos import PersonDto
 from .models import Person, Transaction
-from .serializers import TransactionSerializer, UserSerializer, PersonDtoSerializer
+from .serializers import TransactionSerializer, UserSerializer, PersonDtoSerializer, AddPersonSerializer
 
 
 class UserView(APIView):
@@ -32,6 +33,20 @@ class PeopleView(APIView):
             total = reduce(lambda a, b: a+b, map(lambda t: t.signed_amount, p_transactions), 0)
             people_dtos.append(PersonDto(person.name, count, total))
         return Response(PersonDtoSerializer(people_dtos, many=True).data)
+
+    def post(self, request):
+        serializer = AddPersonSerializer(data=request.data)
+        if serializer.is_valid():
+            name = serializer.data['name']
+            homonyms = Person.objects.filter(user=request.user, name=name)
+            if len(homonyms) == 0:
+                person = Person(name=name, user=request.user)
+                person.save()
+                return Response()
+            else:
+                return Response(status=status.HTTP_409_CONFLICT)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class TransactionsView(APIView):
