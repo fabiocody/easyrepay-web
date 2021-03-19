@@ -18,7 +18,7 @@ export class AvatarComponent implements OnInit {
 
   private createInitials(): void {
     this.initials = '';
-    const splits = this.name.split(' ');
+    const splits = this.name.split(' ').slice(0, 2);
     for (const s of splits) {
       this.initials += s[0].toUpperCase();
     }

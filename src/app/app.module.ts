@@ -26,6 +26,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { PersonCardComponent } from './pages/people-list/person-card/person-card.component';
 import {TranslationService} from './services/translation.service';
 import { AvatarComponent } from './elements/avatar/avatar.component';
+import { AddPersonComponent } from './dialogs/add-person/add-person.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { AvatarComponent } from './elements/avatar/avatar.component';
     PeopleListComponent,
     PersonCardComponent,
     AvatarComponent,
+    AddPersonComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import { AvatarComponent } from './elements/avatar/avatar.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
   ],
   providers: [
     {

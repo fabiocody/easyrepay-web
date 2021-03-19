@@ -1,5 +1,7 @@
 {
+  "ADD_PERSON": "Add person",
   "APPEARANCE": "Appearance",
+  "CANCEL": "Cancel",
   "DARK": "Dark",
   "ENGLISH": "English",
   "ITALIAN": "Italian",
@@ -9,6 +11,7 @@
   "LOGIN_ERROR": "An error occurred",
   "LOGOUT": "Logout",
   "NUMBER_OF_TRANSACTIONS": "Transactions",
+  "OK": "OK",
   "PASSWORD": "Password",
   "PEOPLE": "People",
   "TOTAL": "Totale",

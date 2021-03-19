@@ -1,7 +1,11 @@
 <mat-card-title>{{'PEOPLE' | translate}}</mat-card-title>
 
+<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary" (click)="addPerson()">
+  <mat-icon>add</mat-icon>
+</button>
+
 <div *ngIf="people.length > 0" class="row mt-4">
   <ng-container *ngFor="let p of people">
-    <app-person-card class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3" [person]="p"></app-person-card>
+    <app-person-card class="col-12 col-md-6 col-lg-4 mb-3" [person]="p"></app-person-card>
   </ng-container>
 </div>
