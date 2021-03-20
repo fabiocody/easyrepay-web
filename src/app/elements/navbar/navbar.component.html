@@ -1,0 +1,42 @@
+<mat-toolbar color="primary" class="mat-elevation-z6 app-toolbar" fxLayout="row">
+  <mat-icon>account_balance_wallet</mat-icon>
+  <span class="ml-1">{{title | uppercase}}</span>
+  <span class="spacer"></span>
+  <span class="mr-2" fxHide fxShow.gt-xs>{{userName}}</span>
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>{{userName === '' ? 'person_outline' : 'person'}}</mat-icon>
+  </button>
+  <mat-menu #userMenu>
+    <button mat-menu-item [matMenuTriggerFor]="languageMenu">
+      <mat-icon>language</mat-icon>
+      {{'LANGUAGE' | translate}}
+    </button>
+    <mat-menu #languageMenu>
+      <button mat-menu-item (click)="setLanguage('it')">
+        {{'ITALIAN' | translate}}
+      </button>
+      <button mat-menu-item (click)="setLanguage('en')">
+        {{'ENGLISH' | translate}}
+      </button>
+    </mat-menu>
+    <button mat-menu-item [matMenuTriggerFor]="appearanceMenu">
+      <mat-icon>settings_brightness</mat-icon>
+      {{'APPEARANCE' | translate}}
+    </button>
+    <mat-menu #appearanceMenu>
+      <ng-container *ngFor="let theme of getThemes()">
+        <button mat-menu-item (click)="setTheme(theme.label)">
+          <mat-icon>{{theme.icon}}</mat-icon>
+          {{theme.label | translate}}
+        </button>
+      </ng-container>
+    </mat-menu>
+    <ng-container *ngIf="userName !== ''">
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        {{'LOGOUT' | translate}}
+      </button>
+    </ng-container>
+  </mat-menu>
+</mat-toolbar>
