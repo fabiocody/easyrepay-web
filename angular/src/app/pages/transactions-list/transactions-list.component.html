@@ -8,19 +8,33 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<div class="mt-3" *ngIf="person !== null">
+<div class="mt-3" *ngIf="person !== null" fxLayout="row">
   <button mat-flat-button color="primary" (click)="navigateBack()">
-    <mat-icon style="margin-left: -5px">navigate_before</mat-icon>
+    <mat-icon style="margin-left: -7px">navigate_before</mat-icon>
     {{'BACK' | translate}}
   </button>
-  <button mat-flat-button class="ml-2" color="primary" (click)="editPerson()">
+  <button mat-flat-button class="ml-2" color="primary" (click)="editPerson()" fxShow fxHide.xs>
     <mat-icon style="margin-left: -2px">create</mat-icon>
     {{'EDIT' | translate}}
   </button>
-  <button mat-flat-button class="ml-2" color="warn" (click)="deletePerson()">
+  <button mat-flat-button class="ml-2" color="warn" (click)="deletePerson()" fxShow fxHide.xs>
     <mat-icon style="margin-left: -3px">delete</mat-icon>
     {{'DELETE' | translate}}
   </button>
+  <span class="spacer" fxHide fxShow.xs></span>
+  <button mat-icon-button [matMenuTriggerFor]="responsiveMenu" fxHide fxShow.xs>
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #responsiveMenu>
+    <button mat-menu-item (click)="editPerson()">
+      <mat-icon>create</mat-icon>
+      {{'EDIT' | translate}}
+    </button>
+    <button mat-menu-item (click)="deletePerson()">
+      <mat-icon color="warn">delete</mat-icon>
+      {{'DELETE' | translate}}
+    </button>
+  </mat-menu>
 </div>
 
 <div *ngIf="transactions.length > 0" class="row mt-4">
