@@ -21,8 +21,6 @@ export class TransactionCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.transaction);
-    console.log(this.signedAmount);
   }
 
   public get signedAmount(): number {

@@ -33,6 +33,8 @@ import {SpinnerComponent} from './elements/spinner/spinner.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
 import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component';
 import { TransactionCardComponent } from './pages/transactions-list/transaction-card/transaction-card.component';
+import { TransactionComponent } from './dialogs/transaction/transaction.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { TransactionCardComponent } from './pages/transactions-list/transaction-
     SpinnerComponent,
     InfoDialogComponent,
     TransactionCardComponent,
+    TransactionComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,7 @@ import { TransactionCardComponent } from './pages/transactions-list/transaction-
     MatInputModule,
     MatTooltipModule,
     MatDialogModule,
+    MatSelectModule,
   ],
   providers: [
     {

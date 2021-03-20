@@ -7,7 +7,7 @@ import {TransactionsListComponent} from './pages/transactions-list/transactions-
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'people', component: PeopleListComponent},
-  {path: 'transactions/:id', component: TransactionsListComponent}
+  {path: 'transactions/:id', component: TransactionsListComponent},
 ];
 
 @NgModule({

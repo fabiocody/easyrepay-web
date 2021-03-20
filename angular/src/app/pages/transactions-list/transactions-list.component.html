@@ -4,7 +4,7 @@
 
 <app-spinner [loading]="person === null"></app-spinner>
 
-<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary">
+<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary" (click)="openTransaction(null)">
   <mat-icon>add</mat-icon>
 </button>
 
@@ -21,6 +21,7 @@
     <mat-icon style="margin-left: -3px">delete</mat-icon>
     {{'DELETE' | translate}}
   </button>
+  <!-- TODO: Show completed -->
   <span class="spacer" fxHide fxShow.xs></span>
   <button mat-icon-button [matMenuTriggerFor]="responsiveMenu" fxHide fxShow.xs>
     <mat-icon>more_vert</mat-icon>
@@ -39,6 +40,6 @@
 
 <div *ngIf="transactions.length > 0" class="row mt-4">
   <ng-container *ngFor="let t of transactions">
-    <app-transaction-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [transaction]="t"></app-transaction-card>
+    <app-transaction-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [transaction]="t" (click)="openTransaction(t)"></app-transaction-card>
   </ng-container>
 </div>

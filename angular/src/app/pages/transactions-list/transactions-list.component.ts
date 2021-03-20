@@ -6,6 +6,8 @@ import {Transaction} from '../../model/transaction';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
+import {Location} from "@angular/common";
+import {TransactionComponent} from "../../dialogs/transaction/transaction.component";
 
 @Component({
   selector: 'app-transactions-list',
@@ -18,7 +20,7 @@ export class TransactionsListComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    private location: Location,
     private dialog: MatDialog,
     private apiService: ApiService,
   ) {}
@@ -39,7 +41,7 @@ export class TransactionsListComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    this.router.navigate(['/people']);
+    this.location.back();
   }
 
   public editPerson(): void {
@@ -67,6 +69,14 @@ export class TransactionsListComponent implements OnInit {
       if (value) {
         this.apiService.deletePerson(this.person!.id).subscribe(_ => this.navigateBack());
       }
+    });
+  }
+
+  public openTransaction(transaction: Transaction | null): void {
+    this.dialog.open(TransactionComponent, {
+      data: transaction,
+    }).afterClosed().subscribe(value => {
+      console.log(value);
     });
   }
 }

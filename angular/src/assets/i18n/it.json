@@ -1,5 +1,6 @@
 {
   "ADD_PERSON": "Aggiungi persona",
+  "AMOUNT": "Importo",
   "APPEARANCE": "Aspetto",
   "BACK": "Indietro",
   "CANCEL": "Annulla",
@@ -8,7 +9,9 @@
   "DELETE": "Elimina",
   "DELETE_PERSON_BODY": "Sei sicuro di voler eliminare questa persona?",
   "DELETE_PERSON_TITLE": "Eliminazione persona",
+  "DESCRIPTION": "Descrizione",
   "EDIT": "Modifica",
+  "EDIT_TRANSACTION": "Modifica transazione",
   "ENGLISH": "Inglese",
   "ERROR_GENERIC": "Si è verificato un errore",
   "ERROR_NAME_ALREADY_PRESENT": "Questo nome è già stato aggiunto",
@@ -18,10 +21,12 @@
   "LOGIN": "Entra",
   "LOGOUT": "Esci",
   "NAME": "Nome",
+  "NEW_TRANSACTION": "Nuova transazione",
   "OK": "OK",
   "PASSWORD": "Password",
   "PEOPLE": "Persone",
   "TOTAL": "Totale",
   "TRANSACTIONS": "Transazioni",
+  "TYPE": "Tipo",
   "USERNAME": "Username"
 }
