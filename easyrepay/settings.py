@@ -26,7 +26,6 @@ SECRET_KEY = os.getenv('SECRET_KEY', '$y)vabz%dfnp%ru!kp@356%vj9avwbrnz91cztfro$
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-print('DEBUG =', DEBUG)
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -140,7 +139,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'spa.storage.SPAStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-print(os.listdir(STATIC_ROOT))
 
 
 # REST settings
@@ -163,6 +161,5 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 try:
     import django_heroku
     django_heroku.settings(locals())
-    print(os.listdir(STATIC_ROOT))
 except ImportError:
     pass
