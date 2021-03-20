@@ -140,6 +140,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'spa.storage.SPAStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+print(os.listdir(STATIC_ROOT))
 
 
 # REST settings
@@ -162,5 +163,6 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 try:
     import django_heroku
     django_heroku.settings(locals())
+    print(os.listdir(STATIC_ROOT))
 except ImportError:
     pass
