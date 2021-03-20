@@ -38,7 +38,7 @@
   </mat-menu>
 </div>
 
-<div class="row mt-4">
+<div class="row mt-4" *ngIf="person !== null">
   <ng-container *ngFor="let t of transactions">
     <app-transaction-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [transaction]="t" (click)="openTransaction(t)"></app-transaction-card>
   </ng-container>
