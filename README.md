@@ -1,2 +1,3 @@
-# easyrepay-backend
-Backend for the EasyRepay application
+# EasyRepay Web
+
+EasyRepay for the web (Django and Angular)
