@@ -41,17 +41,26 @@
     {{'CANCEL' | translate}}
   </button>
   <button mat-flat-button color="warn" *ngIf="data.transaction" (click)="deleteTransaction()">
-    {{'DELETE' | translate}}
-  </button>
-  <button mat-flat-button color="primary" (click)="saveTransaction()" [disabled]="!form.valid">
-    <ng-container [ngSwitch]="loading">
+    <ng-container [ngSwitch]="deleting">
       <ng-container *ngSwitchCase="true">
         <div class="button-spinner d-flex justify-content-center m-2">
           <mat-spinner diameter="20"></mat-spinner>
         </div>
       </ng-container>
       <ng-container *ngSwitchCase="false">
-        {{'OK' | translate}}
+        {{'DELETE' | translate}}
+      </ng-container>
+    </ng-container>
+  </button>
+  <button mat-flat-button color="primary" (click)="saveTransaction()" [disabled]="!form.valid">
+    <ng-container [ngSwitch]="saving">
+      <ng-container *ngSwitchCase="true">
+        <div class="button-spinner d-flex justify-content-center m-2">
+          <mat-spinner diameter="20"></mat-spinner>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="false">
+        {{'SAVE' | translate}}
       </ng-container>
     </ng-container>
   </button>

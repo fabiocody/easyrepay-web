@@ -17,7 +17,8 @@ export interface TransactionDialogData {
   styleUrls: ['./transaction.component.scss']
 })
 export class TransactionComponent implements OnInit {
-  public loading = false;
+  public saving = false;
+  public deleting = false;
   public error: string | null = null;
   public readonly TRANSACTION_TYPES = Object.values(TransactionType);
 
@@ -50,7 +51,7 @@ export class TransactionComponent implements OnInit {
 
   public saveTransaction(): void {
     console.log('saveTransaction');
-    this.loading = true;
+    this.saving = true;
     const transaction: Transaction = {
       id: this.data.transaction ? this.data.transaction.id : -1,
       type: this.form.get('type')!.value,
@@ -62,11 +63,11 @@ export class TransactionComponent implements OnInit {
     };
     console.log(transaction);
     this.apiService.saveTransaction(transaction).subscribe(_ => {
-      this.loading = false;
+      this.saving = false;
       this.dialogRef.close(true);
     }, error => {
       console.error(error);
-      this.loading = false;
+      this.saving = false;
       this.error = 'ERROR_GENERIC';
     });
   }
@@ -84,7 +85,9 @@ export class TransactionComponent implements OnInit {
       autoFocus: false,
     }).afterClosed().subscribe(value => {
       if (value) {
+        this.deleting = true;
         this.apiService.deleteTransaction(this.data.personId, this.data.transaction.id).subscribe(_ => {
+          this.deleting = false;
           this.dialogRef.close(true);
         }, error => {
           console.error(error);
