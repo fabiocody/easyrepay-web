@@ -6,8 +6,11 @@
   <mat-icon>person_add</mat-icon>
 </button>
 
-<div *ngIf="people.length > 0" class="row mt-4">
+<div class="row mt-4">
   <ng-container *ngFor="let p of people">
     <app-person-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [person]="p" [routerLink]="['/transactions/', p.id]"></app-person-card>
   </ng-container>
+  <div *ngIf="people.length === 0" class="col-12 text-center mt-4">
+    <mat-card-subtitle>{{'NO_PEOPLE' | translate}}</mat-card-subtitle>
+  </div>
 </div>

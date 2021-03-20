@@ -76,7 +76,7 @@ export class TransactionComponent implements OnInit {
     const dialogData: InfoDialogData = {
       title: 'DELETE_TRANSACTION_TITLE',
       body: 'DELETE_TRANSACTION_BODY',
-      okBtnText: 'CONFIRM',
+      okBtnText: 'DELETE',
       cancelBtnText: 'CANCEL',
       okBtnColor: 'warn'
     };

@@ -38,8 +38,11 @@
   </mat-menu>
 </div>
 
-<div *ngIf="transactions.length > 0" class="row mt-4">
+<div class="row mt-4">
   <ng-container *ngFor="let t of transactions">
     <app-transaction-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [transaction]="t" (click)="openTransaction(t)"></app-transaction-card>
   </ng-container>
+  <div *ngIf="transactions.length === 0" class="col-12 text-center mt-4">
+    <mat-card-subtitle>{{'NO_TRANSACTIONS' | translate}}</mat-card-subtitle>
+  </div>
 </div>

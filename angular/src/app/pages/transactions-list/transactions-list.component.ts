@@ -60,7 +60,7 @@ export class TransactionsListComponent implements OnInit {
     const dialogData: InfoDialogData = {
       title: 'DELETE_PERSON_TITLE',
       body: 'DELETE_PERSON_BODY',
-      okBtnText: 'CONFIRM',
+      okBtnText: 'DELETE',
       cancelBtnText: 'CANCEL',
       okBtnColor: 'warn'
     };
