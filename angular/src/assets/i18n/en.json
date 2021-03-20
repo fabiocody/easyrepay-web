@@ -11,6 +11,8 @@
   "DELETE": "Delete",
   "DELETE_PERSON_BODY": "Are you sure you want to delete this person?",
   "DELETE_PERSON_TITLE": "Delete person",
+  "DELETE_TRANSACTION_BODY": "Are you sure you want to delete this transaction?",
+  "DELETE_TRANSACTION_TITLE": "Delete transaction",
   "DESCRIPTION": "Description",
   "EDIT": "Edit",
   "EDIT_TRANSACTION": "Edit transaction",
