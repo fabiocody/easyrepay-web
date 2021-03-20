@@ -6,8 +6,8 @@ import {Transaction} from '../../model/transaction';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
-import {Location} from "@angular/common";
-import {TransactionComponent} from "../../dialogs/transaction/transaction.component";
+import {Location} from '@angular/common';
+import {TransactionComponent, TransactionDialogData} from '../../dialogs/transaction/transaction.component';
 
 @Component({
   selector: 'app-transactions-list',
@@ -46,7 +46,8 @@ export class TransactionsListComponent implements OnInit {
 
   public editPerson(): void {
     this.dialog.open(AddPersonComponent, {
-      data: this.person
+      data: this.person,
+      autoFocus: false,
     }).afterClosed().subscribe(value => {
       console.log('VALUE', value);
       if (value) {
@@ -56,7 +57,7 @@ export class TransactionsListComponent implements OnInit {
   }
 
   public deletePerson(): void {
-    const data: InfoDialogData = {
+    const dialogData: InfoDialogData = {
       title: 'DELETE_PERSON_TITLE',
       body: 'DELETE_PERSON_BODY',
       okBtnText: 'CONFIRM',
@@ -64,7 +65,8 @@ export class TransactionsListComponent implements OnInit {
       okBtnColor: 'warn'
     };
     this.dialog.open(InfoDialogComponent, {
-      data
+      data: dialogData,
+      autoFocus: false,
     }).afterClosed().subscribe(value => {
       if (value) {
         this.apiService.deletePerson(this.person!.id).subscribe(_ => this.navigateBack());
@@ -74,9 +76,14 @@ export class TransactionsListComponent implements OnInit {
 
   public openTransaction(transaction: Transaction | null): void {
     this.dialog.open(TransactionComponent, {
-      data: transaction,
+      data: {
+        transaction,
+        personId: this.person!.id,
+      },
+      maxWidth: '300px',
+      autoFocus: false,
     }).afterClosed().subscribe(value => {
-      console.log(value);
+      this.updateTransactions();
     });
   }
 }

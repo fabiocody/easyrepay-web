@@ -1,45 +1,47 @@
-<h1 mat-dialog-title>{{(transaction ? 'EDIT_TRANSACTION' : 'NEW_TRANSACTION') | translate}}</h1>
+<h1 mat-dialog-title>{{(data.transaction ? 'EDIT_TRANSACTION' : 'NEW_TRANSACTION') | translate}}</h1>
 
-<mat-dialog-content class="text-center">
+<mat-dialog-content>
   <ng-form [formGroup]="form" (keydown.enter)="saveTransaction()">
-    <!--mat-form-field appearance="outline">
-      <mat-label>{{'NAME' | translate}}</mat-label>
-      <input matInput [formControl]="nameForm" required>
-    </mat-form-field-->
-    <div>
-      <mat-form-field>
+    <div class="row align-items-center">
+      <mat-form-field class="col-12" appearance="outline">
         <mat-label>{{'TYPE' | translate}}</mat-label>
         <mat-select formControlName="type" required>
-          <mat-option *ngFor="let type of TRANSACTION_TYPES" [value]="type.value">
-            {{type.label | translate}}
+          <mat-option *ngFor="let type of TRANSACTION_TYPES" [value]="type">
+            {{'TYPE_' + type | translate}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
+      <mat-form-field class="col-12" appearance="outline">
         <mat-label>{{'AMOUNT' | translate}}</mat-label>
         <input matInput type="number" formControlName="amount" required>
       </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
+      <mat-form-field class="col-12" appearance="outline">
         <mat-label>{{'DESCRIPTION' | translate}}</mat-label>
-        <input matInput type="text" formControlName="description" required>
+        <input matInput type="text" formControlName="description">
       </mat-form-field>
+      <mat-form-field class="col-12" appearance="outline">
+        <mat-label>{{'DATE_AND_TIME' | translate}}</mat-label>
+        <input matInput [ngxMatDatetimePicker]="picker" formControlName="dateTime" (click)="picker.open()" readonly>
+        <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+      </mat-form-field>
+      <div class="col-12 mb-2">
+        <mat-checkbox formControlName="completed">{{'COMPLETED' | translate}}</mat-checkbox>
+      </div>
     </div>
   </ng-form>
-  <div>
-    <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
-      <mat-icon class="error-alert">error</mat-icon>
-      <span class="error-alert ml-1">{{error | translate}}</span>
-    </div>
+  <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
+    <mat-icon class="error-alert">error</mat-icon>
+    <span class="error-alert ml-1">{{error | translate}}</span>
   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions class="float-right">
   <button mat-flat-button color="primary" mat-dialog-close>
     {{'CANCEL' | translate}}
+  </button>
+  <button mat-flat-button color="warn" *ngIf="data.transaction" (click)="deleteTransaction()">
+    {{'DELETE' | translate}}
   </button>
   <button mat-flat-button color="primary" (click)="saveTransaction()" [disabled]="!form.valid">
     <ng-container [ngSwitch]="loading">

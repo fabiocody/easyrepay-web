@@ -37,7 +37,7 @@ class PeopleView(APIView):
         return Response(PersonDtoSerializer(people_dtos, many=True).data)
 
     def post(self, request):
-        """Add a new person"""
+        """Create a new person"""
         serializer = AddPersonSerializer(data=request.data)
         if serializer.is_valid():
             name = serializer.data['name']
@@ -75,6 +75,7 @@ class PersonView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, person_id):
+        """Delete the requested person"""
         person = Person.objects.filter(id=person_id, user=request.user).first()
         if person:
             person.delete()
@@ -90,3 +91,48 @@ class TransactionsView(APIView):
         """Return the transactions related to the provided person"""
         transactions = Transaction.objects.filter(person__id=person_id).order_by('dateTime')
         return Response(TransactionSerializer(transactions, many=True).data)
+
+    def post(self, request, person_id):
+        """Create a new transaction or update an existing one"""
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.data
+            if person_id != data['person']:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            transaction_id = request.data['id']
+            if transaction_id < 0:
+                transaction = Transaction(
+                    type=data['type'],
+                    amount=data['amount'],
+                    description=data['description'],
+                    completed=data['completed'],
+                    dateTime=data['dateTime'],
+                    person_id=data['person']
+                )
+                transaction.save()
+                return Response()
+            else:
+                transaction = Transaction.objects.filter(id=transaction_id, person_id=person_id).first()
+                if transaction:
+                    transaction.type = data['type']
+                    transaction.amount = data['amount']
+                    transaction.description = data['description']
+                    transaction.completed = data['completed']
+                    transaction.dateTime = data['dateTime']
+                    transaction.save()
+                    return Response()
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class TransactionView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, transaction_id):
+        """Delete the requested transaction"""
+        transaction = Transaction.objects.filter(id=transaction_id).first()
+        if transaction:
+            transaction.delete()
+            return Response()
+        return Response(status=status.HTTP_404_NOT_FOUND)

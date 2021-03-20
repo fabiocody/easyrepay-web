@@ -89,12 +89,8 @@ export class ApiService {
     return this.http.post(environment.apiUrl + '/api/people', personDto);
   }
 
-  public getPerson(id: number): Observable<PersonDto> {
-    return this.http.get<PersonDto>(environment.apiUrl + `/api/person/${id}`);
-  }
-
-  public getTransactions(personId: number): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(environment.apiUrl + `/api/transactions/${personId}`);
+  public getPerson(personId: number): Observable<PersonDto> {
+    return this.http.get<PersonDto>(environment.apiUrl + `/api/person/${personId}`);
   }
 
   public editPerson(personId: number, personDto: AddPersonDto): Observable<any> {
@@ -103,5 +99,17 @@ export class ApiService {
 
   public deletePerson(personId: number): Observable<any> {
     return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
+  }
+
+  public getTransactions(personId: number): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(environment.apiUrl + `/api/person/${personId}/transactions`);
+  }
+
+  public saveTransaction(transaction: Transaction): Observable<any> {
+    return this.http.post(environment.apiUrl + `/api/person/${transaction.person}/transactions`, transaction);
+  }
+
+  public deleteTransaction(personId: number, transactionId: number): Observable<any> {
+    return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`);
   }
 }

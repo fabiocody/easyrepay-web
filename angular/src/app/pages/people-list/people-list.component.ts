@@ -31,7 +31,9 @@ export class PeopleListComponent implements OnInit {
   }
 
   public addPerson(): void {
-    this.dialog.open(AddPersonComponent).afterClosed().subscribe(value => {
+    this.dialog.open(AddPersonComponent, {
+      autoFocus: false,
+    }).afterClosed().subscribe(value => {
       if (value) {
         this.updatePeople();
       }

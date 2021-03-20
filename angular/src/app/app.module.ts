@@ -31,10 +31,17 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {TransactionsListComponent} from './pages/transactions-list/transactions-list.component';
 import {SpinnerComponent} from './elements/spinner/spinner.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
-import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component';
-import { TransactionCardComponent } from './pages/transactions-list/transaction-card/transaction-card.component';
-import { TransactionComponent } from './dialogs/transaction/transaction.component';
-import {MatSelectModule} from "@angular/material/select";
+import {InfoDialogComponent} from './dialogs/info-dialog/info-dialog.component';
+import {TransactionCardComponent} from './pages/transactions-list/transaction-card/transaction-card.component';
+import {TransactionComponent} from './dialogs/transaction/transaction.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [
@@ -74,6 +81,11 @@ import {MatSelectModule} from "@angular/material/select";
     MatTooltipModule,
     MatDialogModule,
     MatSelectModule,
+    MatCheckboxModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatDatepickerModule,
   ],
   providers: [
     {
@@ -85,7 +97,7 @@ import {MatSelectModule} from "@angular/material/select";
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

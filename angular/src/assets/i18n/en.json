@@ -4,7 +4,9 @@
   "APPEARANCE": "Appearance",
   "BACK": "Back",
   "CANCEL": "Cancel",
+  "COMPLETED": "Completed",
   "CONFIRM": "Confirm",
+  "DATE_AND_TIME": "Date and time",
   "DARK": "Dark",
   "DELETE": "Delete",
   "DELETE_PERSON_BODY": "Are you sure you want to delete this person?",
@@ -28,5 +30,9 @@
   "TOTAL": "Total",
   "TRANSACTIONS": "Transactions",
   "TYPE": "Type",
+  "TYPE_C": "Credit",
+  "TYPE_D": "Debt",
+  "TYPE_SC": "Settle credit",
+  "TYPE_SD": "Settle debt",
   "USERNAME": "Username"
 }

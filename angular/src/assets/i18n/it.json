@@ -4,7 +4,9 @@
   "APPEARANCE": "Aspetto",
   "BACK": "Indietro",
   "CANCEL": "Annulla",
+  "COMPLETED": "Completata",
   "CONFIRM": "Conferma",
+  "DATE_AND_TIME": "Data e orario",
   "DARK": "Scuro",
   "DELETE": "Elimina",
   "DELETE_PERSON_BODY": "Sei sicuro di voler eliminare questa persona?",
@@ -28,5 +30,9 @@
   "TOTAL": "Totale",
   "TRANSACTIONS": "Transazioni",
   "TYPE": "Tipo",
+  "TYPE_C": "Credito",
+  "TYPE_D": "Debito",
+  "TYPE_SC": "Saldo credito",
+  "TYPE_SD": "Saldo debito",
   "USERNAME": "Username"
 }
