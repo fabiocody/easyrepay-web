@@ -25,7 +25,7 @@ export class TransactionComponent implements OnInit {
   public form = this.fb.group({
     type: ['', Validators.required],
     amount: [null, Validators.required],
-    description: [''],
+    description: ['', Validators.required],
     completed: [false, Validators.required],
     dateTime: [moment().toDate(), Validators.required],
   });
