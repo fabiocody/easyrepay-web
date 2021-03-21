@@ -27,7 +27,7 @@ class PeopleView(APIView):
 
     def get(self, request):
         """Return the list of PersonDtos associated to the current user"""
-        people = Person.objects.filter(user=request.user)
+        people = Person.objects.filter(user=request.user).order_by('name')
         transactions = Transaction.objects.filter(person__user=request.user, completed=False)
         people_dtos = list()
         for person in people:
