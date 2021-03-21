@@ -2,7 +2,7 @@
   <mat-card-title>{{person.name}}</mat-card-title>
 </ng-container>
 
-<app-spinner [loading]="person === null"></app-spinner>
+<app-spinner [loading]="loading"></app-spinner>
 
 <button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary" (click)="openTransaction(null)">
   <mat-icon>add</mat-icon>
@@ -39,7 +39,7 @@
   </mat-menu>
 </div>
 
-<div class="row mt-4" *ngIf="person !== null">
+<div class="row mt-4" *ngIf="!loading && person !== null">
   <ng-container *ngFor="let t of transactions">
     <app-transaction-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [transaction]="t" (click)="openTransaction(t)"></app-transaction-card>
   </ng-container>

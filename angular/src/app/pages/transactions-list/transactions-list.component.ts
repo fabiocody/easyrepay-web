@@ -18,6 +18,7 @@ export class TransactionsListComponent implements OnInit {
   public person: PersonDto | null = null;
   public transactions: Transaction[] = [];
   public showCompleted = false;
+  public loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,18 +28,19 @@ export class TransactionsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = parseInt(idParam, 10);
-      this.apiService.getPerson(id).subscribe(person => {
-        this.person = person;
-        this.updateTransactions();
-      });
-    }
+    this.loading = true;
+    const personId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    this.apiService.getPerson(personId).subscribe(person => {
+      this.person = person;
+      this.updateTransactions();
+    });
   }
 
   public updateTransactions(): void {
-    this.apiService.getTransactions(this.person!.id, this.showCompleted).subscribe(transactions => this.transactions = transactions);
+    this.apiService.getTransactions(this.person!.id, this.showCompleted).subscribe(transactions => {
+      this.transactions = transactions;
+      this.loading = false;
+    });
   }
 
   public get total(): number {
