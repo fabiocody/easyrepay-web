@@ -101,8 +101,8 @@ export class ApiService {
     return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
   }
 
-  public getTransactions(personId: number): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(environment.apiUrl + `/api/person/${personId}/transactions`);
+  public getTransactions(personId: number, completed: boolean): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(environment.apiUrl + `/api/person/${personId}/transactions?completed=${completed}`);
   }
 
   public saveTransaction(transaction: Transaction): Observable<any> {

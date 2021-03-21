@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 from functools import reduce
 
 from rest_framework import status
@@ -27,7 +28,7 @@ class PeopleView(APIView):
     def get(self, request):
         """Return the list of PersonDtos associated to the current user"""
         people = Person.objects.filter(user=request.user)
-        transactions = Transaction.objects.filter(person__user=request.user)
+        transactions = Transaction.objects.filter(person__user=request.user, completed=False)
         people_dtos = list()
         for person in people:
             p_transactions = list(filter(lambda t: t.person == person, transactions))
@@ -89,7 +90,9 @@ class TransactionsView(APIView):
 
     def get(self, request, person_id):
         """Return the transactions related to the provided person"""
-        transactions = Transaction.objects.filter(person__id=person_id).order_by('dateTime')
+        completed_param = request.query_params.get('completed', 'false')
+        completed = bool(strtobool(completed_param))
+        transactions = Transaction.objects.filter(person__id=person_id, completed=completed).order_by('dateTime')
         return Response(TransactionSerializer(transactions, many=True).data)
 
     def post(self, request, person_id):

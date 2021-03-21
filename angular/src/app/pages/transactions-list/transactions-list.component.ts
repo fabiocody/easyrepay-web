@@ -17,6 +17,7 @@ import {TransactionComponent, TransactionDialogData} from '../../dialogs/transac
 export class TransactionsListComponent implements OnInit {
   public person: PersonDto | null = null;
   public transactions: Transaction[] = [];
+  public showCompleted = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,13 +32,13 @@ export class TransactionsListComponent implements OnInit {
       const id = parseInt(idParam, 10);
       this.apiService.getPerson(id).subscribe(person => {
         this.person = person;
-        this.updateTransactions();
+        this.updateTransactions(this.showCompleted);
       });
     }
   }
 
-  private updateTransactions(): void {
-    this.apiService.getTransactions(this.person!.id).subscribe(transactions => this.transactions = transactions);
+  public updateTransactions(completed: boolean): void {
+    this.apiService.getTransactions(this.person!.id, completed).subscribe(transactions => this.transactions = transactions);
   }
 
   public navigateBack(): void {
@@ -83,7 +84,9 @@ export class TransactionsListComponent implements OnInit {
       maxWidth: '300px',
       autoFocus: false,
     }).afterClosed().subscribe(value => {
-      this.updateTransactions();
+      if (value) {
+        this.updateTransactions(this.showCompleted);
+      }
     });
   }
 }

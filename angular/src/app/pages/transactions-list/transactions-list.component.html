@@ -8,7 +8,7 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<div class="mt-4" *ngIf="person !== null" fxLayout="row">
+<div class="mt-4 align-items-center" *ngIf="person !== null" fxLayout="row">
   <button mat-flat-button color="primary" (click)="navigateBack()">
     <mat-icon style="margin-left: -7px">navigate_before</mat-icon>
     {{'BACK' | translate}}
@@ -21,6 +21,7 @@
     <mat-icon style="margin-left: -3px">delete</mat-icon>
     {{'DELETE' | translate}}
   </button>
+  <mat-slide-toggle class="ml-3" [(ngModel)]="showCompleted" (change)="updateTransactions(showCompleted)">{{'SHOW_COMPLETED' | translate}}</mat-slide-toggle>
   <!-- TODO: Show completed -->
   <span class="spacer" fxHide fxShow.xs></span>
   <button mat-icon-button [matMenuTriggerFor]="responsiveMenu" fxHide fxShow.xs>
