@@ -13,28 +13,28 @@
     <mat-icon style="margin-left: -7px">navigate_before</mat-icon>
     {{'BACK' | translate}}
   </button>
-  <button mat-flat-button class="ml-2" color="primary" (click)="editPerson()" fxShow fxHide.xs>
-    <mat-icon style="margin-left: -2px">create</mat-icon>
-    {{'EDIT' | translate}}
-  </button>
-  <button mat-flat-button class="ml-2" color="warn" (click)="deletePerson()" fxShow fxHide.xs>
-    <mat-icon style="margin-left: -3px">delete</mat-icon>
-    {{'DELETE' | translate}}
-  </button>
   <mat-slide-toggle class="ml-3" [(ngModel)]="showCompleted" (change)="updateTransactions(showCompleted)">{{'SHOW_COMPLETED' | translate}}</mat-slide-toggle>
-  <!-- TODO: Show completed -->
-  <span class="spacer" fxHide fxShow.xs></span>
-  <button mat-icon-button [matMenuTriggerFor]="responsiveMenu" fxHide fxShow.xs>
+  <span class="spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="responsiveMenu">
     <mat-icon>more_vert</mat-icon>
   </button>
-  <mat-menu #responsiveMenu>
+  <mat-menu #responsiveMenu xPosition="before">
     <button mat-menu-item (click)="editPerson()">
       <mat-icon>create</mat-icon>
-      {{'EDIT' | translate}}
+      {{'EDIT_PERSON' | translate}}
     </button>
     <button mat-menu-item (click)="deletePerson()">
       <mat-icon color="warn">delete</mat-icon>
-      {{'DELETE' | translate}}
+      {{'DELETE_PERSON' | translate}}
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <mat-icon>done_all</mat-icon>
+      {{'COMPLETE_ALL' | translate}}
+    </button>
+    <button mat-menu-item>
+      <mat-icon color="warn">delete_forever</mat-icon>
+      {{'DELETE_ALL' | translate}}
     </button>
   </mat-menu>
 </div>
