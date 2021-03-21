@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {PersonDto} from '../../model/dto/person-dto';
-import {Transaction} from '../../model/transaction';
+import {Transaction, TransactionType} from '../../model/transaction';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
 import {Location} from '@angular/common';
-import {TransactionComponent, TransactionDialogData} from '../../dialogs/transaction/transaction.component';
+import {TransactionComponent} from '../../dialogs/transaction/transaction.component';
 
 @Component({
   selector: 'app-transactions-list',
@@ -39,6 +39,24 @@ export class TransactionsListComponent implements OnInit {
 
   public updateTransactions(): void {
     this.apiService.getTransactions(this.person!.id, this.showCompleted).subscribe(transactions => this.transactions = transactions);
+  }
+
+  public get total(): number {
+    return this.totalCredit - this.totalDebt;
+  }
+
+  public get totalCredit(): number {
+    return this.transactions
+      .filter(t => t.type === TransactionType.CREDIT || t.type === TransactionType.SETTLE_DEBT)
+      .map(t => t.amount)
+      .reduce((acc, val) => acc + val, 0);
+  }
+
+  public get totalDebt(): number {
+    return this.transactions
+      .filter(t => t.type === TransactionType.DEBT || t.type === TransactionType.SETTLE_CREDIT)
+      .map(t => t.amount)
+      .reduce((acc, val) => acc + val, 0);
   }
 
   public navigateBack(): void {

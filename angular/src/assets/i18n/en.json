@@ -42,6 +42,8 @@
   "SAVE": "Save",
   "SHOW_COMPLETED": "Completed",
   "TOTAL": "Total",
+  "TOTAL_CREDIT": "Total credit",
+  "TOTAL_DEBT": "Total debt",
   "TRANSACTIONS": "Transactions",
   "TYPE": "Type",
   "TYPE_C": "Credit",

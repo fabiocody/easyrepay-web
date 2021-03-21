@@ -47,3 +47,17 @@
     <mat-card-subtitle>{{'NO_TRANSACTIONS' | translate}}</mat-card-subtitle>
   </div>
 </div>
+
+<div *ngIf="transactions.length > 0">
+  <mat-divider class="mb-3"></mat-divider>
+  <div class="row">
+    <mat-card-subtitle class="col-6">{{'TOTAL' | translate}} </mat-card-subtitle>
+    <mat-card-subtitle class="col-6 text-right">{{total | currency:'EUR'}}</mat-card-subtitle>
+    <mat-card-subtitle class="col-6">{{'TOTAL_CREDIT' | translate}} </mat-card-subtitle>
+    <mat-card-subtitle class="col-6 text-right">{{totalCredit | currency:'EUR'}}</mat-card-subtitle>
+    <mat-card-subtitle class="col-6">{{'TOTAL_DEBT' | translate}}</mat-card-subtitle>
+    <mat-card-subtitle class="col-6 text-right">{{totalDebt | currency:'EUR'}}</mat-card-subtitle>
+  </div>
+</div>
+
+<div style="height: 4rem"></div>
