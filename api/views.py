@@ -127,6 +127,21 @@ class TransactionsView(APIView):
                 return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, person_id):
+        """Delete all transactions belonging to the specified person"""
+        transactions = Transaction.objects.filter(person_id=person_id)
+        transactions.delete()
+        return Response()
+
+
+class CompleteTransactionsView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, person_id):
+        Transaction.objects.filter(person_id=person_id).update(completed=True)
+        return Response()
+
 
 class TransactionView(APIView):
     authentication_classes = [JWTAuthentication]

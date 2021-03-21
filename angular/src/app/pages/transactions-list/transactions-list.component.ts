@@ -32,13 +32,13 @@ export class TransactionsListComponent implements OnInit {
       const id = parseInt(idParam, 10);
       this.apiService.getPerson(id).subscribe(person => {
         this.person = person;
-        this.updateTransactions(this.showCompleted);
+        this.updateTransactions();
       });
     }
   }
 
-  public updateTransactions(completed: boolean): void {
-    this.apiService.getTransactions(this.person!.id, completed).subscribe(transactions => this.transactions = transactions);
+  public updateTransactions(): void {
+    this.apiService.getTransactions(this.person!.id, this.showCompleted).subscribe(transactions => this.transactions = transactions);
   }
 
   public navigateBack(): void {
@@ -85,7 +85,42 @@ export class TransactionsListComponent implements OnInit {
       autoFocus: false,
     }).afterClosed().subscribe(value => {
       if (value) {
-        this.updateTransactions(this.showCompleted);
+        this.updateTransactions();
+      }
+    });
+  }
+
+  public completeAllTransactions(): void {
+    const dialogData: InfoDialogData = {
+      title: 'COMPLETE_ALL_TITLE',
+      body: 'COMPLETE_ALL_BODY',
+      okBtnText: 'CONFIRM',
+      cancelBtnText: 'CANCEL',
+    };
+    this.dialog.open(InfoDialogComponent, {
+      data: dialogData,
+      autoFocus: false,
+    }).afterClosed().subscribe(value => {
+      if (value) {
+        this.apiService.completeAllTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
+      }
+    });
+  }
+
+  public deleteAllTransactions(): void {
+    const dialogData: InfoDialogData = {
+      title: 'DELETE_ALL_TITLE',
+      body: 'DELETE_ALL_BODY',
+      okBtnText: 'DELETE',
+      cancelBtnText: 'CANCEL',
+      okBtnColor: 'warn',
+    };
+    this.dialog.open(InfoDialogComponent, {
+      data: dialogData,
+      autoFocus: false,
+    }).afterClosed().subscribe(value => {
+      if (value) {
+        this.apiService.deleteAllTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
       }
     });
   }
