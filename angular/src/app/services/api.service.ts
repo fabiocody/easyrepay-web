@@ -114,10 +114,14 @@ export class ApiService {
   }
 
   public completeAllTransactions(personId: number): Observable<any> {
-    return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete-all`, {});
+    return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {});
   }
 
   public deleteAllTransactions(personId: number): Observable<any> {
     return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions`);
+  }
+
+  public deleteCompletedTransactions(personId: number): Observable<any> {
+    return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions/complete`);
   }
 }

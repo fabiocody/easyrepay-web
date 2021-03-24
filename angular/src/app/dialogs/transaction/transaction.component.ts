@@ -40,7 +40,6 @@ export class TransactionComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.transaction) {
-      console.log('DATA PRESENT');
       this.form.get('type')!.setValue(this.data.transaction.type);
       this.form.get('amount')!.setValue(this.data.transaction.amount);
       this.form.get('description')!.setValue(this.data.transaction.description);
@@ -50,7 +49,6 @@ export class TransactionComponent implements OnInit {
   }
 
   public saveTransaction(): void {
-    console.log('saveTransaction');
     this.saving = true;
     const transaction: Transaction = {
       id: this.data.transaction ? this.data.transaction.id : -1,
@@ -61,7 +59,6 @@ export class TransactionComponent implements OnInit {
       dateTime: this.form.get('dateTime')!.value,
       person: this.data.personId,
     };
-    console.log(transaction);
     this.apiService.saveTransaction(transaction).subscribe(_ => {
       this.saving = false;
       this.dialogRef.close(true);

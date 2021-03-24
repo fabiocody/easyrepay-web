@@ -32,6 +32,10 @@
       <mat-icon>done_all</mat-icon>
       {{'COMPLETE_ALL' | translate}}
     </button>
+    <button mat-menu-item (click)="deleteCompletedTransactions()">
+      <mat-icon>clear_all</mat-icon>
+      {{'DELETE_COMPLETED' | translate}}
+    </button>
     <button mat-menu-item (click)="deleteAllTransactions()">
       <mat-icon color="warn">delete_forever</mat-icon>
       {{'DELETE_ALL' | translate}}
