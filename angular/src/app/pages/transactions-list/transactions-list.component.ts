@@ -70,7 +70,6 @@ export class TransactionsListComponent implements OnInit {
       data: this.person,
       autoFocus: false,
     }).afterClosed().subscribe(value => {
-      console.log('VALUE', value);
       if (value) {
         this.apiService.getPerson(this.person!.id).subscribe(person => this.person = person);
       }
@@ -141,6 +140,24 @@ export class TransactionsListComponent implements OnInit {
     }).afterClosed().subscribe(value => {
       if (value) {
         this.apiService.deleteAllTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
+      }
+    });
+  }
+
+  public deleteCompletedTransactions(): void {
+    const dialogData: InfoDialogData = {
+      title: 'DELETE_COMPLETED_TITLE',
+      body: 'DELETE_COMPLETED_BODY',
+      okBtnText: 'DELETE',
+      cancelBtnText: 'CANCEL',
+      okBtnColor: 'warn'
+    };
+    this.dialog.open(InfoDialogComponent, {
+      data: dialogData,
+      autoFocus: false,
+    }).afterClosed().subscribe(value => {
+      if (value) {
+        this.apiService.deleteCompletedTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
       }
     });
   }

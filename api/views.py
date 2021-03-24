@@ -142,6 +142,11 @@ class CompleteTransactionsView(APIView):
         Transaction.objects.filter(person_id=person_id).update(completed=True)
         return Response()
 
+    def delete(self, request, person_id):
+        transactions = Transaction.objects.filter(person_id=person_id, completed=True)
+        transactions.delete()
+        return Response()
+
 
 class TransactionView(APIView):
     authentication_classes = [JWTAuthentication]
