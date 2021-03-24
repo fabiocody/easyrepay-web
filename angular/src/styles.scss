@@ -45,12 +45,27 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   }
 }
 
+@mixin amount-theme($theme) {
+  $credit-color: mat-color(map-get($theme, primary));
+  $debt-color: mat-color(map-get($theme, warn));
+
+  .amount-credit {
+    color: $credit-color;
+  }
+
+  .amount-debt {
+    color: $debt-color;
+  }
+}
+
 @include angular-material-theme($light-theme);
 @include avatar-theme($light-theme);
+@include amount-theme($light-theme);
 
 .easyrepay-dark-theme {
   @include angular-material-color($dark-theme);
   @include avatar-theme($dark-theme);
+  @include amount-theme($dark-theme);
 }
 
 
