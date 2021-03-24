@@ -20,7 +20,7 @@
         <mat-icon class="error-alert">error</mat-icon>
         <span class="error-alert ml-1">{{error | translate}}</span>
       </div>
-      <button mat-flat-button color="primary" (click)="login()" [disabled]="!form.valid">
+      <button mat-flat-button color="primary" (click)="login()" [disabled]="!form.valid || loading">
         <ng-container [ngSwitch]="loading">
           <ng-container *ngSwitchCase="true">
             <div class="button-spinner d-flex justify-content-center m-2">
