@@ -3,6 +3,7 @@
 git checkout release
 git merge main
 cd angular
+npm install
 npm run build
 cd ..
 git add .
