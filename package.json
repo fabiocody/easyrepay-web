@@ -2,6 +2,10 @@
   "name": "easyrepay-web",
   "version": "1.0.0",
   "description": "EasyRepay for the web",
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "build": "cd backend && npm ci && npm run build && cd ../angular && npm ci && npm run build",
     "start": "cd backend && npm run start",
