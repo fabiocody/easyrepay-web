@@ -29,6 +29,8 @@ const jwtAuthentication = passport.authenticate('jwt', {session: false});
 const basicAuthentication = passport.authenticate('basic', {session: false});
 
 /** ROUTES **/
+app.route('/')
+    .get((req, res) => res.send('<h1>EasyRepay works</h1>'));
 app.route('/api/auth/authenticate')
     .post(basicAuthentication, AuthController.authenticate);
 app.route('/api/auth/refresh-token')

@@ -1,3 +1,9 @@
+import * as dotenv from 'dotenv';
+const pg = require('pg');
+
+dotenv.config();
+pg.defaults.ssl = true;
+
 const knexConfig = {
     development: {
         client: "sqlite3",
@@ -13,14 +19,10 @@ const knexConfig = {
     production: {
         client: "postgresql",
         connection: {
-            database: "my_db",
-            user: "username",
-            password: "password"
+            connectionString: process.env.DATABASE_URL,
+            ssl: { rejectUnauthorized: false }
         },
-        pool: {
-            min: 2,
-            max: 10
-        },
+        useNullAsDefault: true,
         migrations: {
             directory: __dirname + '/database/migrations',
         },
