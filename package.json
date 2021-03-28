@@ -1,0 +1,20 @@
+{
+  "name": "easyrepay-web",
+  "version": "1.0.0",
+  "description": "EasyRepay for the web",
+  "scripts": {
+    "build": "cd backend && npm ci && npm run build && cd ../angular && npm ci && npm run build",
+    "start": "cd backend && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabiocody/easyrepay-web.git"
+  },
+  "author": "Fabio Codiglioni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fabiocody/easyrepay-web/issues"
+  },
+  "homepage": "https://github.com/fabiocody/easyrepay-web#readme"
+}
