@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {UserEntity} from "../model/user.entity";
 import {PersonService} from "../services/person.service";
-import {PersonDto} from "../../../common/dto/person.dto";
+import {PersonDto} from "../model/dto/person.dto";
 
 export class PersonController {
     public static getPeople(req: Request, res: Response): void {

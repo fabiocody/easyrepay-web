@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {UserDto} from "../../../common/dto/user.dto";
+import {UserDto} from "../model/dto/user.dto";
 import {UserEntity} from "../model/user.entity";
 
 export class UserController {
