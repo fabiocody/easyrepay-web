@@ -21,21 +21,20 @@ export enum LoginStatus {
 })
 export class ApiService {
   private token: string | null = null;
-  private refresh: string | null = null;
   public loginStatusSubject = new BehaviorSubject<LoginStatus>(LoginStatus.LOGGED_OUT);
   public loginStatus = this.loginStatusSubject.asObservable();
 
   constructor(
     private http: HttpClient,
   ) {
-    this.saveTokens(localStorage.getItem('token'), localStorage.getItem('refresh'));
+    this.saveTokens(localStorage.getItem('token'));
   }
 
   public get authHeader(): string {
     return 'Bearer ' + this.token;
   }
 
-  private saveTokens(access: string | null, refresh: string | null): void {
+  private saveTokens(access: string | null): void {
     this.token = access;
     if (access) {
       localStorage.setItem('token', access);
@@ -44,34 +43,26 @@ export class ApiService {
       localStorage.removeItem('token');
       this.loginStatusSubject.next(LoginStatus.LOGGED_OUT);
     }
-    this.refresh = refresh;
-    if (refresh) {
-      localStorage.setItem('refresh', refresh);
-    } else {
-      localStorage.removeItem('refresh');
-    }
   }
 
   public login(loginDto: LoginDto): Observable<TokenDto> {
-    return this.http.post<TokenDto>(environment.apiUrl + '/api/token', loginDto)
+    return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', loginDto)
       .pipe(
         map(tokenDto => {
-          this.saveTokens(tokenDto.access, tokenDto.refresh);
+          this.saveTokens(tokenDto.access);
           return tokenDto;
         })
       );
   }
 
   public logout(): void {
-    this.saveTokens(null, null);
+    this.saveTokens(null);
   }
 
   public refreshToken(): Observable<TokenDto> {
-    return this.http.post<TokenDto>(environment.apiUrl + '/api/token/refresh', {
-      refresh: this.refresh
-    }).pipe(
+    return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', {}).pipe(
       map(tokenDto => {
-        this.saveTokens(tokenDto.access, tokenDto.refresh);
+        this.saveTokens(tokenDto.access);
         return tokenDto;
       })
     );

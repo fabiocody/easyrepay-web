@@ -1,5 +1,6 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
+import * as path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import 'reflect-metadata';
@@ -18,19 +19,20 @@ const app = express();
 
 /** MIDDLEWARES **/
 app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-time ms'));
-app.use(passport.initialize());
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
+/** SERVE ANGULAR APP **/
+app.use('/', express.static(path.join(__dirname, '../angular')));
+app.all('/*', (req, res) => res.sendFile(path.resolve(__dirname, '..', 'angular', 'index.html')));
+
 /** SETUP AUTHENTICATION **/
 const jwtAuthentication = passport.authenticate('jwt', {session: false});
 const basicAuthentication = passport.authenticate('basic', {session: false});
 
-/** ROUTES **/
-app.route('/')
-    .get((req, res) => res.send('<h1>EasyRepay works</h1>'));
+/** API ROUTES **/
 app.route('/api/auth/authenticate')
     .post(basicAuthentication, AuthController.authenticate);
 app.route('/api/auth/refresh-token')
@@ -55,6 +57,5 @@ app.route('/api/transaction/:id')
     .delete(jwtAuthentication, TransactionController.deleteTransaction);
 
 /** START SERVER **/
-const hostname = '0.0.0.0';
 const port: number = parseInt(process.env.PORT ||  '3000', 10);
-app.listen(port, hostname, () => console.log(`Listening on http://${hostname}:${port}`))
+app.listen(port, () => console.log(`Listening on port ${port}`))
