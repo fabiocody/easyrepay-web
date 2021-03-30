@@ -1,13 +1,13 @@
 import {Request, Response} from "express";
 import {UserEntity} from "../model/user.entity";
 import {PersonService} from "../services/person.service";
-import {PersonDto} from "../model/dto/person.dto";
 
 export class PersonController {
-    public static getPeople(req: Request, res: Response): void {
+    public static async getPeople(req: Request, res: Response): Promise<void> {
         const user = req.user as UserEntity;
-        PersonService.getByUserId(user.id)
-            .then(people => res.send(people.map(p => p as PersonDto)));
+        const people = await PersonService.getByUserId(user.id);
+        const details = await Promise.all(people.map(async p => await PersonService.getPersonDetailDto(p)));
+        res.send(details);
     }
 
     public static addPerson(req: Request, res: Response): void {

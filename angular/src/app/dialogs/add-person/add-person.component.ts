@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ApiService} from '../../services/api.service';
 import {AddPersonDto} from '../../model/dto/add-person-dto';
-import {PersonDto} from '../../model/dto/person-dto';
+import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 
 @Component({
   selector: 'app-add-person',
@@ -17,7 +17,7 @@ export class AddPersonComponent implements OnInit {
   private edit = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public person: PersonDto,
+    @Inject(MAT_DIALOG_DATA) public person: PersonDetailDto,
     private dialogRef: MatDialogRef<AddPersonComponent>,
     private fb: FormBuilder,
     private apiService: ApiService,

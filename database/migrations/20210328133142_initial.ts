@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<void> {
     });
     await knex.schema.createTable('transaction', table => {
         table.increments('id').primary();
-        table.integer('person').notNullable()
+        table.integer('personId').notNullable()
             .references('id').inTable('person')
             .onUpdate('cascade').onDelete('cascade');
         table.enum('type', ['CREDIT', 'DEBT', 'SETTLE_CREDIT', 'SETTLE_DEBT']).notNullable();
@@ -26,6 +26,13 @@ export async function up(knex: Knex): Promise<void> {
         table.boolean('completed').notNullable().defaultTo(false);
         table.dateTime('date').notNullable();
     });
+    await knex.schema.createTable('token', table => {
+        table.increments('id').primary();
+        table.integer('userId').notNullable()
+            .references('id').inTable('user')
+            .onUpdate('cascade').onDelete('cascade');
+        table.string('token', 256).notNullable();
+    });
 }
 
 
@@ -33,4 +40,5 @@ export async function down(knex: Knex): Promise<void> {
     await knex.schema.dropTable('user');
     await knex.schema.dropTable('person');
     await knex.schema.dropTable('transaction');
+    await knex.schema.dropTable('token');
 }

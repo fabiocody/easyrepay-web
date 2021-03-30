@@ -5,7 +5,7 @@ import {TokenDto} from '../model/dto/token-dto';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {User} from '../model/user';
-import {PersonDto} from '../model/dto/person-dto';
+import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
 import {LoginDto} from '../model/dto/login-dto';
 import {AddPersonDto} from '../model/dto/add-person-dto';
 import {Transaction} from '../model/transaction';
@@ -72,16 +72,16 @@ export class ApiService {
     return this.http.get<User>(environment.apiUrl + '/api/me');
   }
 
-  public getPeople(): Observable<PersonDto[]> {
-    return this.http.get<PersonDto[]>(environment.apiUrl + '/api/people');
+  public getPeople(): Observable<PersonDetailDto[]> {
+    return this.http.get<PersonDetailDto[]>(environment.apiUrl + '/api/people');
   }
 
   public addPerson(personDto: AddPersonDto): Observable<any> {
     return this.http.post(environment.apiUrl + '/api/people', personDto);
   }
 
-  public getPerson(personId: number): Observable<PersonDto> {
-    return this.http.get<PersonDto>(environment.apiUrl + `/api/person/${personId}`);
+  public getPerson(personId: number): Observable<PersonDetailDto> {
+    return this.http.get<PersonDetailDto>(environment.apiUrl + `/api/person/${personId}`);
   }
 
   public editPerson(personId: number, personDto: AddPersonDto): Observable<any> {

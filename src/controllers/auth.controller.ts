@@ -11,15 +11,18 @@ export class AuthController {
         res.send({access});
     }
 
-    public static refreshToken(req: Request, res: Response): void {
+    public static async refreshToken(req: Request, res: Response): Promise<void> {
         if (req.cookies && req.cookies.hasOwnProperty('refreshToken')) {
             const token = req.cookies.refreshToken;
-            AuthService.refreshToken(token).then(tokens => {
+            try {
+                const tokens = await AuthService.refreshToken(token);
                 const access = tokens[0];
                 const refresh = tokens[1];
                 res.cookie('refreshToken', refresh, {httpOnly: true, secure: true});
                 res.send({access});
-            }).catch(_ => res.sendStatus(401));
+            } catch {
+                res.sendStatus(401);
+            }
         } else {
             res.sendStatus(400);
         }

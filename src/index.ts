@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import * as fs from 'fs';
 import cors from 'cors';
 import helmet from 'helmet';
 import 'reflect-metadata';
@@ -25,8 +26,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 /** SERVE ANGULAR APP **/
-app.use('/', express.static(path.join(__dirname, '../angular')));
-app.all('/*', (req, res) => res.sendFile(path.resolve(__dirname, '..', 'angular', 'index.html')));
+const angularPath = path.join(__dirname, '../angular');
+const angularIndexPath = path.resolve(angularPath, 'index.html');
+if (fs.existsSync(path.resolve(angularPath, 'index.html'))) {
+    console.log('Serving Angular app');
+    app.use('/', express.static(angularPath));
+    app.all('/*', (req, res) => res.sendFile(angularIndexPath));
+} else {
+    console.log('Skipping Angular app');
+}
 
 /** SETUP AUTHENTICATION **/
 const jwtAuthentication = passport.authenticate('jwt', {session: false});

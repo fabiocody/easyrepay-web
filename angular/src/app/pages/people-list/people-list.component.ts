@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {PersonDto} from '../../model/dto/person-dto';
+import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 import {ApiService} from '../../services/api.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
@@ -10,7 +10,7 @@ import {AddPersonComponent} from '../../dialogs/add-person/add-person.component'
   styleUrls: ['./people-list.component.scss']
 })
 export class PeopleListComponent implements OnInit {
-  public people: PersonDto[] = [];
+  public people: PersonDetailDto[] = [];
   public loading = false;
 
   constructor(

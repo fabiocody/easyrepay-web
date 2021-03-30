@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../../services/api.service';
-import {PersonDto} from '../../model/dto/person-dto';
+import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 import {Transaction, TransactionType} from '../../model/transaction';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
@@ -15,7 +15,7 @@ import {TransactionComponent} from '../../dialogs/transaction/transaction.compon
   styleUrls: ['./transactions-list.component.scss']
 })
 export class TransactionsListComponent implements OnInit {
-  public person: PersonDto | null = null;
+  public person: PersonDetailDto | null = null;
   public transactions: Transaction[] = [];
   public showCompleted = false;
   public loading = false;
