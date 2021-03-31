@@ -1,3 +1,3 @@
 export class AddPersonDto {
-  public name!: string;
+    public name!: string;
 }

@@ -1,7 +1,7 @@
 import passport from 'passport';
 import * as dotenv from 'dotenv';
 import {BasicStrategy} from 'passport-http';
-import {Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
+import {ExtractJwt, Strategy as JwtStrategy} from 'passport-jwt';
 import {UserService} from '../services/user.service';
 
 dotenv.config();

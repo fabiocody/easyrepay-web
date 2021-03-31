@@ -63,5 +63,5 @@ app.route('/api/transaction/:id')
     .delete(jwtAuthentication, TransactionController.deleteTransaction);
 
 /** START SERVER **/
-const port: number = parseInt(process.env.PORT ||  '3000', 10);
+const port: number = parseInt(process.env.PORT || '3000');
 app.listen(port, () => console.log(`Listening on port ${port}`))

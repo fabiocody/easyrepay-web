@@ -39,69 +39,69 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule
 } from '@angular-material-components/datetime-picker';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    TranslationPipe,
-    PeopleListComponent,
-    PersonCardComponent,
-    AvatarComponent,
-    AddPersonComponent,
-    TransactionsListComponent,
-    SpinnerComponent,
-    InfoDialogComponent,
-    TransactionCardComponent,
-    TransactionComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MomentModule,
-    MatButtonModule,
-    NgbModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatMenuModule,
-    FlexLayoutModule,
-    MatDividerModule,
-    MatCardModule,
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
-    MatDatepickerModule,
-    MatSlideToggleModule,
-  ],
-  providers: [
-    {
-      provide: LOCALE_ID,
-      deps: [TranslationService],
-      useFactory: (translationService: TranslationService) => translationService.localeId
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptorService,
-      multi: true
-    },
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        LoginComponent,
+        TranslationPipe,
+        PeopleListComponent,
+        PersonCardComponent,
+        AvatarComponent,
+        AddPersonComponent,
+        TransactionsListComponent,
+        SpinnerComponent,
+        InfoDialogComponent,
+        TransactionCardComponent,
+        TransactionComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MomentModule,
+        MatButtonModule,
+        NgbModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatMenuModule,
+        FlexLayoutModule,
+        MatDividerModule,
+        MatCardModule,
+        FormsModule,
+        MatProgressSpinnerModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        NgxMatNativeDateModule,
+        MatDatepickerModule,
+        MatSlideToggleModule,
+    ],
+    providers: [
+        {
+            provide: LOCALE_ID,
+            deps: [TranslationService],
+            useFactory: (translationService: TranslationService) => translationService.localeId
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptorService,
+            multi: true
+        },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
