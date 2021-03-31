@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ApiService} from '../../services/api.service';
-import {AddPersonDto} from '../../model/dto/add-person-dto';
+import {AddPersonDto} from '../../../../../src/model/dto/add-person.dto';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 
 @Component({

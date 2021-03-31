@@ -7,7 +7,6 @@ import helmet from 'helmet';
 import 'reflect-metadata';
 import morgan from 'morgan';
 import passport from "passport";
-import cookieParser from 'cookie-parser';
 import {AuthController} from "./controllers/auth.controller";
 import './config/passport';
 import {UserController} from "./controllers/user.controller";
@@ -23,7 +22,6 @@ app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-ti
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
-app.use(cookieParser());
 
 /** SERVE ANGULAR APP **/
 const angularPath = path.join(__dirname, '../angular');

@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {TokenDto} from '../model/dto/token-dto';
+import {TokenDto} from '../../../../src/model/dto/token.dto';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
-import {User} from '../model/user';
+import {UserDto} from '../../../../src/model/dto/user.dto';
 import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
-import {LoginDto} from '../model/dto/login-dto';
-import {AddPersonDto} from '../model/dto/add-person-dto';
+import {AddPersonDto} from '../../../../src/model/dto/add-person.dto';
 import {Transaction} from '../model/transaction';
+import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 export enum LoginStatus {
   LOGGED_OUT,
@@ -20,56 +21,74 @@ export enum LoginStatus {
   providedIn: 'root'
 })
 export class ApiService {
-  private token: string | null = null;
-  public loginStatusSubject = new BehaviorSubject<LoginStatus>(LoginStatus.LOGGED_OUT);
-  public loginStatus = this.loginStatusSubject.asObservable();
+  private access: string | null = localStorage.getItem('access');
+  private refresh: string | null = localStorage.getItem('refresh');
+  public loginStatusSubject: BehaviorSubject<LoginStatus>;
+  public loginStatus: Observable<LoginStatus>;
 
   constructor(
     private http: HttpClient,
   ) {
-    this.saveTokens(localStorage.getItem('token'));
+    let status = LoginStatus.LOGGED_OUT;
+    if (this.access) {
+      const jwt = new JwtHelperService();
+      status = jwt.isTokenExpired(this.access) ? LoginStatus.TOKEN_EXPIRED : LoginStatus.LOGGED_IN;
+    }
+    this.loginStatusSubject = new BehaviorSubject<LoginStatus>(status);
+    this.loginStatus = this.loginStatusSubject.asObservable();
   }
 
   public get authHeader(): string {
-    return 'Bearer ' + this.token;
+    return 'Bearer ' + this.access;
   }
 
-  private saveTokens(access: string | null): void {
-    this.token = access;
+  private saveTokens(access: string | null, refresh: string | null): void {
+    this.access = access;
+    this.refresh = refresh;
     if (access) {
-      localStorage.setItem('token', access);
+      localStorage.setItem('access', access);
       this.loginStatusSubject.next(LoginStatus.LOGGED_IN);
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem('access');
       this.loginStatusSubject.next(LoginStatus.LOGGED_OUT);
+    }
+    if (refresh) {
+      localStorage.setItem('refresh', refresh);
+    } else {
+      localStorage.removeItem('refresh');
     }
   }
 
-  public login(loginDto: LoginDto): Observable<TokenDto> {
-    return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', loginDto)
-      .pipe(
-        map(tokenDto => {
-          this.saveTokens(tokenDto.access);
-          return tokenDto;
-        })
-      );
-  }
-
-  public logout(): void {
-    this.saveTokens(null);
-  }
-
-  public refreshToken(): Observable<TokenDto> {
-    return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', {}).pipe(
+  public login(username: string, password: string): Observable<TokenDto> {
+    return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', {}, {
+      headers: {
+        authorization: 'Basic ' + window.btoa(username + ':' + password)
+      }
+    }).pipe(
       map(tokenDto => {
-        this.saveTokens(tokenDto.access);
+        this.saveTokens(tokenDto.access, tokenDto.refresh);
         return tokenDto;
       })
     );
   }
 
-  public getUserInfo(): Observable<User> {
-    return this.http.get<User>(environment.apiUrl + '/api/me');
+  public logout(): void {
+    this.saveTokens(null, null);
+  }
+
+  public refreshToken(): Observable<TokenDto> {
+    const refreshTokenDto = new RefreshTokenDto();
+    refreshTokenDto.token = this.refresh!;
+    return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', refreshTokenDto).pipe(
+      map(tokenDto => {
+        this.saveTokens(tokenDto.access, tokenDto.refresh);
+        return tokenDto;
+      })
+    );
+  }
+
+  public getUserInfo(): Observable<UserDto> {
+    return this.http.get<UserDto>(environment.apiUrl + '/api/me');
   }
 
   public getPeople(): Observable<PersonDetailDto[]> {

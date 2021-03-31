@@ -5,7 +5,7 @@ export class AuthService {
     // Generate a secret key with require('crypto').randomBytes(256).toString('hex')
 
     public static getAccessToken(userId: number): string {
-        return jwt.sign({userId}, process.env.SECRET_KEY!, {expiresIn: '15m'});
+        return jwt.sign({userId}, process.env.SECRET_KEY!, {expiresIn: '5s'});
     }
 
     public static async getRefreshToken(userId: number): Promise<string> {
@@ -38,7 +38,7 @@ export class AuthService {
             let dbTokens = await db('token').where('token', token);
             if (dbTokens.length === 0) {
                 reject('Unauthorized');
-            } else if (dbTokens.length === 1) {
+            } else {
                 try {
                     const decoded = jwt.verify(token, process.env.SECRET_KEY!) as any;
                     const userId = decoded.userId;
@@ -49,8 +49,6 @@ export class AuthService {
                 } catch (e) {
                     reject(e);
                 }
-            } else {
-                reject('ERROR');
             }
         });
     }

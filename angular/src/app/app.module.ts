@@ -36,13 +36,13 @@ import {TransactionCardComponent} from './pages/transactions-list/transaction-ca
 import {TransactionComponent} from './dialogs/transaction/transaction.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {
   NgxMatDatetimePickerModule,
   NgxMatNativeDateModule,
   NgxMatTimepickerModule
 } from '@angular-material-components/datetime-picker';
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
@@ -60,35 +60,35 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     TransactionCardComponent,
     TransactionComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MomentModule,
-        MatButtonModule,
-        NgbModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatMenuModule,
-        FlexLayoutModule,
-        MatDividerModule,
-        MatCardModule,
-        FormsModule,
-        MatProgressSpinnerModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        NgxMatDatetimePickerModule,
-        NgxMatTimepickerModule,
-        NgxMatNativeDateModule,
-        MatDatepickerModule,
-        MatSlideToggleModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MomentModule,
+    MatButtonModule,
+    NgbModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+    FlexLayoutModule,
+    MatDividerModule,
+    MatCardModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatDatepickerModule,
+    MatSlideToggleModule,
+  ],
   providers: [
     {
       provide: LOCALE_ID,

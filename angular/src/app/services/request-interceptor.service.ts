@@ -12,12 +12,12 @@ export class RequestInterceptorService implements HttpInterceptor {
   ) {}
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.indexOf('token') < 0) {
+    if (req.url.indexOf('/auth/') < 0 && req.url.indexOf('/i18n/') < 0) {
       req = this.addTokenToRequest(req);
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error && error.status === 401 && req.url.indexOf('token') < 0) {
+        if (error && error.status === 401 && req.url.indexOf('/auth/') < 0) {
           this.apiService.loginStatusSubject.next(LoginStatus.TOKEN_EXPIRED);
           return this.apiService.refreshToken().pipe(
             switchMap(() => next.handle(this.addTokenToRequest(req))),

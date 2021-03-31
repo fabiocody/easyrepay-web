@@ -11,18 +11,22 @@ export class PersonController {
     }
 
     public static addPerson(req: Request, res: Response): void {
+        console.log(req.body)
         res.send();
     }
 
     public static getPerson(req: Request, res: Response): void {
+        console.log(req.params)
         res.send();
     }
 
     public static updatePerson(req: Request, res: Response): void {
+        console.log(req.params, req.body)
         res.send();
     }
 
     public static deletePerson(req: Request, res: Response): void {
+        console.log(req.params)
         res.send();
     }
 }
