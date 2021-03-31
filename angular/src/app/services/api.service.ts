@@ -77,8 +77,7 @@ export class ApiService {
   }
 
   public refreshToken(): Observable<TokenDto> {
-    const refreshTokenDto = new RefreshTokenDto();
-    refreshTokenDto.token = this.refresh!;
+    const refreshTokenDto: RefreshTokenDto = {token: this.refresh!};
     return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', refreshTokenDto).pipe(
       map(tokenDto => {
         this.saveTokens(tokenDto.access, tokenDto.refresh);

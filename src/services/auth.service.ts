@@ -5,7 +5,7 @@ export class AuthService {
     // Generate a secret key with require('crypto').randomBytes(256).toString('hex')
 
     public static getAccessToken(userId: number): string {
-        return jwt.sign({userId}, process.env.SECRET_KEY!, {expiresIn: '5s'});
+        return jwt.sign({userId}, process.env.SECRET_KEY!, {expiresIn: '15m'});
     }
 
     public static async getRefreshToken(userId: number): Promise<string> {
