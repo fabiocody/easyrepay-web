@@ -2,6 +2,7 @@ import {db} from '../config/db';
 import {PersonEntity} from "../model/person.entity";
 import {PersonDetailDto} from "../model/dto/person-detail.dto";
 import {TransactionService} from "./transaction.service";
+import {AddPersonDto} from "../model/dto/add-person.dto";
 
 export class PersonService {
     public static async getByUserId(userId: number): Promise<PersonEntity[]> {
@@ -18,5 +19,12 @@ export class PersonService {
             .map(t => TransactionService.getSignedAmount(t))
             .reduce((acc, val) => acc + val, 0);
         return personDetail;
+    }
+
+    public static async addPerson(person: AddPersonDto, userId: number): Promise<void> {
+        await db('person').insert({
+            name: person.name,
+            userId: userId,
+        });
     }
 }
