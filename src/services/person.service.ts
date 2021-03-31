@@ -21,10 +21,28 @@ export class PersonService {
         return personDetail;
     }
 
-    public static async addPerson(person: AddPersonDto, userId: number): Promise<void> {
+    public static async add(person: AddPersonDto, userId: number): Promise<void> {
         await db('person').insert({
             name: person.name,
             userId: userId,
         });
+    }
+
+    public static async get(id: number): Promise<PersonEntity> {
+        const data = await db('person').where('id', id).limit(1);
+        return data[0];
+    }
+
+    public static async update(id: number, addPersonDto: AddPersonDto, userId: number): Promise<void> {
+        const person: PersonEntity = {
+            id: id,
+            name: addPersonDto.name,
+            userId: userId
+        };
+        await db('person').where('id', id).update(person);
+    }
+
+    public static async delete(id: number): Promise<void> {
+        await db('person').where('id', id).del();
     }
 }

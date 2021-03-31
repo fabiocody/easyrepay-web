@@ -2,7 +2,7 @@ import {UserEntity} from "../model/user.entity";
 import {db} from '../config/db';
 
 export class UserService {
-    public static getById(id: number): Promise<UserEntity> {
+    public static get(id: number): Promise<UserEntity> {
         return new Promise<UserEntity>(async (resolve, reject) => {
             const data = await db('user').where('id', id).limit(1);
             if (data.length > 0) {

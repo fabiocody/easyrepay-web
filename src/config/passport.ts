@@ -22,7 +22,7 @@ passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.SECRET_KEY,
 }, (jwtPayload, done) => {
-    UserService.getById(jwtPayload.userId)
+    UserService.get(jwtPayload.userId)
         .then(user => done(null, user))
         .catch(_ => done(null, false));
 }));

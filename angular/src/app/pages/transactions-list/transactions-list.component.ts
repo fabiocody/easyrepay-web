@@ -31,6 +31,7 @@ export class TransactionsListComponent implements OnInit {
     this.loading = true;
     const personId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.apiService.getPerson(personId).subscribe(person => {
+      console.log(person);
       this.person = person;
       this.updateTransactions();
     });

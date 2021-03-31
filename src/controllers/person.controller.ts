@@ -19,24 +19,43 @@ export class PersonController {
         try {
             const user = req.user as UserEntity;
             const person = req.body as AddPersonDto;
-            await PersonService.addPerson(person, user.id);
+            await PersonService.add(person, user.id);
             res.send();
         } catch {
             res.sendStatus(500);
         }
     }
 
-    public static getPerson(req: Request, res: Response): void {
-        console.log(req.params)
-        res.send();
+    public static async getPerson(req: Request, res: Response): Promise<void> {
+        try {
+            const personId = parseInt(req.params.id, 10);
+            const person = await PersonService.get(personId);
+            res.send(person);
+        } catch {
+            res.sendStatus(500);
+        }
     }
 
-    public static updatePerson(req: Request, res: Response): void {
-        console.log(req.params, req.body)
-        res.send();
+    public static async updatePerson(req: Request, res: Response): Promise<void> {
+        try {
+            const user = req.user as UserEntity;
+            const personId = parseInt(req.params.id, 10);
+            const person = req.body as AddPersonDto;
+            await PersonService.update(personId, person, user.id);
+            res.send();
+        } catch {
+            res.sendStatus(500);
+        }
     }
 
-    public static deletePerson(req: Request, res: Response): void {
+    public static async deletePerson(req: Request, res: Response): Promise<void> {
+        try {
+            const personId = parseInt(req.params.id, 10);
+            await PersonService.delete(personId);
+            res.send();
+        } catch {
+            res.sendStatus(500);
+        }
         console.log(req.params)
         res.send();
     }
