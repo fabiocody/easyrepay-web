@@ -1,7 +1,7 @@
-import {TransactionEntity} from "../model/transaction.entity";
-import {db} from "../config/db";
-import {TransactionType} from "../model/transaction-type";
-import {TransactionDto} from "../model/dto/transaction.dto";
+import {TransactionEntity} from '../model/transaction.entity';
+import {db} from '../config/db';
+import {TransactionType} from '../model/transaction-type';
+import {TransactionDto} from '../model/dto/transaction.dto';
 
 export class TransactionService {
     public static async getTransactions(personId: number, completed: boolean): Promise<TransactionEntity[]> {

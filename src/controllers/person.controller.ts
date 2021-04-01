@@ -1,7 +1,7 @@
-import {Request, Response} from "express";
-import {UserEntity} from "../model/user.entity";
-import {PersonService} from "../services/person.service";
-import {PersonDto} from "../model/dto/person.dto";
+import {Request, Response} from 'express';
+import {UserEntity} from '../model/user.entity';
+import {PersonService} from '../services/person.service';
+import {PersonDto} from '../model/dto/person.dto';
 
 export class PersonController {
     public static async getPeople(req: Request, res: Response): Promise<void> {
@@ -28,7 +28,7 @@ export class PersonController {
 
     public static async getPerson(req: Request, res: Response): Promise<void> {
         try {
-            const personId = parseInt(req.params.id);
+            const personId = parseInt(req.params.id, 10);
             const person = await PersonService.get(personId);
             res.send(person);
         } catch {
@@ -38,7 +38,7 @@ export class PersonController {
 
     public static async deletePerson(req: Request, res: Response): Promise<void> {
         try {
-            const personId = parseInt(req.params.id);
+            const personId = parseInt(req.params.id, 10);
             await PersonService.delete(personId);
             res.send();
         } catch {

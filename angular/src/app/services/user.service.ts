@@ -24,7 +24,9 @@ export class UserService {
                     this.userSubject.next(null);
                     break;
                 case LoginStatus.TOKEN_EXPIRED:
-                    this.apiService.refreshToken().subscribe();
+                    this.apiService.refreshToken().subscribe({
+                        error: () => this.userSubject.next(null),
+                    });
                     break;
                 default:
                     this.userSubject.next(undefined);
@@ -33,10 +35,10 @@ export class UserService {
     }
 
     public login(username: string, password: string): void {
-        this.apiService.login(username, password).subscribe(_ => {
+        this.apiService.login(username, password).subscribe(() => {
             this.apiService.getUserInfo().subscribe(user => {
                 this.userSubject.next(user);
-                this.router.navigate(['/people']);
+                this.router.navigate(['/people']).then();
             }, error => {
                 console.error(error);
                 this.userSubject.next(null);

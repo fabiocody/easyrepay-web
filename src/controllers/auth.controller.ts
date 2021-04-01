@@ -1,8 +1,8 @@
-import {Request, Response} from "express";
-import {UserEntity} from "../model/user.entity";
-import {AuthService} from "../services/auth.service";
-import {TokenDto} from "../model/dto/token.dto";
-import {RefreshTokenDto} from "../model/dto/refresh-token.dto";
+import {Request, Response} from 'express';
+import {UserEntity} from '../model/user.entity';
+import {AuthService} from '../services/auth.service';
+import {TokenDto} from '../model/dto/token.dto';
+import {RefreshTokenDto} from '../model/dto/refresh-token.dto';
 
 export class AuthController {
     public static async authenticate(req: Request, res: Response): Promise<void> {

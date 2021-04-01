@@ -37,7 +37,7 @@ export class TranslationService {
     }
 
     public use(lang: string): Promise<{}> {
-        return new Promise<{}>((resolve, reject) => {
+        return new Promise<{}>((resolve, _) => {
             moment.locale(lang);
             const langPath = `assets/i18n/${lang}.json`;
             this.http.get<{}>(langPath).subscribe(translation => {

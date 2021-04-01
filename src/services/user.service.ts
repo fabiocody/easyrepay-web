@@ -1,4 +1,4 @@
-import {UserEntity} from "../model/user.entity";
+import {UserEntity} from '../model/user.entity';
 import {db} from '../config/db';
 
 export class UserService {

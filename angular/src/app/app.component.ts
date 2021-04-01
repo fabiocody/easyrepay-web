@@ -18,11 +18,11 @@ export class AppComponent {
         this.userService.user.subscribe(user => {
             if (user) {
                 if (this.loading) {
-                    this.router.navigate(['/people']);
+                    this.router.navigate(['/people']).then();
                 }
                 this.loading = false;
             } else if (user === null) {
-                this.router.navigate(['/login']);
+                this.router.navigate(['/login']).then();
                 this.loading = false;
             } else {
                 this.loading = true;

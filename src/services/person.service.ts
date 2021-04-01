@@ -1,8 +1,8 @@
 import {db} from '../config/db';
-import {PersonEntity} from "../model/person.entity";
-import {PersonDetailDto} from "../model/dto/person-detail.dto";
-import {TransactionService} from "./transaction.service";
-import {PersonDto} from "../model/dto/person.dto";
+import {PersonEntity} from '../model/person.entity';
+import {PersonDetailDto} from '../model/dto/person-detail.dto';
+import {TransactionService} from './transaction.service';
+import {PersonDto} from '../model/dto/person.dto';
 
 export class PersonService {
     public static async getByUserId(userId: number): Promise<PersonEntity[]> {

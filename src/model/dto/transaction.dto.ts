@@ -1,4 +1,4 @@
-import {TransactionType} from "../transaction-type";
+import {TransactionType} from '../transaction-type';
 
 export class TransactionDto {
     public id!: number;
