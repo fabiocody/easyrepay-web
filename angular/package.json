@@ -28,6 +28,7 @@
         "@auth0/angular-jwt": "^5.0.2",
         "@ng-bootstrap/ng-bootstrap": "^9.1.0",
         "bootstrap": "^4.5.0",
+        "class-validator": "^0.13.1",
         "moment": "^2.29.1",
         "ngx-moment": "^5.0.0",
         "rxjs": "~6.6.0",
