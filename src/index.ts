@@ -23,17 +23,6 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
-/* SERVE ANGULAR APP */
-const angularPath = path.join(__dirname, '../angular');
-const angularIndexPath = path.resolve(angularPath, 'index.html');
-if (fs.existsSync(path.resolve(angularPath, 'index.html'))) {
-    console.log('Serving Angular app');
-    app.use('/', express.static(angularPath));
-    app.all('/*', (_, res) => res.sendFile(angularIndexPath));
-} else {
-    console.log('Skipping Angular app');
-}
-
 /* SETUP AUTHENTICATION */
 const jwtAuthentication = passport.authenticate('jwt', {session: false});
 const basicAuthentication = passport.authenticate('basic', {session: false});
@@ -61,6 +50,17 @@ app.route('/api/transactions')
     .post(jwtAuthentication, TransactionController.saveTransaction);
 app.route('/api/transaction/:id')
     .delete(jwtAuthentication, TransactionController.deleteTransaction);
+
+/* SERVE ANGULAR APP */
+const angularPath = path.join(__dirname, '../angular');
+const angularIndexPath = path.resolve(angularPath, 'index.html');
+if (fs.existsSync(path.resolve(angularPath, 'index.html'))) {
+    console.log('Serving Angular app');
+    app.use('/', express.static(angularPath));
+    app.all('/*', (_, res) => res.sendFile(angularIndexPath));
+} else {
+    console.log('Skipping Angular app');
+}
 
 /* START SERVER */
 const port: number = parseInt(process.env.PORT || '3000', 10);
