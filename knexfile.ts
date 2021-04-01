@@ -6,18 +6,17 @@ pg.defaults.ssl = true;
 
 const knexConfig = {
     development: {
-        client: "sqlite3",
+        client: 'sqlite3',
         connection: {
-            filename: "./test-db.sqlite3"
+            filename: './test-db.sqlite3'
         },
         useNullAsDefault: true,
         migrations: {
             directory: __dirname + '/database/migrations',
         },
     },
-
     production: {
-        client: "postgresql",
+        client: 'postgresql',
         connection: {
             connectionString: process.env.DATABASE_URL,
             ssl: {rejectUnauthorized: false}
