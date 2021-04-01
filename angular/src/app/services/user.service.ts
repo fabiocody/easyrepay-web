@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {ApiService, LoginStatus} from './api.service';
 import {BehaviorSubject} from 'rxjs';
 import {UserDto} from '../../../../src/model/dto/user.dto';
@@ -11,6 +12,7 @@ export class UserService {
     public user = this.userSubject.asObservable();
 
     constructor(
+        private router: Router,
         private apiService: ApiService,
     ) {
         this.apiService.loginStatus.subscribe(status => {
@@ -34,6 +36,7 @@ export class UserService {
         this.apiService.login(username, password).subscribe(_ => {
             this.apiService.getUserInfo().subscribe(user => {
                 this.userSubject.next(user);
+                this.router.navigate(['/people']);
             }, error => {
                 console.error(error);
                 this.userSubject.next(null);
