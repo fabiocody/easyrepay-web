@@ -28,7 +28,7 @@ export class TransactionComponent implements OnInit {
         amount: [null, Validators.required],
         description: ['', Validators.required],
         completed: [false, Validators.required],
-        date: [moment().toDate(), Validators.required],
+        date: [moment().set({second: 0}).toDate(), Validators.required],
     });
 
     constructor(
@@ -45,7 +45,7 @@ export class TransactionComponent implements OnInit {
             this.form.get('amount')!.setValue(this.data.transaction.amount);
             this.form.get('description')!.setValue(this.data.transaction.description);
             this.form.get('completed')!.setValue(this.data.transaction.completed);
-            this.form.get('date')!.setValue(this.data.transaction.date);
+            this.form.get('date')!.setValue(moment(this.data.transaction.date).set({second: 0}).toDate());
         }
     }
 
