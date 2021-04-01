@@ -14,7 +14,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "knex": "node node_modules/.bin/knex",
         "user-manager": "ts-node-dev --transpile-only src/user-manager.ts",
-        "heroku-postbuild": "npm install --prefix angular && npm run build --prefix angular && npm run build && npm run knex migrate:latest -- --env production"
+        "heroku-postbuild": "npm ci --prefix angular && npm run build --prefix angular && npm run build && npm run knex migrate:latest -- --env production"
     },
     "repository": {
         "type": "git",
