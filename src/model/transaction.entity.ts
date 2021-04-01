@@ -8,4 +8,8 @@ export class TransactionEntity {
     public description!: string;
     public completed!: boolean;
     public date!: Date;
+
+    constructor(source: Partial<TransactionEntity>) {
+        Object.assign(this, source);
+    }
 }

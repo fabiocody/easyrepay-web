@@ -5,11 +5,11 @@ import {UserEntity} from '../model/user.entity';
 export class UserController {
     public static async getMe(req: Request, res: Response): Promise<void> {
         const user = req.user as UserEntity;
-        const userDto: UserDto = {
+        const userDto = new UserDto({
             id: user.id,
             username: user.username,
             name: user.name,
-        };
+        });
         res.send(userDto);
     }
 }

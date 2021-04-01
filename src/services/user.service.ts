@@ -11,7 +11,7 @@ export class UserService {
                 .where('id', id)
                 .limit(1);
             if (data.length > 0) {
-                resolve(data[0]);
+                resolve(new UserEntity(data[0]));
             } else {
                 reject(`UserNotFoundError: no user found with id = ${id}`);
             }
@@ -24,7 +24,7 @@ export class UserService {
                 .where('username', username)
                 .limit(1);
             if (data.length > 0) {
-                resolve(data[0]);
+                resolve(new UserEntity(data[0]));
             } else {
                 reject(`UserNotFoundError: no user found with username = ${username}`);
             }
@@ -37,7 +37,7 @@ export class UserService {
 
     public static async save(username: string, password: string, name: string): Promise<void> {
         password = await bcrypt.hash(password, this.saltRounds);
-        const user = {username, password, name};
+        const user = new UserEntity({username, password, name});
         const users = await db('user')
             .where('username', username)
             .limit(1);
@@ -55,7 +55,8 @@ export class UserService {
         const users = await db('user')
             .where('username', username)
             .limit(1);
-        if (users.length > 0 && this.hasValidPassword(users[0], password)) {
+        const user = new UserEntity(users[0]);
+        if (users.length > 0 && this.hasValidPassword(user, password)) {
             await db('user')
                 .where('username', username)
                 .del();

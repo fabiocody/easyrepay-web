@@ -47,22 +47,16 @@ export class AuthService {
     }
 
     public static async refreshToken(token: string): Promise<[string, string]> {
-        return new Promise<[string, string]>(async (resolve, reject) => {
-            const dbTokens = await db('token').where('token', token);
-            if (dbTokens.length === 0) {
-                reject('Unauthorized');
-            } else {
-                try {
-                    const decoded = jwt.verify(token, this.getSecretKey()) as any;
-                    const userId = decoded.userId;
-                    await db('token').where('token', token).del();
-                    const access = this.getAccessToken(userId);
-                    const refresh = await this.getRefreshToken(userId);
-                    resolve([access, refresh]);
-                } catch (e) {
-                    reject(e);
-                }
-            }
-        });
+        const dbTokens = await db('token').where('token', token);
+        if (dbTokens.length === 0) {
+            throw new Error('Unauthorized');
+        } else {
+            const decoded = jwt.verify(token, this.getSecretKey()) as any;
+            const userId = decoded.userId;
+            await db('token').where('token', token).del();
+            const access = this.getAccessToken(userId);
+            const refresh = await this.getRefreshToken(userId);
+            return [access, refresh];
+        }
     }
 }

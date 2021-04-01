@@ -5,10 +5,11 @@ import {TransactionDto} from '../model/dto/transaction.dto';
 
 export class TransactionService {
     public static async getTransactions(personId: number, completed: boolean): Promise<TransactionEntity[]> {
-        return db('transaction')
+        const transactions = await db('transaction')
             .where('personId', personId)
             .where('completed', completed)
             .orderBy('date');
+        return transactions.map(t => new TransactionEntity(t));
     }
 
     public static getSignedAmount(transaction: TransactionEntity): number {

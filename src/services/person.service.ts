@@ -6,21 +6,22 @@ import {PersonDto} from '../model/dto/person.dto';
 
 export class PersonService {
     public static async getByUserId(userId: number): Promise<PersonEntity[]> {
-        return db('person')
+        const people = await db('person')
             .where('userId', userId)
             .orderBy('name');
+        return people.map(p => new PersonEntity(p));
     }
 
     public static async getPersonDetailDto(person: PersonEntity): Promise<PersonDetailDto> {
         const transactions = await TransactionService.getTransactions(person.id, false);
-        const personDetail = new PersonDetailDto();
-        personDetail.id = person.id;
-        personDetail.name = person.name;
-        personDetail.count = transactions.length;
-        personDetail.total = transactions
-            .map(t => TransactionService.getSignedAmount(t))
-            .reduce((acc, val) => acc + val, 0);
-        return personDetail;
+        return new PersonDetailDto({
+            id: person.id,
+            name: person.name,
+            count: transactions.length,
+            total: transactions
+                .map(t => TransactionService.getSignedAmount(t))
+                .reduce((acc, val) => acc + val, 0)
+        });
     }
 
     public static async save(personDto: PersonDto, userId: number): Promise<void> {
@@ -31,13 +32,14 @@ export class PersonService {
             throw new Error(`A person with the name ${personDto.name} is already present in the database`);
         }
         if (personDto.id < 0) {
+            const person = new PersonEntity({
+                name: personDto.name,
+                userId: userId
+            });
             await db('person')
-                .insert({
-                    name: personDto.name,
-                    userId: userId
-                });
+                .insert(person);
         } else {
-            const person: PersonEntity = Object.assign(personDto, {userId});
+            const person = new PersonEntity({userId});
             await db('person')
                 .where('id', person.id)
                 .update(person);
@@ -48,7 +50,7 @@ export class PersonService {
         const data = await db('person')
             .where('id', id)
             .limit(1);
-        return data[0];
+        return new PersonEntity(data[0]);
     }
 
     public static async delete(id: number): Promise<void> {
