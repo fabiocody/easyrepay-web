@@ -7,7 +7,8 @@ export class TransactionService {
     public static async getTransactions(personId: number, completed: boolean): Promise<TransactionEntity[]> {
         return db('transaction')
             .where('personId', personId)
-            .where('completed', completed);
+            .where('completed', completed)
+            .orderBy('date');
     }
 
     public static getSignedAmount(transaction: TransactionEntity): number {

@@ -7,7 +7,8 @@ import {PersonDto} from '../model/dto/person.dto';
 export class PersonService {
     public static async getByUserId(userId: number): Promise<PersonEntity[]> {
         return db('person')
-            .where('userId', userId);
+            .where('userId', userId)
+            .orderBy('name');
     }
 
     public static async getPersonDetailDto(person: PersonEntity): Promise<PersonDetailDto> {
