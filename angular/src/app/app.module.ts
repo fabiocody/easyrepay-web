@@ -36,30 +36,30 @@ import {TransactionCardComponent} from './pages/transactions-list/transaction-ca
 import {TransactionComponent} from './dialogs/transaction/transaction.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule
 } from '@angular-material-components/datetime-picker';
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    TranslationPipe,
-    PeopleListComponent,
-    PersonCardComponent,
-    AvatarComponent,
-    AddPersonComponent,
-    TransactionsListComponent,
-    SpinnerComponent,
-    InfoDialogComponent,
-    TransactionCardComponent,
-    TransactionComponent,
-  ],
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        LoginComponent,
+        TranslationPipe,
+        PeopleListComponent,
+        PersonCardComponent,
+        AvatarComponent,
+        AddPersonComponent,
+        TransactionsListComponent,
+        SpinnerComponent,
+        InfoDialogComponent,
+        TransactionCardComponent,
+        TransactionComponent,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -89,19 +89,19 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
         MatDatepickerModule,
         MatSlideToggleModule,
     ],
-  providers: [
-    {
-      provide: LOCALE_ID,
-      deps: [TranslationService],
-      useFactory: (translationService: TranslationService) => translationService.localeId
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptorService,
-      multi: true
-    },
-  ],
-  bootstrap: [AppComponent]
+    providers: [
+        {
+            provide: LOCALE_ID,
+            deps: [TranslationService],
+            useFactory: (translationService: TranslationService) => translationService.localeId
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptorService,
+            multi: true
+        },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

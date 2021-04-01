@@ -1,4 +1,3 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
@@ -29,33 +28,34 @@ $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 @mixin avatar-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
 
-  app-avatar {
-    .avatar-primary {
-      background-color: mat-color($primary);
+    app-avatar {
+        .avatar-primary {
+            background-color: mat-color($primary);
+        }
+
+        .avatar-accent {
+            background-color: mat-color($accent);
+        }
     }
-    .avatar-accent {
-      background-color: mat-color($accent);
-    }
-  }
 }
 
 @mixin amount-theme($theme) {
-  $credit-color: mat-color(map-get($theme, primary));
-  $debt-color: mat-color(map-get($theme, warn));
+    $credit-color: mat-color(map-get($theme, primary));
+    $debt-color: mat-color(map-get($theme, warn));
 
-  .amount-credit {
-    color: $credit-color;
-  }
+    .amount-credit {
+        color: $credit-color;
+    }
 
-  .amount-debt {
-    color: $debt-color;
-  }
+    .amount-debt {
+        color: $debt-color;
+    }
 }
 
 @include angular-material-theme($light-theme);
@@ -63,34 +63,39 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 @include amount-theme($light-theme);
 
 .easyrepay-dark-theme {
-  @include angular-material-color($dark-theme);
-  @include avatar-theme($dark-theme);
-  @include amount-theme($dark-theme);
+    @include angular-material-color($dark-theme);
+    @include avatar-theme($dark-theme);
+    @include amount-theme($dark-theme);
 }
-
 
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
 .spacer {
-  flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
 button:focus {
-  outline: none;
+    outline: none;
 }
 
 .cursor-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .mat-menu-item .mat-icon,
 .mat-flat-button .mat-icon {
-  transform: translateY(-5%);
+    transform: translateY(-5%);
 }

@@ -1,16 +1,16 @@
 <mat-card class="mat-elevation-z3">
-  <mat-card-title>{{transaction.description}}</mat-card-title>
-  <mat-card-content>
-    <div>
-      <span class="card-content float-left">{{transaction.dateTime | amCalendar}}</span>
-    </div>
-    <div style="clear: both"></div>
-    <div>
-      <span class="card-content float-left">{{('TYPE_' + transaction.type) | translate}}</span>
-      <span class="card-content float-right money {{signedAmount >= 0 ? 'amount-credit' : 'amount-debt'}}">
+    <mat-card-title>{{transaction.description}}</mat-card-title>
+    <mat-card-content>
+        <div>
+            <span class="card-content float-left">{{transaction.date | amCalendar}}</span>
+        </div>
+        <div style="clear: both"></div>
+        <div>
+            <span class="card-content float-left">{{transaction.type | translate}}</span>
+            <span class="card-content float-right money {{signedAmount >= 0 ? 'amount-credit' : 'amount-debt'}}">
         {{transaction.amount | currency:'EUR'}}
       </span>
-    </div>
-    <div style="clear: both"></div>
-  </mat-card-content>
+        </div>
+        <div style="clear: both"></div>
+    </mat-card-content>
 </mat-card>

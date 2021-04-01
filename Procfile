@@ -1,2 +1,1 @@
-release: python manage.py migrate
-web: gunicorn easyrepay.wsgi
+web: npm start

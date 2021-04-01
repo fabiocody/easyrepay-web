@@ -1,34 +1,34 @@
 <h1 mat-dialog-title>{{'ADD_PERSON' | translate}}</h1>
 
 <mat-dialog-content class="text-center">
-  <ng-form (keydown.enter)="addPerson()">
-    <mat-form-field appearance="outline">
-      <mat-label>{{'NAME' | translate}}</mat-label>
-      <input matInput [formControl]="nameForm" required>
-    </mat-form-field>
-  </ng-form>
-  <div>
-    <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
-      <mat-icon class="error-alert">error</mat-icon>
-      <span class="error-alert ml-1">{{error | translate}}</span>
+    <ng-form (keydown.enter)="addPerson()">
+        <mat-form-field appearance="outline">
+            <mat-label>{{'NAME' | translate}}</mat-label>
+            <input matInput [formControl]="nameForm" required>
+        </mat-form-field>
+    </ng-form>
+    <div>
+        <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
+            <mat-icon class="error-alert">error</mat-icon>
+            <span class="error-alert ml-1">{{error | translate}}</span>
+        </div>
     </div>
-  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions class="float-right">
-  <button mat-flat-button color="primary" mat-dialog-close>
-    {{'CANCEL' | translate}}
-  </button>
-  <button mat-flat-button color="primary" (click)="addPerson()" [disabled]="!nameForm.valid || loading">
-    <ng-container [ngSwitch]="loading">
-      <ng-container *ngSwitchCase="true">
-        <div class="button-spinner d-flex justify-content-center m-2">
-          <mat-spinner diameter="20"></mat-spinner>
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchCase="false">
-        {{'OK' | translate}}
-      </ng-container>
-    </ng-container>
-  </button>
+    <button mat-flat-button color="primary" mat-dialog-close>
+        {{'CANCEL' | translate}}
+    </button>
+    <button mat-flat-button color="primary" (click)="addPerson()" [disabled]="!nameForm.valid || loading">
+        <ng-container [ngSwitch]="loading">
+            <ng-container *ngSwitchCase="true">
+                <div class="button-spinner d-flex justify-content-center m-2">
+                    <mat-spinner diameter="20"></mat-spinner>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="false">
+                {{'OK' | translate}}
+            </ng-container>
+        </ng-container>
+    </button>
 </mat-dialog-actions>

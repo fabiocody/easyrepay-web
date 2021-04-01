@@ -1,127 +1,132 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {TokenDto} from '../model/dto/token-dto';
+import {TokenDto} from '../../../../src/model/dto/token.dto';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
-import {User} from '../model/user';
-import {PersonDto} from '../model/dto/person-dto';
-import {LoginDto} from '../model/dto/login-dto';
-import {AddPersonDto} from '../model/dto/add-person-dto';
-import {Transaction} from '../model/transaction';
+import {UserDto} from '../../../../src/model/dto/user.dto';
+import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
+import {PersonDto} from '../../../../src/model/dto/person.dto';
+import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {TransactionDto} from '../../../../src/model/dto/transaction.dto';
 
 export enum LoginStatus {
-  LOGGED_OUT,
-  TOKEN_EXPIRED,
-  LOGGED_IN
+    LOGGED_OUT,
+    TOKEN_EXPIRED,
+    LOGGED_IN
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ApiService {
-  private token: string | null = null;
-  private refresh: string | null = null;
-  public loginStatusSubject = new BehaviorSubject<LoginStatus>(LoginStatus.LOGGED_OUT);
-  public loginStatus = this.loginStatusSubject.asObservable();
+    private access: string | null = localStorage.getItem('access');
+    private refresh: string | null = localStorage.getItem('refresh');
+    public loginStatusSubject: BehaviorSubject<LoginStatus>;
+    public loginStatus: Observable<LoginStatus>;
 
-  constructor(
-    private http: HttpClient,
-  ) {
-    this.saveTokens(localStorage.getItem('token'), localStorage.getItem('refresh'));
-  }
-
-  public get authHeader(): string {
-    return 'Bearer ' + this.token;
-  }
-
-  private saveTokens(access: string | null, refresh: string | null): void {
-    this.token = access;
-    if (access) {
-      localStorage.setItem('token', access);
-      this.loginStatusSubject.next(LoginStatus.LOGGED_IN);
-    } else {
-      localStorage.removeItem('token');
-      this.loginStatusSubject.next(LoginStatus.LOGGED_OUT);
+    constructor(
+        private http: HttpClient,
+    ) {
+        let status = LoginStatus.LOGGED_OUT;
+        if (this.access) {
+            const jwt = new JwtHelperService();
+            status = jwt.isTokenExpired(this.access) ? LoginStatus.TOKEN_EXPIRED : LoginStatus.LOGGED_IN;
+        }
+        this.loginStatusSubject = new BehaviorSubject<LoginStatus>(status);
+        this.loginStatus = this.loginStatusSubject.asObservable();
     }
-    this.refresh = refresh;
-    if (refresh) {
-      localStorage.setItem('refresh', refresh);
-    } else {
-      localStorage.removeItem('refresh');
+
+    public get authHeader(): string {
+        return 'Bearer ' + this.access;
     }
-  }
 
-  public login(loginDto: LoginDto): Observable<TokenDto> {
-    return this.http.post<TokenDto>(environment.apiUrl + '/api/token', loginDto)
-      .pipe(
-        map(tokenDto => {
-          this.saveTokens(tokenDto.access, tokenDto.refresh);
-          return tokenDto;
-        })
-      );
-  }
+    private saveTokens(access: string | null, refresh: string | null): void {
+        this.access = access;
+        this.refresh = refresh;
+        if (access) {
+            localStorage.setItem('access', access);
+            this.loginStatusSubject.next(LoginStatus.LOGGED_IN);
+        } else {
+            localStorage.removeItem('access');
+            this.loginStatusSubject.next(LoginStatus.LOGGED_OUT);
+        }
+        if (refresh) {
+            localStorage.setItem('refresh', refresh);
+        } else {
+            localStorage.removeItem('refresh');
+        }
+    }
 
-  public logout(): void {
-    this.saveTokens(null, null);
-  }
+    public login(username: string, password: string): Observable<TokenDto> {
+        return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', {}, {
+            headers: {
+                authorization: 'Basic ' + window.btoa(username + ':' + password)
+            }
+        }).pipe(
+            map(tokenDto => {
+                this.saveTokens(tokenDto.access, tokenDto.refresh);
+                return tokenDto;
+            })
+        );
+    }
 
-  public refreshToken(): Observable<TokenDto> {
-    return this.http.post<TokenDto>(environment.apiUrl + '/api/token/refresh', {
-      refresh: this.refresh
-    }).pipe(
-      map(tokenDto => {
-        this.saveTokens(tokenDto.access, tokenDto.refresh);
-        return tokenDto;
-      })
-    );
-  }
+    public logout(): void {
+        this.saveTokens(null, null);
+    }
 
-  public getUserInfo(): Observable<User> {
-    return this.http.get<User>(environment.apiUrl + '/api/me');
-  }
+    public refreshToken(): Observable<TokenDto> {
+        const refreshTokenDto: RefreshTokenDto = {token: this.refresh!};
+        return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', refreshTokenDto).pipe(
+            map(tokenDto => {
+                this.saveTokens(tokenDto.access, tokenDto.refresh);
+                return tokenDto;
+            })
+        );
+    }
 
-  public getPeople(): Observable<PersonDto[]> {
-    return this.http.get<PersonDto[]>(environment.apiUrl + '/api/people');
-  }
+    public getUserInfo(): Observable<UserDto> {
+        return this.http.get<UserDto>(environment.apiUrl + '/api/me');
+    }
 
-  public addPerson(personDto: AddPersonDto): Observable<any> {
-    return this.http.post(environment.apiUrl + '/api/people', personDto);
-  }
+    public getPeople(): Observable<PersonDetailDto[]> {
+        return this.http.get<PersonDetailDto[]>(environment.apiUrl + '/api/people');
+    }
 
-  public getPerson(personId: number): Observable<PersonDto> {
-    return this.http.get<PersonDto>(environment.apiUrl + `/api/person/${personId}`);
-  }
+    public savePerson(personDto: PersonDto): Observable<any> {
+        return this.http.post(environment.apiUrl + '/api/people', personDto);
+    }
 
-  public editPerson(personId: number, personDto: AddPersonDto): Observable<any> {
-    return this.http.post(environment.apiUrl + `/api/person/${personId}`, personDto);
-  }
+    public getPerson(personId: number): Observable<PersonDetailDto> {
+        return this.http.get<PersonDetailDto>(environment.apiUrl + `/api/person/${personId}`);
+    }
 
-  public deletePerson(personId: number): Observable<any> {
-    return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
-  }
+    public deletePerson(personId: number): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
+    }
 
-  public getTransactions(personId: number, completed: boolean): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(environment.apiUrl + `/api/person/${personId}/transactions?completed=${completed}`);
-  }
+    public getTransactions(personId: number, completed: boolean): Observable<TransactionDto[]> {
+        return this.http.get<TransactionDto[]>(environment.apiUrl + `/api/person/${personId}/transactions?completed=${completed}`);
+    }
 
-  public saveTransaction(transaction: Transaction): Observable<any> {
-    return this.http.post(environment.apiUrl + `/api/person/${transaction.person}/transactions`, transaction);
-  }
+    public deleteAllTransactions(personId: number): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions`);
+    }
 
-  public deleteTransaction(personId: number, transactionId: number): Observable<any> {
-    return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`);
-  }
+    public completeAllTransactions(personId: number): Observable<any> {
+        return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {});
+    }
 
-  public completeAllTransactions(personId: number): Observable<any> {
-    return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {});
-  }
+    public deleteCompletedTransactions(personId: number): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions/complete`);
+    }
 
-  public deleteAllTransactions(personId: number): Observable<any> {
-    return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions`);
-  }
+    public saveTransaction(transaction: TransactionDto): Observable<any> {
+        return this.http.post(environment.apiUrl + `/api/transactions`, transaction);
+    }
 
-  public deleteCompletedTransactions(personId: number): Observable<any> {
-    return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions/complete`);
-  }
+    public deleteTransaction(personId: number, transactionId: number): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`);
+    }
 }
