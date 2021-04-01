@@ -3,4 +3,8 @@ export class UserEntity {
     public username!: string;
     public password!: string;
     public name!: string;
+
+    constructor(source: Partial<UserEntity>) {
+        Object.assign(this, source);
+    }
 }
