@@ -1,10 +1,15 @@
 import {UserEntity} from '../model/user.entity';
 import {db} from '../config/db';
+// import * as bcrypt from 'bcrypt';
 
 export class UserService {
+    // private static saltRounds = 10;
+
     public static get(id: number): Promise<UserEntity> {
         return new Promise<UserEntity>(async (resolve, reject) => {
-            const data = await db('user').where('id', id).limit(1);
+            const data = await db('user')
+                .where('id', id)
+                .limit(1);
             if (data.length > 0) {
                 resolve(data[0]);
             } else {
@@ -15,7 +20,9 @@ export class UserService {
 
     public static getByUsername(username: string): Promise<UserEntity> {
         return new Promise<UserEntity>(async (resolve, reject) => {
-            const data = await db('user').where('username', username).limit(1);
+            const data = await db('user')
+                .where('username', username)
+                .limit(1);
             if (data.length > 0) {
                 resolve(data[0]);
             } else {
@@ -27,4 +34,15 @@ export class UserService {
     public static hasValidPassword(user: UserEntity, password: string): boolean {
         return user.password === password;
     }
+
+    /*public static async save(username: string, password: string, name: string): Promise<void> {
+        password = await bcrypt.hash(password, this.saltRounds);
+        const user = {username, password, name};
+        const users = await db('user')
+            .where('username', username)
+            .limit(1);
+        if (users.length > 0) {
+
+        }
+    }*/
 }

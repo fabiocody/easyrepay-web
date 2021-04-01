@@ -1,4 +1,4 @@
-import {Knex} from "knex";
+import {Knex} from 'knex';
 
 
 export async function up(knex: Knex): Promise<void> {
@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<void> {
     });
     await knex.schema.createTable('person', table => {
         table.increments('id').primary();
-        table.string('name', 64).notNullable().unique();
+        table.string('name', 64).notNullable();
         table.integer('userId').notNullable()
             .references('id').inTable('user')
             .onUpdate('cascade').onDelete('cascade');

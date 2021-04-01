@@ -23,6 +23,12 @@ export class PersonService {
     }
 
     public static async save(personDto: PersonDto, userId: number): Promise<void> {
+        const homonyms = await db('person')
+            .where('userId', userId)
+            .where('name', personDto.name);
+        if (homonyms.length > 0) {
+            throw new Error(`A person with the name ${personDto.name} is already present in the database`);
+        }
         if (personDto.id < 0) {
             await db('person')
                 .insert({
