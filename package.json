@@ -12,7 +12,7 @@
         "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
         "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "knex": "node node_modules/.bin/knex",
+        "knex": "ts-node node_modules/.bin/knex",
         "user-manager": "ts-node-dev --transpile-only src/user-manager.ts",
         "heroku-postbuild": "echo Skipping build phase on Heroku"
     },
