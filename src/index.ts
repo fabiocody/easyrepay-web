@@ -47,18 +47,18 @@ app.route('/api/me')
     .get(jwtAuthentication, UserController.getMe);
 app.route('/api/people')
     .get(jwtAuthentication, PersonController.getPeople)
-    .post(jwtAuthentication, PersonController.addPerson);
+    .post(jwtAuthentication, PersonController.savePerson);
 app.route('/api/person/:id')
     .get(jwtAuthentication, PersonController.getPerson)
-    .post(jwtAuthentication, PersonController.updatePerson)
     .delete(jwtAuthentication, PersonController.deletePerson);
 app.route('/api/person/:id/transactions')
     .get(jwtAuthentication, TransactionController.getTransactions)
-    .post(jwtAuthentication, TransactionController.addOrUpdateTransaction)
     .delete(jwtAuthentication, TransactionController.deleteAllTransactions);
 app.route('/api/person/:id/transactions/complete')
     .post(jwtAuthentication, TransactionController.setCompleted)
     .delete(jwtAuthentication, TransactionController.deleteCompleted)
+app.route('/api/transactions')
+    .post(jwtAuthentication, TransactionController.saveTransaction)
 app.route('/api/transaction/:id')
     .delete(jwtAuthentication, TransactionController.deleteTransaction);
 

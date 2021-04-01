@@ -7,7 +7,7 @@
                 <mat-label>{{'TYPE' | translate}}</mat-label>
                 <mat-select formControlName="type" required>
                     <mat-option *ngFor="let type of TRANSACTION_TYPES" [value]="type">
-                        {{'TYPE_' + type | translate}}
+                        {{type | translate}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field class="col-12" appearance="outline">
                 <mat-label>{{'DATE_AND_TIME' | translate}}</mat-label>
-                <input matInput [ngxMatDatetimePicker]="picker" formControlName="dateTime" (click)="picker.open()"
+                <input matInput [ngxMatDatetimePicker]="picker" formControlName="date" (click)="picker.open()"
                        readonly>
                 <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
                 <ngx-mat-datetime-picker #picker [showSeconds]="false"></ngx-mat-datetime-picker>

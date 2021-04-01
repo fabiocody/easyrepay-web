@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
-import {Transaction, TransactionType} from '../../model/transaction';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
 import {Location} from '@angular/common';
 import {TransactionComponent} from '../../dialogs/transaction/transaction.component';
+import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
+import {TransactionType} from '../../../../../src/model/transaction-type';
 
 @Component({
     selector: 'app-transactions-list',
@@ -16,7 +17,7 @@ import {TransactionComponent} from '../../dialogs/transaction/transaction.compon
 })
 export class TransactionsListComponent implements OnInit {
     public person: PersonDetailDto | null = null;
-    public transactions: Transaction[] = [];
+    public transactions: TransactionDto[] = [];
     public showCompleted = false;
     public loading = false;
 
@@ -31,7 +32,6 @@ export class TransactionsListComponent implements OnInit {
         this.loading = true;
         const personId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
         this.apiService.getPerson(personId).subscribe(person => {
-            console.log(person);
             this.person = person;
             this.updateTransactions();
         });
@@ -95,7 +95,7 @@ export class TransactionsListComponent implements OnInit {
         });
     }
 
-    public openTransaction(transaction: Transaction | null): void {
+    public openTransaction(transaction: TransactionDto | null): void {
         this.dialog.open(TransactionComponent, {
             data: {
                 transaction,

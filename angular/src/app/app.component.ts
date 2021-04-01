@@ -17,7 +17,9 @@ export class AppComponent {
     ) {
         this.userService.user.subscribe(user => {
             if (user) {
-                this.router.navigate(['/people']);
+                if (this.loading) {
+                    this.router.navigate(['/people']);
+                }
                 this.loading = false;
             } else if (user === null) {
                 this.router.navigate(['/login']);

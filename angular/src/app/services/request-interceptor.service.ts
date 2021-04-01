@@ -18,7 +18,7 @@ export class RequestInterceptorService implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
                 if (error && error.status === 401 && req.url.indexOf('/auth/') < 0) {
-                    this.apiService.loginStatusSubject.next(LoginStatus.TOKEN_EXPIRED);
+                    console.log('Automatically refreshing token');
                     return this.apiService.refreshToken().pipe(
                         switchMap(() => next.handle(this.addTokenToRequest(req))),
                         catchError(refreshError => {

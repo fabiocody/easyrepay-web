@@ -6,10 +6,10 @@ import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {UserDto} from '../../../../src/model/dto/user.dto';
 import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
-import {AddPersonDto} from '../../../../src/model/dto/add-person.dto';
-import {Transaction} from '../model/transaction';
+import {PersonDto} from '../../../../src/model/dto/person.dto';
 import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {TransactionDto} from '../../../../src/model/dto/transaction.dto';
 
 export enum LoginStatus {
     LOGGED_OUT,
@@ -94,7 +94,7 @@ export class ApiService {
         return this.http.get<PersonDetailDto[]>(environment.apiUrl + '/api/people');
     }
 
-    public addPerson(personDto: AddPersonDto): Observable<any> {
+    public savePerson(personDto: PersonDto): Observable<any> {
         return this.http.post(environment.apiUrl + '/api/people', personDto);
     }
 
@@ -102,35 +102,31 @@ export class ApiService {
         return this.http.get<PersonDetailDto>(environment.apiUrl + `/api/person/${personId}`);
     }
 
-    public editPerson(personId: number, personDto: AddPersonDto): Observable<any> {
-        return this.http.post(environment.apiUrl + `/api/person/${personId}`, personDto);
-    }
-
     public deletePerson(personId: number): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
     }
 
-    public getTransactions(personId: number, completed: boolean): Observable<Transaction[]> {
-        return this.http.get<Transaction[]>(environment.apiUrl + `/api/person/${personId}/transactions?completed=${completed}`);
-    }
-
-    public saveTransaction(transaction: Transaction): Observable<any> {
-        return this.http.post(environment.apiUrl + `/api/person/${transaction.person}/transactions`, transaction);
-    }
-
-    public deleteTransaction(personId: number, transactionId: number): Observable<any> {
-        return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`);
-    }
-
-    public completeAllTransactions(personId: number): Observable<any> {
-        return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {});
+    public getTransactions(personId: number, completed: boolean): Observable<TransactionDto[]> {
+        return this.http.get<TransactionDto[]>(environment.apiUrl + `/api/person/${personId}/transactions?completed=${completed}`);
     }
 
     public deleteAllTransactions(personId: number): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions`);
     }
 
+    public completeAllTransactions(personId: number): Observable<any> {
+        return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {});
+    }
+
     public deleteCompletedTransactions(personId: number): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions/complete`);
+    }
+
+    public saveTransaction(transaction: TransactionDto): Observable<any> {
+        return this.http.post(environment.apiUrl + `/api/transactions`, transaction);
+    }
+
+    public deleteTransaction(personId: number, transactionId: number): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`);
     }
 }

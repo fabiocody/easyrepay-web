@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Transaction, TransactionType} from '../../../model/transaction';
+import {TransactionDto} from '../../../../../../src/model/dto/transaction.dto';
+import {TransactionType} from '../../../../../../src/model/transaction-type';
 import * as moment from 'moment';
 
 @Component({
@@ -8,14 +9,14 @@ import * as moment from 'moment';
     styleUrls: ['./transaction-card.component.scss']
 })
 export class TransactionCardComponent implements OnInit {
-    @Input() public transaction: Transaction = {
+    @Input() public transaction: TransactionDto = {
         id: 0,
         type: TransactionType.CREDIT,
         amount: 0,
         description: '',
         completed: false,
-        dateTime: moment().toDate(),
-        person: 0,
+        date: moment().toDate(),
+        personId: 0,
     };
 
     constructor() {

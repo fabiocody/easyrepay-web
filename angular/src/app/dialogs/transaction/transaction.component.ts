@@ -1,13 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Transaction, TransactionType} from '../../model/transaction';
 import {FormBuilder, Validators} from '@angular/forms';
 import * as moment from 'moment';
 import {InfoDialogComponent, InfoDialogData} from '../info-dialog/info-dialog.component';
 import {ApiService} from '../../services/api.service';
+import {TransactionType} from '../../../../../src/model/transaction-type';
+import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 
 export interface TransactionDialogData {
-    transaction: Transaction;
+    transaction: TransactionDto;
     personId: number;
 }
 
@@ -27,7 +28,7 @@ export class TransactionComponent implements OnInit {
         amount: [null, Validators.required],
         description: ['', Validators.required],
         completed: [false, Validators.required],
-        dateTime: [moment().toDate(), Validators.required],
+        date: [moment().toDate(), Validators.required],
     });
 
     constructor(
@@ -44,20 +45,20 @@ export class TransactionComponent implements OnInit {
             this.form.get('amount')!.setValue(this.data.transaction.amount);
             this.form.get('description')!.setValue(this.data.transaction.description);
             this.form.get('completed')!.setValue(this.data.transaction.completed);
-            this.form.get('dateTime')!.setValue(this.data.transaction.dateTime);
+            this.form.get('date')!.setValue(this.data.transaction.date);
         }
     }
 
     public saveTransaction(): void {
         this.saving = true;
-        const transaction: Transaction = {
+        const transaction: TransactionDto = {
             id: this.data.transaction ? this.data.transaction.id : -1,
             type: this.form.get('type')!.value,
             amount: this.form.get('amount')!.value,
             description: this.form.get('description')!.value,
             completed: this.form.get('completed')!.value,
-            dateTime: this.form.get('dateTime')!.value,
-            person: this.data.personId,
+            date: this.form.get('date')!.value,
+            personId: this.data.personId,
         };
         this.apiService.saveTransaction(transaction).subscribe(_ => {
             this.saving = false;

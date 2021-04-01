@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ApiService} from '../../services/api.service';
-import {AddPersonDto} from '../../../../../src/model/dto/add-person.dto';
+import {PersonDto} from '../../../../../src/model/dto/person.dto';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 
 @Component({
@@ -33,11 +33,11 @@ export class AddPersonComponent implements OnInit {
     public addPerson(): void {
         this.loading = true;
         this.error = null;
-        const personDto: AddPersonDto = {
+        const personDto: PersonDto = {
+            id: this.edit ? this.person.id : -1,
             name: this.nameForm.value
         };
-        const result = this.edit ? this.apiService.editPerson(this.person.id, personDto) : this.apiService.addPerson(personDto);
-        result.subscribe(_ => {
+        this.apiService.savePerson(personDto).subscribe(_ => {
             this.loading = false;
             this.dialogRef.close(true);
         }, error => {
