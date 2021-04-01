@@ -2,10 +2,10 @@
 
 git checkout release
 git merge main
-cd angular
+npm install --prefix angular
+npm run build --prefix angular
 npm install
 npm run build
-cd ..
 git add .
 git commit -am "Release"
 git push
