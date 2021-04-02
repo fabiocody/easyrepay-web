@@ -3,6 +3,7 @@ import {PersonEntity} from '../model/person.entity';
 import {PersonDetailDto} from '../model/dto/person-detail.dto';
 import {TransactionService} from './transaction.service';
 import {PersonDto} from '../model/dto/person.dto';
+import {HttpError} from 'routing-controllers';
 
 export class PersonService {
     public static async getByUserId(userId: number): Promise<PersonEntity[]> {
@@ -29,7 +30,7 @@ export class PersonService {
             .where('userId', userId)
             .where('name', personDto.name);
         if (homonyms.length > 0) {
-            throw new Error(`A person with the name ${personDto.name} is already present in the database`);
+            throw new HttpError(409, `A person with the name ${personDto.name} is already present in the database`);
         }
         if (personDto.id < 0) {
             const person = new PersonEntity({
