@@ -26,6 +26,7 @@ app.use(helmet());
 useExpressServer(app, {
     routePrefix: '/api',
     development: process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true,
+    defaults: {undefinedResultCode: 204},
     controllers: [AuthController, PersonController, UserController, TransactionController],
     authorizationChecker: async (action: Action, _: string[]) => {
         const headers = action.request.headers;

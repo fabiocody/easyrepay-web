@@ -1,5 +1,5 @@
 import {TransactionType} from '../transaction-type';
-import {IsDate, IsDefined, IsInt, Min} from 'class-validator';
+import {IsDefined, IsEnum, IsInt, Min} from 'class-validator';
 
 export class TransactionDto {
     @IsDefined()
@@ -11,6 +11,7 @@ export class TransactionDto {
     public personId!: number;
 
     @IsDefined()
+    @IsEnum(TransactionType)
     public type!: TransactionType;
 
     @IsDefined()
@@ -24,7 +25,6 @@ export class TransactionDto {
     public completed!: boolean;
 
     @IsDefined()
-    @IsDate()
     public date!: Date;
 
     constructor(source: Partial<TransactionDto>) {

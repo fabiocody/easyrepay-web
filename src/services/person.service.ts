@@ -39,7 +39,8 @@ export class PersonService {
             await db('person')
                 .insert(person);
         } else {
-            const person = new PersonEntity({userId});
+            const person = new PersonEntity(personDto);
+            person.userId = userId;
             await db('person')
                 .where('id', person.id)
                 .update(person);
