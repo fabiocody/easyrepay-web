@@ -1,75 +1,43 @@
-import {Request, Response} from 'express';
 import {TransactionService} from '../services/transaction.service';
 import {TransactionDto} from '../model/dto/transaction.dto';
-import {validateOrReject, ValidationError} from 'class-validator';
+import {Authorized, Body, Delete, Get, JsonController, Param, Post, QueryParam} from 'routing-controllers';
 
+@JsonController()
 export class TransactionController {
-    public static async getTransactions(req: Request, res: Response): Promise<void> {
-        try {
-            const personId = parseInt(req.params.id, 10);
-            const completed = req.query.completed ? JSON.parse(req.query.completed as string) : false;
-            const transactions = (await TransactionService.getTransactions(personId, completed))
-                .map(t => new TransactionDto(t));
-            res.send(transactions);
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        }
+    @Authorized()
+    @Get('/person/:id/transactions')
+    public async getTransactions(@Param('id') personId: number, @QueryParam('completed') completed: boolean): Promise<TransactionDto[]> {
+        return (await TransactionService.getTransactions(personId, completed))
+            .map(t => new TransactionDto(t));
     }
 
-    public static async saveTransaction(req: Request, res: Response): Promise<void> {
-        try {
-            const transaction = new TransactionDto(req.body);
-            await validateOrReject(transaction);
-            await TransactionService.save(transaction);
-            res.send();
-        } catch (e) {
-            console.error(e);
-            res.sendStatus((e instanceof ValidationError || e[0] instanceof ValidationError) ? 400 : 500);
-        }
+    @Authorized()
+    @Post('/transactions')
+    public async saveTransaction(@Body() transaction: TransactionDto): Promise<void> {
+        await TransactionService.save(transaction);
     }
 
-    public static async deleteAllTransactions(req: Request, res: Response): Promise<void> {
-        try {
-            const personId = parseInt(req.params.id, 10);
-            await TransactionService.deleteAll(personId);
-            res.send();
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        }
+    @Authorized()
+    @Delete('/person/:id/transactions')
+    public async deleteAllTransactions(@Param('id') personId: number): Promise<void> {
+        await TransactionService.deleteAll(personId);
     }
 
-    public static async setCompleted(req: Request, res: Response): Promise<void> {
-        try {
-            const personId = parseInt(req.params.id, 10);
-            await TransactionService.setCompleted(personId);
-            res.send();
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        }
+    @Authorized()
+    @Post('/person/:id/transactions/complete')
+    public async setCompleted(@Param('id') personId: number): Promise<void> {
+        await TransactionService.setCompleted(personId);
     }
 
-    public static async deleteCompleted(req: Request, res: Response): Promise<void> {
-        try {
-            const personId = parseInt(req.params.id, 10);
-            await TransactionService.deleteCompleted(personId);
-            res.send();
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        }
+    @Authorized()
+    @Delete('/person/:id/transactions/complete')
+    public async deleteCompleted(@Param('id') personId: number): Promise<void> {
+        await TransactionService.deleteCompleted(personId);
     }
 
-    public static async deleteTransaction(req: Request, res: Response): Promise<void> {
-        try {
-            const transactionId = parseInt(req.params.id, 10);
-            await TransactionService.delete(transactionId);
-            res.send();
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        }
+    @Authorized()
+    @Delete('/transaction/:id')
+    public async deleteTransaction(@Param('id') transactionId: number): Promise<void> {
+        await TransactionService.delete(transactionId);
     }
 }
