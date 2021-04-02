@@ -1,6 +1,8 @@
 import {db} from '../config/db';
 import * as jwt from 'jsonwebtoken';
 import * as crypto from 'crypto';
+import {UserEntity} from '../model/user.entity';
+import {UserService} from './user.service';
 
 export class AuthService {
     private static secretKey = '';
@@ -58,5 +60,51 @@ export class AuthService {
             const refresh = await this.getRefreshToken(userId);
             return [access, refresh];
         }
+    }
+
+    public static verifyToken(token: string): any {
+        return jwt.verify(token, this.getSecretKey());
+    }
+
+    private static async basicAuthentication(credentials: string): Promise<UserEntity> {
+        const decoded = Buffer.from(credentials, 'base64').toString();
+        const username = decoded.split(':')[0];
+        const password = decoded.split(':')[1];
+        const user = await UserService.getByUsername(username);
+        if (UserService.hasValidPassword(user, password)) {
+            return user;
+        } else {
+            throw new Error('Unauthorized');
+        }
+    }
+
+    private static async jwtAuthentication(token: string): Promise<UserEntity> {
+        const decoded = this.verifyToken(token);
+        const userId = decoded.userId;
+        try {
+            return await UserService.get(userId);
+        } catch {
+            throw new Error('Unauthorized');
+        }
+    }
+
+    public static async currentUserChecker(headers: any): Promise<UserEntity | undefined> {
+        const authHeader = headers.authorization;
+        if (authHeader) {
+            const authType = authHeader.split(' ')[0];
+            const token = authHeader.split(' ')[1];
+            if (authType === 'Basic') {
+                return await this.basicAuthentication(token);
+            } else {
+                return await this.jwtAuthentication(token);
+            }
+        } else {
+            return undefined;
+        }
+    }
+
+    public static async authorizationChecker(headers: any): Promise<boolean> {
+        const user = await this.currentUserChecker(headers);
+        return !!user;
     }
 }
