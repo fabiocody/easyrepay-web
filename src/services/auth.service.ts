@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import * as crypto from 'crypto';
 import {UserEntity} from '../model/user.entity';
 import {UserService} from './user.service';
+import {UnauthorizedError} from 'routing-controllers';
 
 export class AuthService {
     private static secretKey = '';
@@ -51,7 +52,7 @@ export class AuthService {
     public static async refreshToken(token: string): Promise<[string, string]> {
         const dbTokens = await db('token').where('token', token);
         if (dbTokens.length === 0) {
-            throw new Error('Unauthorized');
+            throw new UnauthorizedError();
         } else {
             const decoded = jwt.verify(token, this.getSecretKey()) as any;
             const userId = decoded.userId;
@@ -74,17 +75,17 @@ export class AuthService {
         if (UserService.hasValidPassword(user, password)) {
             return user;
         } else {
-            throw new Error('Unauthorized');
+            throw new UnauthorizedError();
         }
     }
 
     private static async jwtAuthentication(token: string): Promise<UserEntity> {
-        const decoded = this.verifyToken(token);
-        const userId = decoded.userId;
         try {
+            const decoded = this.verifyToken(token);
+            const userId = decoded.userId;
             return await UserService.get(userId);
         } catch {
-            throw new Error('Unauthorized');
+            throw new UnauthorizedError();
         }
     }
 

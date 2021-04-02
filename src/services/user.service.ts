@@ -1,6 +1,7 @@
 import {UserEntity} from '../model/user.entity';
 import {db} from '../config/db';
 import * as bcrypt from 'bcrypt';
+import {NotFoundError} from 'routing-controllers';
 
 export class UserService {
     private static saltRounds = 10;
@@ -61,7 +62,7 @@ export class UserService {
                 .where('username', username)
                 .del();
         } else {
-            throw new Error(`Can't find a user with username ${username}`);
+            throw new NotFoundError(`Can't find a user with username ${username}`);
         }
     }
 }
