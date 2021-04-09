@@ -1,16 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Theme, ThemeOption, ThemeService} from '../../services/theme.service';
 import {UserService} from '../../services/user.service';
 import {TranslationService} from '../../services/translation.service';
+import {SubSink} from 'subsink';
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
     @Input() public title = '';
     public userName = '';
+    private subs = new SubSink();
 
     constructor(
         private translationService: TranslationService,
@@ -19,13 +21,17 @@ export class NavbarComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.userService.user.subscribe(user => {
+        this.subs.sink = this.userService.user.subscribe(user => {
             if (user) {
                 this.userName = user.name;
             } else {
                 this.userName = '';
             }
         });
+    }
+
+    ngOnDestroy(): void {
+        this.subs.unsubscribe();
     }
 
     public setLanguage(lang: string): void {

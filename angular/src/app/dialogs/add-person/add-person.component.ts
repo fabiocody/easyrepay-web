@@ -37,10 +37,10 @@ export class AddPersonComponent implements OnInit {
             id: this.edit ? this.person.id : -1,
             name: this.nameForm.value
         };
-        this.apiService.savePerson(personDto).subscribe(_ => {
+        this.apiService.savePerson(personDto).then(_ => {
             this.loading = false;
             this.dialogRef.close(true);
-        }, error => {
+        }).catch(error => {
             console.error(error);
             this.loading = false;
             if (error.status === 409) {

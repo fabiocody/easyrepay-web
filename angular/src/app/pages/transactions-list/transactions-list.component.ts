@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
@@ -9,17 +9,19 @@ import {Location} from '@angular/common';
 import {TransactionComponent} from '../../dialogs/transaction/transaction.component';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {TransactionType} from '../../../../../src/model/transaction-type';
+import {SubSink} from 'subsink';
 
 @Component({
     selector: 'app-transactions-list',
     templateUrl: './transactions-list.component.html',
     styleUrls: ['./transactions-list.component.scss']
 })
-export class TransactionsListComponent implements OnInit {
+export class TransactionsListComponent implements OnInit, OnDestroy {
     public person: PersonDetailDto | null = null;
     public transactions: TransactionDto[] = [];
     public showCompleted = false;
     public loading = false;
+    private subs = new SubSink();
 
     constructor(
         private route: ActivatedRoute,
@@ -31,17 +33,21 @@ export class TransactionsListComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
         const personId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-        this.apiService.getPerson(personId).subscribe(person => {
+        this.apiService.getPerson(personId).then(person => {
             this.person = person;
             this.updateTransactions();
-        });
+        }).catch(error => console.error(error));
+    }
+
+    ngOnDestroy(): void {
+        this.subs.unsubscribe();
     }
 
     public updateTransactions(): void {
-        this.apiService.getTransactions(this.person!.id, this.showCompleted).subscribe(transactions => {
-            this.transactions = transactions;
-            this.loading = false;
-        });
+        this.apiService.getTransactions(this.person!.id, this.showCompleted)
+            .then(transactions => this.transactions = transactions)
+            .catch(error => console.error(error))
+            .finally(() => this.loading = false);
     }
 
     public get total(): number {
@@ -67,12 +73,14 @@ export class TransactionsListComponent implements OnInit {
     }
 
     public editPerson(): void {
-        this.dialog.open(AddPersonComponent, {
+        this.subs.sink = this.dialog.open(AddPersonComponent, {
             data: this.person,
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.getPerson(this.person!.id).subscribe(person => this.person = person);
+                this.apiService.getPerson(this.person!.id)
+                    .then(person => this.person = person)
+                    .catch(error => console.error(error));
             }
         });
     }
@@ -85,18 +93,20 @@ export class TransactionsListComponent implements OnInit {
             cancelBtnText: 'CANCEL',
             okBtnColor: 'warn'
         };
-        this.dialog.open(InfoDialogComponent, {
+        this.subs.sink = this.dialog.open(InfoDialogComponent, {
             data: dialogData,
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.deletePerson(this.person!.id).subscribe(_ => this.navigateBack());
+                this.apiService.deletePerson(this.person!.id)
+                    .then(_ => this.navigateBack())
+                    .catch(error => console.error(error));
             }
         });
     }
 
     public openTransaction(transaction: TransactionDto | null): void {
-        this.dialog.open(TransactionComponent, {
+        this.subs.sink = this.dialog.open(TransactionComponent, {
             data: {
                 transaction,
                 personId: this.person!.id,
@@ -117,12 +127,14 @@ export class TransactionsListComponent implements OnInit {
             okBtnText: 'CONFIRM',
             cancelBtnText: 'CANCEL',
         };
-        this.dialog.open(InfoDialogComponent, {
+        this.subs.sink = this.dialog.open(InfoDialogComponent, {
             data: dialogData,
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.completeAllTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
+                this.apiService.completeAllTransactions(this.person!.id)
+                    .then(_ => this.updateTransactions())
+                    .catch(error => console.error(error));
             }
         });
     }
@@ -135,12 +147,14 @@ export class TransactionsListComponent implements OnInit {
             cancelBtnText: 'CANCEL',
             okBtnColor: 'warn',
         };
-        this.dialog.open(InfoDialogComponent, {
+        this.subs.sink = this.dialog.open(InfoDialogComponent, {
             data: dialogData,
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.deleteAllTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
+                this.apiService.deleteAllTransactions(this.person!.id)
+                    .then(_ => this.updateTransactions())
+                    .catch(error => console.error(error));
             }
         });
     }
@@ -153,12 +167,14 @@ export class TransactionsListComponent implements OnInit {
             cancelBtnText: 'CANCEL',
             okBtnColor: 'warn'
         };
-        this.dialog.open(InfoDialogComponent, {
+        this.subs.sink = this.dialog.open(InfoDialogComponent, {
             data: dialogData,
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.deleteCompletedTransactions(this.person!.id).subscribe(_ => this.updateTransactions());
+                this.apiService.deleteCompletedTransactions(this.person!.id)
+                    .then(_ => this.updateTransactions())
+                    .catch(error => console.error(error));
             }
         });
     }

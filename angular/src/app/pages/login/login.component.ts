@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {skip} from 'rxjs/operators';
+import {SubSink} from 'subsink';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     public loading = false;
     public error: string | null = null;
+    private subs = new SubSink();
 
     public form = this.fb.group({
         username: ['', Validators.required],
@@ -23,7 +25,7 @@ export class LoginComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.userService.user.pipe(skip(1)).subscribe(user => {
+        this.subs.sink = this.userService.user.pipe(skip(1)).subscribe(user => {
             this.loading = false;
             if (user) {
                 this.error = null;
@@ -31,6 +33,10 @@ export class LoginComponent implements OnInit {
                 this.error = 'ERROR_GENERIC';
             }
         });
+    }
+
+    ngOnDestroy(): void {
+        this.subs.unsubscribe();
     }
 
     public login(): void {

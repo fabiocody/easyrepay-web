@@ -40,11 +40,11 @@ export class TranslationService {
         return new Promise<{}>((resolve, _) => {
             moment.locale(lang);
             const langPath = `assets/i18n/${lang}.json`;
-            this.http.get<{}>(langPath).subscribe(translation => {
+            this.http.get<object>(langPath).toPromise().then(translation => {
                 this.data = Object.assign({}, translation || {});
                 this.languageSubject.next(lang);
                 resolve(this.data);
-            }, error => {
+            }).catch(error => {
                 console.error(error);
                 this.data = {};
                 this.languageSubject.next(lang);

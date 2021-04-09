@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, Validators} from '@angular/forms';
 import * as moment from 'moment';
@@ -6,6 +6,7 @@ import {InfoDialogComponent, InfoDialogData} from '../info-dialog/info-dialog.co
 import {ApiService} from '../../services/api.service';
 import {TransactionType} from '../../../../../src/model/transaction-type';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
+import {SubSink} from 'subsink';
 
 export interface TransactionDialogData {
     transaction: TransactionDto;
@@ -17,11 +18,12 @@ export interface TransactionDialogData {
     templateUrl: './transaction.component.html',
     styleUrls: ['./transaction.component.scss']
 })
-export class TransactionComponent implements OnInit {
+export class TransactionComponent implements OnInit, OnDestroy {
     public saving = false;
     public deleting = false;
     public error: string | null = null;
     public readonly TRANSACTION_TYPES = Object.values(TransactionType);
+    private subs = new SubSink();
 
     public form = this.fb.group({
         type: ['', Validators.required],
@@ -49,6 +51,10 @@ export class TransactionComponent implements OnInit {
         }
     }
 
+    ngOnDestroy(): void {
+        this.subs.unsubscribe();
+    }
+
     public saveTransaction(): void {
         this.saving = true;
         const transaction: TransactionDto = {
@@ -60,10 +66,10 @@ export class TransactionComponent implements OnInit {
             date: this.form.get('date')!.value,
             personId: this.data.personId,
         };
-        this.apiService.saveTransaction(transaction).subscribe(_ => {
+        this.apiService.saveTransaction(transaction).then(_ => {
             this.saving = false;
             this.dialogRef.close(true);
-        }, error => {
+        }).catch(error => {
             console.error(error);
             this.saving = false;
             this.error = 'ERROR_GENERIC';
@@ -78,16 +84,16 @@ export class TransactionComponent implements OnInit {
             cancelBtnText: 'CANCEL',
             okBtnColor: 'warn'
         };
-        this.dialog.open(InfoDialogComponent, {
+        this.subs.sink = this.dialog.open(InfoDialogComponent, {
             data: dialogData,
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
                 this.deleting = true;
-                this.apiService.deleteTransaction(this.data.personId, this.data.transaction.id).subscribe(_ => {
+                this.apiService.deleteTransaction(this.data.personId, this.data.transaction.id).then(_ => {
                     this.deleting = false;
                     this.dialogRef.close(true);
-                }, error => {
+                }).catch(error => {
                     console.error(error);
                     this.error = 'ERROR_GENERIC';
                 });

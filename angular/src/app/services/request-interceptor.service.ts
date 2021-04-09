@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, from} from 'rxjs';
 import {ApiService, LoginStatus} from './api.service';
 import {catchError, switchMap} from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ export class RequestInterceptorService implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 if (error && error.status === 401 && req.url.indexOf('/auth/') < 0) {
                     console.log('Automatically refreshing token');
-                    return this.apiService.refreshToken().pipe(
+                    return from(this.apiService.refreshToken()).pipe(
                         switchMap(() => next.handle(this.addTokenToRequest(req))),
                         catchError(refreshError => {
                             this.apiService.loginStatusSubject.next(LoginStatus.LOGGED_OUT);

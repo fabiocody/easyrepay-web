@@ -59,7 +59,7 @@ export class ApiService {
         }
     }
 
-    public login(username: string, password: string): Observable<TokenDto> {
+    public login(username: string, password: string): Promise<TokenDto> {
         return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', {}, {
             headers: {
                 authorization: 'Basic ' + window.btoa(username + ':' + password)
@@ -69,64 +69,65 @@ export class ApiService {
                 this.saveTokens(tokenDto.access, tokenDto.refresh);
                 return tokenDto;
             })
-        );
+        ).toPromise();
     }
 
     public logout(): void {
         this.saveTokens(null, null);
     }
 
-    public refreshToken(): Observable<TokenDto> {
+    public refreshToken(): Promise<TokenDto> {
         const refreshTokenDto: RefreshTokenDto = {token: this.refresh!};
         return this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', refreshTokenDto).pipe(
             map(tokenDto => {
                 this.saveTokens(tokenDto.access, tokenDto.refresh);
                 return tokenDto;
             })
-        );
+        ).toPromise();
     }
 
-    public getUserInfo(): Observable<UserDto> {
-        return this.http.get<UserDto>(environment.apiUrl + '/api/me');
+    public getUserInfo(): Promise<UserDto> {
+        return this.http.get<UserDto>(environment.apiUrl + '/api/me').toPromise();
     }
 
-    public getPeople(): Observable<PersonDetailDto[]> {
-        return this.http.get<PersonDetailDto[]>(environment.apiUrl + '/api/people');
+    public getPeople(): Promise<PersonDetailDto[]> {
+        return this.http.get<PersonDetailDto[]>(environment.apiUrl + '/api/people').toPromise();
     }
 
-    public savePerson(personDto: PersonDto): Observable<any> {
-        return this.http.post(environment.apiUrl + '/api/people', personDto);
+    public savePerson(personDto: PersonDto): Promise<object> {
+        return this.http.post(environment.apiUrl + '/api/people', personDto).toPromise();
     }
 
-    public getPerson(personId: number): Observable<PersonDetailDto> {
-        return this.http.get<PersonDetailDto>(environment.apiUrl + `/api/person/${personId}`);
+    public getPerson(personId: number): Promise<PersonDetailDto> {
+        return this.http.get<PersonDetailDto>(environment.apiUrl + `/api/person/${personId}`).toPromise();
     }
 
-    public deletePerson(personId: number): Observable<any> {
-        return this.http.delete(environment.apiUrl + `/api/person/${personId}`);
+    public deletePerson(personId: number): Promise<object> {
+        return this.http.delete(environment.apiUrl + `/api/person/${personId}`).toPromise();
     }
 
-    public getTransactions(personId: number, completed: boolean): Observable<TransactionDto[]> {
-        return this.http.get<TransactionDto[]>(environment.apiUrl + `/api/person/${personId}/transactions?completed=${completed}`);
+    public getTransactions(personId: number, completed: boolean): Promise<TransactionDto[]> {
+        const params = `completed=${completed}`;
+        return this.http.get<TransactionDto[]>(environment.apiUrl + `/api/person/${personId}/transactions?${params}`).toPromise();
     }
 
-    public deleteAllTransactions(personId: number): Observable<any> {
-        return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions`);
+    public deleteAllTransactions(personId: number): Promise<object> {
+        return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions`).toPromise();
     }
 
-    public completeAllTransactions(personId: number): Observable<any> {
-        return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {});
+    public completeAllTransactions(personId: number): Promise<object> {
+        return this.http.post(environment.apiUrl + `/api/person/${personId}/transactions/complete`, {}).toPromise();
     }
 
-    public deleteCompletedTransactions(personId: number): Observable<any> {
-        return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions/complete`);
+    public deleteCompletedTransactions(personId: number): Promise<object> {
+        return this.http.delete(environment.apiUrl + `/api/person/${personId}/transactions/complete`).toPromise();
     }
 
-    public saveTransaction(transaction: TransactionDto): Observable<any> {
-        return this.http.post(environment.apiUrl + `/api/transactions`, transaction);
+    public saveTransaction(transaction: TransactionDto): Promise<object> {
+        return this.http.post(environment.apiUrl + `/api/transactions`, transaction).toPromise();
     }
 
-    public deleteTransaction(personId: number, transactionId: number): Observable<any> {
-        return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`);
+    public deleteTransaction(personId: number, transactionId: number): Promise<object> {
+        return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`).toPromise();
     }
 }
