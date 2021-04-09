@@ -7,35 +7,40 @@
         <mat-icon>{{userName === '' ? 'person_outline' : 'person'}}</mat-icon>
     </button>
     <mat-menu #userMenu>
+        <div mat-menu-item disabled fxHide fxShow.lt-sm>
+            <mat-icon>person</mat-icon>
+            {{userName}}
+        </div>
+        <mat-divider fxHide fxShow.lt-md></mat-divider>
         <button mat-menu-item [matMenuTriggerFor]="languageMenu">
             <mat-icon>language</mat-icon>
             {{'LANGUAGE' | translate}}
         </button>
-        <mat-menu #languageMenu>
-            <button mat-menu-item (click)="setLanguage('it')">
-                {{'ITALIAN' | translate}}
-            </button>
-            <button mat-menu-item (click)="setLanguage('en')">
-                {{'ENGLISH' | translate}}
-            </button>
-        </mat-menu>
         <button mat-menu-item [matMenuTriggerFor]="appearanceMenu">
             <mat-icon>settings_brightness</mat-icon>
             {{'APPEARANCE' | translate}}
         </button>
-        <mat-menu #appearanceMenu>
-            <ng-container *ngFor="let theme of getThemes()">
-                <button mat-menu-item (click)="setTheme(theme.label)">
-                    <mat-icon>{{theme.icon}}</mat-icon>
-                    {{theme.label | translate}}
-                </button>
-            </ng-container>
-        </mat-menu>
         <ng-container *ngIf="userName !== ''">
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="logout()">
                 <mat-icon>logout</mat-icon>
                 {{'LOGOUT' | translate}}
+            </button>
+        </ng-container>
+    </mat-menu>
+    <mat-menu #languageMenu>
+        <button mat-menu-item (click)="setLanguage('it')">
+            {{'ITALIAN' | translate}}
+        </button>
+        <button mat-menu-item (click)="setLanguage('en')">
+            {{'ENGLISH' | translate}}
+        </button>
+    </mat-menu>
+    <mat-menu #appearanceMenu>
+        <ng-container *ngFor="let theme of getThemes()">
+            <button mat-menu-item (click)="setTheme(theme.label)">
+                <mat-icon>{{theme.icon}}</mat-icon>
+                {{theme.label | translate}}
             </button>
         </ng-container>
     </mat-menu>
