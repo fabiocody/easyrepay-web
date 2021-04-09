@@ -267,7 +267,7 @@ components:
                     type: boolean
                 date:
                     type: string
-                    format: date
+                    format: date-time
             required:
                 - id
                 - personId
