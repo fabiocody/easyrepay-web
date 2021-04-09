@@ -6,7 +6,8 @@ import {Authorized, Body, Delete, Get, JsonController, Param, Post, QueryParam} 
 export class TransactionController {
     @Authorized()
     @Get('/person/:id/transactions')
-    public async getTransactions(@Param('id') personId: number, @QueryParam('completed') completed: boolean): Promise<TransactionDto[]> {
+    public async getTransactions(@Param('id') personId: number,
+                                 @QueryParam('completed') completed: boolean = false): Promise<TransactionDto[]> {
         return (await TransactionService.getTransactions(personId, completed))
             .map(t => new TransactionDto(t));
     }

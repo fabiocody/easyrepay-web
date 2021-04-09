@@ -2,6 +2,8 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as swaggerUi from 'swagger-ui-express';
+import * as YAML from 'yamljs';
 import 'reflect-metadata';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -21,6 +23,7 @@ const app = express();
 app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-time ms'));
 app.use(cors());
 app.use(helmet());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, 'api/swagger.yaml'))));
 
 /* SETUP SERVER WITH API ROUTES AND AUTHENTICATION */
 useExpressServer(app, {
