@@ -1,6 +1,7 @@
 #!/bin/sh
 
 git checkout release
+rm -rf dist
 git merge main
 cd angular
 npm install
