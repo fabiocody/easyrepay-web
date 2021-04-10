@@ -19,11 +19,13 @@ import {Action, useExpressServer} from 'routing-controllers';
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1);
 
 /* MIDDLEWARES */
 app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-time ms'));
 app.use(cors());
 app.use(helmet());
+app.use(rateLimit({windowMs: 1000, max: 300}));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, 'api/swagger.yaml'))));
 
 /* SETUP SERVER WITH API ROUTES AND AUTHENTICATION */
@@ -47,9 +49,8 @@ const angularPath = path.join(__dirname, '../angular');
 const angularIndexPath = path.resolve(angularPath, 'index.html');
 if (fs.existsSync(path.resolve(angularPath, 'index.html'))) {
     console.log('Serving Angular app');
-    const limiter = rateLimit({windowMs: 60 * 1000, max: 60 * 1000});
     app.use('/', express.static(angularPath));
-    app.all('/*', limiter, (_, res) => res.sendFile(angularIndexPath));
+    app.all('/*', (_, res) => res.sendFile(angularIndexPath));
 } else {
     console.log('Skipping Angular app');
 }
