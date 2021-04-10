@@ -36,10 +36,6 @@ export class ThemeService {
         }
     ];
 
-    public getTheme(): Theme {
-        return this.themeSubject.value;
-    }
-
     public setTheme(theme: Theme): void {
         this.themeSubject.next(theme);
         localStorage.setItem('theme', theme);

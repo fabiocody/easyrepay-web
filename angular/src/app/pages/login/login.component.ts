@@ -46,6 +46,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         const passwordField = this.form.get('password');
         const username = usernameField ? usernameField.value : '';
         const password = passwordField ? passwordField.value : '';
-        this.userService.login(username, password);
+        this.userService.login(username, password).then();
     }
 }
