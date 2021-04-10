@@ -10,7 +10,7 @@
     "scripts": {
         "start": "node dist/src/index.js",
         "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-        "build": "tsc && cp -R src/api dist/src/",
+        "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1",
         "knex": "node node_modules/.bin/knex",
         "user-manager": "node dist/src/user-manager.js",
