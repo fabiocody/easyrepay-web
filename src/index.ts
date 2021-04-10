@@ -5,9 +5,10 @@ import * as fs from 'fs';
 import * as swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yamljs';
 import 'reflect-metadata';
+import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
-import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
 import {AuthController} from './controllers/auth.controller';
 import {UserController} from './controllers/user.controller';
 import {PersonController} from './controllers/person.controller';
@@ -46,8 +47,9 @@ const angularPath = path.join(__dirname, '../angular');
 const angularIndexPath = path.resolve(angularPath, 'index.html');
 if (fs.existsSync(path.resolve(angularPath, 'index.html'))) {
     console.log('Serving Angular app');
+    const limiter = rateLimit({windowMs: 60 * 1000, max: 60 * 1000});
     app.use('/', express.static(angularPath));
-    app.all('/*', (_, res) => res.sendFile(angularIndexPath));
+    app.all('/*', limiter, (_, res) => res.sendFile(angularIndexPath));
 } else {
     console.log('Skipping Angular app');
 }
