@@ -26,7 +26,7 @@ app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-ti
 app.use(cors());
 app.use(helmet());
 app.use(rateLimit({windowMs: 1000, max: 300}));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, '../../api/swagger.yaml'))));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, '../api/swagger.yaml'))));
 
 /* SETUP SERVER WITH API ROUTES AND AUTHENTICATION */
 useExpressServer(app, {
@@ -47,7 +47,7 @@ useExpressServer(app, {
 /* SERVE ANGULAR APP */
 const angularPath = path.join(__dirname, '../angular');
 const angularIndexPath = path.resolve(angularPath, 'index.html');
-if (fs.existsSync(path.resolve(angularPath, 'index.html'))) {
+if (fs.existsSync(angularIndexPath)) {
     console.log('Serving Angular app');
     app.use('/', express.static(angularPath));
     app.all('/*', (_, res) => res.sendFile(angularIndexPath));
