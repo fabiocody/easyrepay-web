@@ -27,7 +27,7 @@
     },
     "homepage": "https://github.com/fabiocody/easyrepay-web#readme",
     "devDependencies": {
-        "@types/bcrypt": "^3.0.0",
+        "@types/bcrypt": "^3.0.1",
         "@types/cookie-parser": "^1.4.2",
         "@types/cors": "^2.8.10",
         "@types/express": "^4.17.11",
