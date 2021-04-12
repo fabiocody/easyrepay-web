@@ -13,9 +13,11 @@ name: "CodeQL"
 
 on:
   push:
+    branches-ignore:
+      - dependabot/**
   pull_request:
   schedule:
-    - cron: '40 5 * * 0'
+    - cron: '00 19 * * 5'
 
 jobs:
   analyze:
