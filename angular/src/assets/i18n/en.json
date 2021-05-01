@@ -30,6 +30,8 @@
     "EDIT_PERSON": "Edit person",
     "EDIT_TRANSACTION": "Edit transaction",
     "ENGLISH": "English",
+    "ERROR": "Error",
+    "ERROR_DELETE_PERSON": "An error occurred while deleting this person. Make sure there is no transaction left.",
     "ERROR_GENERIC": "An error occurred",
     "ERROR_NAME_ALREADY_PRESENT": "Name already present",
     "ITALIAN": "Italian",

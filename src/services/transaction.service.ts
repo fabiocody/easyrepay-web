@@ -1,22 +1,21 @@
 import {TransactionEntity} from '../model/transaction.entity';
-import {db} from '../config/db';
 import {TransactionType} from '../model/transaction-type';
 import {TransactionDto} from '../model/dto/transaction.dto';
+import {PersonService} from './person.service';
+import {InternalServerError} from 'routing-controllers';
+import {EntityManager, getManager} from 'typeorm';
+import {PersonEntity} from '../model/person.entity';
 
 export class TransactionService {
     public static async getTransactions(personId: number, completed: boolean): Promise<TransactionEntity[]> {
-        const transactions = await db('transaction')
-            .where('personId', personId)
-            .where('completed', completed)
-            .orderBy('date');
-        return transactions.map(t => new TransactionEntity(t));
+        const person = await PersonService.get(personId);
+        return (await person.transactions)
+            .filter(t => t.completed === completed)
+            .sort((a, b) => a.date < b.date ? -1 : (a.date > b.date ? 1 : 0));
     }
 
     public static async get(id: number): Promise<TransactionEntity> {
-        const data = await db('transaction')
-            .where('id', id)
-            .limit(1);
-        return new TransactionEntity(data[0]);
+        return TransactionEntity.findOneOrFail(id);
     }
 
     public static getSignedAmount(transaction: TransactionEntity): number {
@@ -30,40 +29,52 @@ export class TransactionService {
         }
     }
 
-    public static async save(transaction: TransactionDto): Promise<void> {
-        if (transaction.id < 0) {
-            const {id, ...newTransaction} = transaction;
-            await db('transaction')
-                .insert(newTransaction);
+    public static async save(transactionDto: TransactionDto): Promise<void> {
+        const person = await PersonService.get(transactionDto.personId);
+        if (transactionDto.id < 0) {
+            const transaction = new TransactionEntity(transactionDto);
+            transaction.person = Promise.resolve(person);
+            await transaction.save();
         } else {
-            await db('transaction')
-                .where('id', transaction.id)
-                .update(transaction);
+            const transaction = await TransactionEntity.findOne(transactionDto.id);
+            if (transaction) {
+                Object.assign(transaction, transactionDto);
+                transaction.person = Promise.resolve(person);
+                await transaction.save();
+            } else {
+                throw new InternalServerError(`Error while updating transaction ${transactionDto.id}`);
+            }
         }
     }
 
     public static async deleteAll(personId: number): Promise<void> {
-        return db('transaction')
-            .where('personId', personId)
-            .del();
+        await getManager().transaction(async (manager: EntityManager) => {
+            const person = await manager.findOneOrFail(PersonEntity, personId);
+            (await person.transactions).forEach(t => manager.remove(t));
+        });
     }
 
     public static async setCompleted(personId: number): Promise<void> {
-        return db('transaction')
-            .where('personId', personId)
-            .update({completed: true});
+        await getManager().transaction(async (manager: EntityManager) => {
+            const person = await manager.findOneOrFail(PersonEntity, personId);
+            (await person.transactions).forEach(t => {
+                t.completed = true;
+                manager.save(t);
+            });
+        });
     }
 
     public static async deleteCompleted(personId: number): Promise<void> {
-        return db('transaction')
-            .where('personId', personId)
-            .where('completed', true)
-            .del();
+        await getManager().transaction(async (manager: EntityManager) => {
+            const person = await manager.findOneOrFail(PersonEntity, personId);
+            (await person.transactions)
+                .filter(t => t.completed)
+                .forEach(t => manager.remove(t));
+        });
     }
 
     public static async delete(id: number): Promise<void> {
-        return db('transaction')
-            .where('id', id)
-            .del();
+        const transaction = await TransactionEntity.findOneOrFail(id);
+        await transaction.remove();
     }
 }

@@ -30,6 +30,8 @@
     "EDIT_PERSON": "Modifica persona",
     "EDIT_TRANSACTION": "Modifica transazione",
     "ENGLISH": "Inglese",
+    "ERROR": "Errore",
+    "ERROR_DELETE_PERSON": "Si è verificato un errore durante l'eliminazione di questa persona. Assicurati che non ci siano transazioni.",
     "ERROR_GENERIC": "Si è verificato un errore",
     "ERROR_NAME_ALREADY_PRESENT": "Questo nome è già stato aggiunto",
     "ITALIAN": "Italiano",
