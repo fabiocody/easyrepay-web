@@ -1,9 +1,10 @@
-import {db} from '../config/db';
 import * as jwt from 'jsonwebtoken';
 import * as crypto from 'crypto';
 import {UserEntity} from '../model/user.entity';
+import {TokenEntity} from '../model/token.entity';
 import {UserService} from './user.service';
 import {UnauthorizedError} from 'routing-controllers';
+import {EntityManager, getManager} from 'typeorm';
 
 export class AuthService {
     private static secretKey = '';
@@ -31,35 +32,31 @@ export class AuthService {
     }
 
     private static async updateRefreshTokens(userId: number, refreshToken: string): Promise<void> {
-        await db.transaction(async tx => {
-            const tokens = await tx('token').where('userId', userId);
-            const expired = [];
-            for (const token of tokens) {
+        await getManager().transaction(async (manager: EntityManager) => {
+            const user = await manager.findOneOrFail(UserEntity, userId);
+            for (const token of await user.tokens) {
                 try {
                     jwt.verify(token.token, this.getSecretKey());
                 } catch {
-                    expired.push(token.id);
+                    await manager.remove(token);
                 }
             }
-            await tx('token').whereIn('id', expired).del();
-            await tx('token').insert({
-                userId: userId,
-                token: refreshToken
-            });
+            const newToken = new TokenEntity({user: Promise.resolve(user), token: refreshToken});
+            await manager.save(newToken);
         });
     }
 
     public static async refreshToken(token: string): Promise<[string, string]> {
-        const dbTokens = await db('token').where('token', token);
-        if (dbTokens.length === 0) {
-            throw new UnauthorizedError();
-        } else {
+        const dbToken = await TokenEntity.findOne({token});
+        if (dbToken) {
             const decoded = jwt.verify(token, this.getSecretKey()) as any;
             const userId = decoded.userId;
-            await db('token').where('token', token).del();
+            await dbToken.remove();
             const access = this.getAccessToken(userId);
             const refresh = await this.getRefreshToken(userId);
             return [access, refresh];
+        } else {
+            throw new UnauthorizedError();
         }
     }
 

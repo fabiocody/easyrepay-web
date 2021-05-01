@@ -14,9 +14,14 @@ import {PersonController} from './controllers/person.controller';
 import {TransactionController} from './controllers/transaction.controller';
 import {AuthService} from './services/auth.service';
 import {Action, useExpressServer} from 'routing-controllers';
+import {createConnection} from 'typeorm';
 
 dotenv.config();
 const dev = process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true;
+
+createConnection()
+    .then(_ => console.log('DB connection created'))
+    .catch(err => console.error('Error while establishing DB connection:', err));
 
 const app = express();
 app.set('trust proxy', 1);

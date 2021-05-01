@@ -98,7 +98,18 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             if (value) {
                 this.peopleService.deletePerson(this.person!.id)
                     .then(_ => this.location.back())
-                    .catch(error => console.error(error));
+                    .catch(error => {
+                        console.error(error);
+                        const errorDialogData: InfoDialogData = {
+                            title: 'ERROR',
+                            body: 'ERROR_DELETE_PERSON',
+                            okBtnText: 'OK'
+                        };
+                        this.dialog.open(InfoDialogComponent, {
+                            data: errorDialogData,
+                            autoFocus: false,
+                        });
+                    });
             }
         });
     }
