@@ -1,12 +1,12 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, Validators} from '@angular/forms';
-import * as moment from 'moment';
 import {InfoDialogComponent, InfoDialogData} from '../info-dialog/info-dialog.component';
 import {ApiService} from '../../services/api.service';
 import {TransactionType} from '../../../../../src/model/transaction-type';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {SubSink} from 'subsink';
+import * as moment from 'moment';
 
 export interface TransactionDialogData {
     transaction: TransactionDto;

@@ -24,8 +24,8 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
     private subs = new SubSink();
 
     constructor(
+        public location: Location,
         private route: ActivatedRoute,
-        private location: Location,
         private dialog: MatDialog,
         private apiService: ApiService,
     ) {}
@@ -68,10 +68,6 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
             .reduce((acc, val) => acc + val, 0);
     }
 
-    public navigateBack(): void {
-        this.location.back();
-    }
-
     public editPerson(): void {
         this.subs.sink = this.dialog.open(AddPersonComponent, {
             data: this.person,
@@ -99,7 +95,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
         }).afterClosed().subscribe(value => {
             if (value) {
                 this.apiService.deletePerson(this.person!.id)
-                    .then(_ => this.navigateBack())
+                    .then(_ => this.location.back())
                     .catch(error => console.error(error));
             }
         });

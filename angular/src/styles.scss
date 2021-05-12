@@ -99,3 +99,13 @@ button:focus {
 .mat-flat-button .mat-icon {
     transform: translateY(-5%);
 }
+
+.page-title {
+    display: inline !important;
+}
+
+.back-button {
+    position: relative;
+    top: -4px;
+    left: -10px;
+}
