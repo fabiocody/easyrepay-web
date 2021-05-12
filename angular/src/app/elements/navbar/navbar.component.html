@@ -7,11 +7,13 @@
         <mat-icon>{{userName === '' ? 'person_outline' : 'person'}}</mat-icon>
     </button>
     <mat-menu #userMenu>
-        <div mat-menu-item disabled fxHide fxShow.lt-sm>
-            <mat-icon>person</mat-icon>
-            {{userName}}
-        </div>
-        <mat-divider fxHide fxShow.lt-md></mat-divider>
+        <ng-container *ngIf="userName !== ''">
+            <div mat-menu-item disabled fxHide fxShow.lt-sm>
+                <mat-icon>person</mat-icon>
+                {{userName}}
+            </div>
+            <mat-divider fxHide fxShow.lt-sm></mat-divider>
+        </ng-container>
         <button mat-menu-item [matMenuTriggerFor]="languageMenu">
             <mat-icon>language</mat-icon>
             {{'LANGUAGE' | translate}}
