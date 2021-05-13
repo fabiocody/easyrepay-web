@@ -4,13 +4,13 @@ echo "-> Merging main into release"
 git checkout release
 rm -rf dist
 git merge main
-echo "-> Building frontend"
+echo "-> Updating dependencies and building frontend"
 cd angular
-npm install
+npm ci
 npm run build
-echo "-> Building backend"
+echo "-> Updateing dependencies and building backend"
 cd ..
-npm install
+npm ci
 npm run build
 echo "-> Committing release"
 git add .
