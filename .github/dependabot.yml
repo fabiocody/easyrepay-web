@@ -8,12 +8,10 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
-      day: "saturday"
+      interval: "daily"
     versioning-strategy: "lockfile-only"
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/angular/" # Location of package manifests
     schedule:
-      interval: "weekly"
-      day: "saturday"
+      interval: "daily"
     versioning-strategy: "lockfile-only"
