@@ -38,11 +38,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    NgxMatTimepickerModule
-} from '@angular-material-components/datetime-picker';
+import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
+import {AppDateAdapter, DynamicLocaleId} from './services/localization.adapters';
+
 
 @NgModule({
     declarations: [
@@ -83,17 +81,19 @@ import {
         MatDialogModule,
         MatSelectModule,
         MatCheckboxModule,
-        NgxMatDatetimePickerModule,
-        NgxMatTimepickerModule,
-        NgxMatNativeDateModule,
         MatDatepickerModule,
         MatSlideToggleModule,
+        MatNativeDateModule,
     ],
     providers: [
         {
             provide: LOCALE_ID,
             deps: [TranslationService],
-            useFactory: (translationService: TranslationService) => translationService.localeId
+            useClass: DynamicLocaleId
+        },
+        {
+            provide: DateAdapter,
+            useClass: AppDateAdapter
         },
         {
             provide: HTTP_INTERCEPTORS,

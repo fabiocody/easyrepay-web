@@ -1,31 +1,31 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@use '~@angular/material' as mat;
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$light-primary: mat-palette($mat-teal, 900);
-$light-accent: mat-palette($mat-amber, 400, 200, 600);
+$light-primary: mat.define-palette(mat.$teal-palette, 900);
+$light-accent: mat.define-palette(mat.$amber-palette, 400, 200, 600);
 
 // The warn palette is optional (defaults to red).
-$light-warn: mat-palette($mat-red);
+$light-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+$light-theme: mat.define-light-theme($light-primary, $light-accent, $light-warn);
 
 // Define dark theme
-$dark-primary: mat-palette($mat-teal);
-$dark-accent: mat-palette($mat-amber, A200, A100, A400);
-$dark-warn: mat-palette($mat-deep-orange);
-$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+$dark-primary: mat.define-palette(mat.$teal-palette);
+$dark-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$dark-warn: mat.define-palette(mat.$deep-orange-palette);
+$dark-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 @mixin avatar-theme($theme) {
     $primary: map-get($theme, primary);
@@ -36,18 +36,18 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
     app-avatar {
         .avatar-primary {
-            background-color: mat-color($primary);
+            background-color: mat.get-color-from-palette($primary);
         }
 
         .avatar-accent {
-            background-color: mat-color($accent);
+            background-color: mat.get-color-from-palette($accent);
         }
     }
 }
 
 @mixin amount-theme($theme) {
-    $credit-color: mat-color(map-get($theme, primary));
-    $debt-color: mat-color(map-get($theme, warn));
+    $credit-color: mat.get-color-from-palette(map-get($theme, primary));
+    $debt-color: mat.get-color-from-palette(map-get($theme, warn));
 
     .amount-credit {
         color: $credit-color;
@@ -58,12 +58,12 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
     }
 }
 
-@include angular-material-theme($light-theme);
+@include mat.all-component-themes($light-theme);
 @include avatar-theme($light-theme);
 @include amount-theme($light-theme);
 
 .easyrepay-dark-theme {
-    @include angular-material-color($dark-theme);
+    @include mat.all-component-colors($dark-theme);
     @include avatar-theme($dark-theme);
     @include amount-theme($dark-theme);
 }
