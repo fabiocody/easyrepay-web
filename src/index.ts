@@ -7,7 +7,6 @@ import * as YAML from 'yamljs';
 import 'reflect-metadata';
 import morgan from 'morgan';
 import cors from 'cors';
-import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import {AuthController} from './controllers/auth.controller';
 import {UserController} from './controllers/user.controller';
@@ -24,7 +23,6 @@ app.set('trust proxy', 1);
 /* MIDDLEWARES */
 app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-time ms'));
 app.use(cors());
-app.use(helmet());
 app.use(rateLimit({windowMs: 1000, max: 300}));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, '../api/swagger.yaml'))));
 
