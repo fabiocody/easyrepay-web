@@ -19,16 +19,5 @@
     <button mat-flat-button color="primary" mat-dialog-close>
         {{'CANCEL' | translate}}
     </button>
-    <button mat-flat-button color="primary" (click)="addPerson()" [disabled]="!nameForm.valid || loading">
-        <ng-container [ngSwitch]="loading">
-            <ng-container *ngSwitchCase="true">
-                <div class="button-spinner d-flex justify-content-center m-2">
-                    <mat-spinner diameter="20"></mat-spinner>
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="false">
-                {{'OK' | translate}}
-            </ng-container>
-        </ng-container>
-    </button>
+    <app-spinner-button class="ml-2" text="OK" [loading]="loading" [disabled]="!nameForm.valid || loading" (btnClick)="addPerson()"></app-spinner-button>
 </mat-dialog-actions>

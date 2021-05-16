@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>{{(data.transaction ? 'EDIT_TRANSACTION' : 'NEW_TRANSACTION') | translate}}</h1>
+
+<mat-dialog-content>
+    <app-transaction-form [(transaction)]="data.transaction" [personId]="data.personId" [error]="error"></app-transaction-form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="float-right">
+    <app-transaction-form-buttons [transaction]="data.transaction" [showDelete]="!!data.transaction" (transactionError)="error = $event"></app-transaction-form-buttons>
+</mat-dialog-actions>

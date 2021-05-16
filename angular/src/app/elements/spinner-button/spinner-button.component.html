@@ -1,0 +1,12 @@
+<button mat-flat-button color="{{color}}" (click)="onClick()" [disabled]="disabled">
+    <ng-container [ngSwitch]="loading">
+        <ng-container *ngSwitchCase="true">
+            <div class="button-spinner d-flex justify-content-center m-2">
+                <mat-spinner diameter="20"></mat-spinner>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="false">
+            {{text | translate}}
+        </ng-container>
+    </ng-container>
+</button>
