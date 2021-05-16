@@ -37,6 +37,12 @@ export class TransactionController {
     }
 
     @Authorized()
+    @Get('/transaction/:id')
+    public async getTransaction(@Param('id') transactionId: number): Promise<TransactionDto> {
+        return new TransactionDto(await TransactionService.get(transactionId));
+    }
+
+    @Authorized()
     @Delete('/transaction/:id')
     public async deleteTransaction(@Param('id') transactionId: number): Promise<void> {
         await TransactionService.delete(transactionId);

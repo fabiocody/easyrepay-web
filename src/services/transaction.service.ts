@@ -12,6 +12,13 @@ export class TransactionService {
         return transactions.map(t => new TransactionEntity(t));
     }
 
+    public static async get(id: number): Promise<TransactionEntity> {
+        const data = await db('transaction')
+            .where('id', id)
+            .limit(1);
+        return new TransactionEntity(data[0]);
+    }
+
     public static getSignedAmount(transaction: TransactionEntity): number {
         switch (transaction.type) {
             case TransactionType.CREDIT:

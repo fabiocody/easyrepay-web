@@ -130,4 +130,8 @@ export class ApiService {
     public deleteTransaction(personId: number, transactionId: number): Promise<object> {
         return this.http.delete(environment.apiUrl + `/api/transaction/${transactionId}`).toPromise();
     }
+
+    public getTransaction(transactionId: number): Promise<TransactionDto> {
+        return this.http.get<TransactionDto>(environment.apiUrl + `/api/transaction/${transactionId}`).toPromise();
+    }
 }

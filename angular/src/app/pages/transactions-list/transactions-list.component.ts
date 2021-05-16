@@ -1,14 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
 import {Location} from '@angular/common';
-import {TransactionComponent} from '../../dialogs/transaction/transaction.component';
+import {TransactionDialogComponent} from '../../dialogs/transaction-dialog/transaction-dialog.component';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {TransactionType} from '../../../../../src/model/transaction-type';
+import {MediaObserver} from '@angular/flex-layout';
 import {SubSink} from 'subsink';
 
 @Component({
@@ -25,8 +26,10 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
 
     constructor(
         public location: Location,
+        private router: Router,
         private route: ActivatedRoute,
         private dialog: MatDialog,
+        private mediaObserver: MediaObserver,
         private apiService: ApiService,
     ) {}
 
@@ -102,18 +105,23 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
     }
 
     public openTransaction(transaction: TransactionDto | null): void {
-        this.subs.sink = this.dialog.open(TransactionComponent, {
-            data: {
-                transaction,
-                personId: this.person!.id,
-            },
-            maxWidth: '300px',
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.updateTransactions();
-            }
-        });
+        if (this.mediaObserver.isActive('xs')) {
+            const personId = this.person!.id;
+            this.router.navigate(['transaction'], {state: {transaction, personId}}).then();
+        } else {
+            this.subs.sink = this.dialog.open(TransactionDialogComponent, {
+                data: {
+                    transaction: transaction,
+                    personId: this.person!.id,
+                },
+                maxWidth: '300px',
+                autoFocus: false,
+            }).afterClosed().subscribe(value => {
+                if (value) {
+                    this.updateTransactions();
+                }
+            });
+        }
     }
 
     public completeAllTransactions(): void {

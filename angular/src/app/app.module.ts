@@ -33,13 +33,17 @@ import {SpinnerComponent} from './elements/spinner/spinner.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
 import {InfoDialogComponent} from './dialogs/info-dialog/info-dialog.component';
 import {TransactionCardComponent} from './pages/transactions-list/transaction-card/transaction-card.component';
-import {TransactionComponent} from './dialogs/transaction/transaction.component';
+import {TransactionDialogComponent} from './dialogs/transaction-dialog/transaction-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
 import {AppDateAdapter, DynamicLocaleId} from './services/localization.adapters';
+import {TransactionFormComponent} from './elements/transaction-form/transaction-form.component';
+import {TransactionFormButtonsComponent} from './elements/transaction-form-buttons/transaction-form-buttons.component';
+import {TransactionPageComponent} from './pages/transaction-page/transaction-page.component';
+import {SpinnerButtonComponent} from './elements/spinner-button/spinner-button.component';
 
 
 @NgModule({
@@ -56,7 +60,11 @@ import {AppDateAdapter, DynamicLocaleId} from './services/localization.adapters'
         SpinnerComponent,
         InfoDialogComponent,
         TransactionCardComponent,
-        TransactionComponent,
+        TransactionDialogComponent,
+        TransactionFormComponent,
+        TransactionFormButtonsComponent,
+        TransactionPageComponent,
+        SpinnerButtonComponent,
     ],
     imports: [
         BrowserModule,
