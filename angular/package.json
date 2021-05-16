@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build -c production --aot --build-optimizer --optimization --show-circular-dependencies --output-hashing all --output-path ../dist/angular",
+    "build": "ng build -c production --aot --build-optimizer --optimization --output-hashing all --output-path ../dist/angular",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
