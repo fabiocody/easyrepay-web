@@ -5,7 +5,9 @@ import '@angular/common/locales/global/it';
 import '@angular/common/locales/global/en';
 import * as moment from 'moment';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TranslationService {
     private data: any = {};
     private languageSubject: BehaviorSubject<string>;
