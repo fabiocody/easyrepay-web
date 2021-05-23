@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -8,6 +8,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RequestInterceptorService} from './utils/request-interceptor/request-interceptor.service';
 import {NavbarModule} from './navbar/navbar.module';
 import {SpinnerModule} from './utils/spinner/spinner.module';
+import {TranslationService} from './utils/translation/translation.service';
+import {DynamicLocaleId} from './utils/translation/translation.utils';
 
 
 @NgModule({
@@ -28,6 +30,11 @@ import {SpinnerModule} from './utils/spinner/spinner.module';
             useClass: RequestInterceptorService,
             multi: true
         },
+        {
+            provide: LOCALE_ID,
+            deps: [TranslationService],
+            useClass: DynamicLocaleId
+        }
     ],
     bootstrap: [AppComponent]
 })
