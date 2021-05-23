@@ -1,6 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
-import {UserService} from './services/user.service';
 import {Router} from '@angular/router';
+import {LoginService} from './login/login.service';
 import {SubSink} from 'subsink';
 
 @Component({
@@ -15,9 +15,10 @@ export class AppComponent implements OnDestroy{
 
     constructor(
         private router: Router,
-        private userService: UserService,
+        private loginService: LoginService,
     ) {
-        this.subs.sink = this.userService.user.subscribe(user => {
+        this.subs.sink = this.loginService.user.subscribe(user => {
+            console.log('AppComponent');
             if (user) {
                 if (this.loading) {
                     this.router.navigate(['/people']).then();

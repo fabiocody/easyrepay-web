@@ -28,6 +28,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module';
 import {PeopleModule} from '../people/people.module';
+import {InfoDialogModule} from '../utils/info-dialog/info-dialog.module';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {PeopleModule} from '../people/people.module';
         CommonModule,
         TransactionsRoutingModule,
         TranslationModule,
+        InfoDialogModule,
         PeopleModule,
         SpinnerModule,
         SpinnerButtonModule,

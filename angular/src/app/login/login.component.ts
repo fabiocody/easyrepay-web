@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from '../../services/user.service';
+import {LoginService} from './login.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {skip} from 'rxjs/operators';
 import {SubSink} from 'subsink';
@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     constructor(
-        private userService: UserService,
+        private loginService: LoginService,
         private fb: FormBuilder,
     ) {}
 
     ngOnInit(): void {
-        this.subs.sink = this.userService.user.pipe(skip(1)).subscribe(user => {
+        this.subs.sink = this.loginService.user.pipe(skip(1)).subscribe(user => {
             this.loading = false;
             if (user) {
                 this.error = null;
@@ -42,10 +42,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public login(): void {
         this.loading = true;
         this.error = null;
-        const usernameField = this.form.get('username');
-        const passwordField = this.form.get('password');
-        const username = usernameField ? usernameField.value : '';
-        const password = passwordField ? passwordField.value : '';
-        this.userService.login(username, password).then();
+        const username = this.form.get('username')!.value;
+        const password = this.form.get('password')!.value;
+        this.loginService.login(username, password).then();
     }
 }
