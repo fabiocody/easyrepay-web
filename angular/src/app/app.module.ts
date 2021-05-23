@@ -28,7 +28,6 @@ import {AddPersonComponent} from './dialogs/add-person/add-person.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TransactionsListComponent} from './pages/transactions-list/transactions-list.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
-import {InfoDialogComponent} from './dialogs/info-dialog/info-dialog.component';
 import {TransactionCardComponent} from './pages/transactions-list/transaction-card/transaction-card.component';
 import {TransactionDialogComponent} from './dialogs/transaction-dialog/transaction-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
@@ -43,6 +42,7 @@ import {TranslationModule} from './utils/translation/translation.module';
 import {AppDateAdapter} from './utils/translation/translation.utils';
 import {SpinnerModule} from './utils/spinner/spinner.module';
 import {SpinnerButtonModule} from './utils/spinner-button/spinner-button.module';
+import {InfoDialogModule} from './utils/info-dialog/info-dialog.module';
 
 
 @NgModule({
@@ -55,7 +55,6 @@ import {SpinnerButtonModule} from './utils/spinner-button/spinner-button.module'
         AvatarComponent,
         AddPersonComponent,
         TransactionsListComponent,
-        InfoDialogComponent,
         TransactionCardComponent,
         TransactionDialogComponent,
         TransactionFormComponent,
@@ -71,6 +70,7 @@ import {SpinnerButtonModule} from './utils/spinner-button/spinner-button.module'
         TranslationModule,
         SpinnerModule,
         SpinnerButtonModule,
+        InfoDialogModule,
         MatButtonModule,
         NgbModule,
         MatToolbarModule,

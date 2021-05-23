@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {ApiService} from '../../services/api.service';
-import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
+import {InfoDialogComponent, InfoDialogData} from '../../utils/info-dialog/info-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {SubSink} from 'subsink';
 import {TransactionDialogComponent} from '../../dialogs/transaction-dialog/transaction-dialog.component';
