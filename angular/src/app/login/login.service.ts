@@ -31,7 +31,6 @@ export class LoginService implements OnDestroy {
         private router: Router,
         private http: HttpClient,
     ) {
-        console.log('LoginService constructor');
         let initialStatus = LoginStatus.LOGGED_OUT;
         if (this.access) {
             const jwt = new JwtHelperService();
@@ -39,29 +38,31 @@ export class LoginService implements OnDestroy {
         }
         this.loginStatusSubject = new BehaviorSubject<LoginStatus>(initialStatus);
         this.loginStatus = this.loginStatusSubject.asObservable();
-        this.subs.sink = this.loginStatus.subscribe(status => {
-            switch (status) {
-                case LoginStatus.LOGGED_IN:
-                    this.getUserInfo()
-                        .then(user => this.userSubject.next(user))
-                        .catch(error => {
+        setTimeout(() => {
+            this.subs.sink = this.loginStatus.subscribe(status => {
+                switch (status) {
+                    case LoginStatus.LOGGED_IN:
+                        this.getUserInfo()
+                            .then(user => this.userSubject.next(user))
+                            .catch(error => {
+                                console.error(error);
+                                this.userSubject.next(null);
+                            });
+                        break;
+                    case LoginStatus.LOGGED_OUT:
+                        this.userSubject.next(null);
+                        break;
+                    case LoginStatus.TOKEN_EXPIRED:
+                        this.refreshToken().catch(error => {
                             console.error(error);
                             this.userSubject.next(null);
                         });
-                    break;
-                case LoginStatus.LOGGED_OUT:
-                    this.userSubject.next(null);
-                    break;
-                case LoginStatus.TOKEN_EXPIRED:
-                    this.refreshToken().catch(error => {
-                        console.error(error);
-                        this.userSubject.next(null);
-                    });
-                    break;
-                default:
-                    this.userSubject.next(undefined);
-            }
-        });
+                        break;
+                    default:
+                        this.userSubject.next(undefined);
+                }
+            });
+        }, 0);
     }
 
     public get authHeader(): string {
@@ -78,12 +79,10 @@ export class LoginService implements OnDestroy {
 
     public async login(username: string, password: string): Promise<void> {
         try {
-            const tokens = await this.http.post<TokenDto>(`${environment.apiUrl}/api/auth/authenticate`, {}, {
+            const tokens = await this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', {}, {
                 headers: {authorization: 'Basic ' + window.btoa(`${username}:${password}`)}
             }).toPromise();
             this.saveTokens(tokens.access, tokens.refresh);
-            const user = await this.getUserInfo();
-            this.userSubject.next(user);
             await this.router.navigate(['/people']);
         } catch (e) {
             console.error(e);
@@ -93,7 +92,6 @@ export class LoginService implements OnDestroy {
 
     public logout(): void {
         this.saveTokens(null, null);
-        this.userSubject.next(null);
     }
 
     public async refreshToken(): Promise<TokenDto> {

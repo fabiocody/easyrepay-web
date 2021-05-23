@@ -18,7 +18,6 @@ export class AppComponent implements OnDestroy{
         private loginService: LoginService,
     ) {
         this.subs.sink = this.loginService.user.subscribe(user => {
-            console.log('AppComponent');
             if (user) {
                 if (this.loading) {
                     this.router.navigate(['/people']).then();

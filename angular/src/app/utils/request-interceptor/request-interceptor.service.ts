@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable, from} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {LoginService, LoginStatus} from '../../login/login.service';
 import {catchError, switchMap} from 'rxjs/operators';
 
@@ -8,9 +8,7 @@ import {catchError, switchMap} from 'rxjs/operators';
 export class RequestInterceptorService implements HttpInterceptor {
     constructor(
         private loginService: LoginService,
-    ) {
-        console.log('RequestInterceptor constructor');
-    }
+    ) {}
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (req.url.indexOf('/auth/') < 0 && req.url.indexOf('/i18n/') < 0) {
