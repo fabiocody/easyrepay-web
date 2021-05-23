@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Theme, ThemeOption, ThemeService} from './theme/theme.service';
-import {UserService} from '../services/user.service';
 import {TranslationService} from '../utils/translation/translation.service';
+import {LoginService} from '../login/login.service';
 import {SubSink} from 'subsink';
 
 @Component({
@@ -17,11 +17,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     constructor(
         private translationService: TranslationService,
         private themeService: ThemeService,
-        private userService: UserService,
+        private loginService: LoginService,
     ) {}
 
     ngOnInit(): void {
-        this.subs.sink = this.userService.user.subscribe(user => {
+        this.subs.sink = this.loginService.user.subscribe(user => {
             if (user) {
                 this.userName = user.name;
             } else {
@@ -47,6 +47,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     public logout(): void {
-        this.userService.logout();
+        this.loginService.logout();
     }
 }
