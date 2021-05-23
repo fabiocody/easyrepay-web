@@ -4,7 +4,7 @@ import {ApiService} from '../../services/api.service';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
-import {InfoDialogComponent, InfoDialogData} from '../../dialogs/info-dialog/info-dialog.component';
+import {InfoDialogComponent, InfoDialogData} from '../../utils/info-dialog/info-dialog.component';
 import {Location} from '@angular/common';
 import {TransactionDialogComponent} from '../../dialogs/transaction-dialog/transaction-dialog.component';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
