@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -16,7 +16,6 @@ import {LoginComponent} from './pages/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {MomentModule} from 'ngx-moment';
-import {TranslationPipe} from './pipes/translation.pipe';
 import {PeopleListComponent} from './pages/people-list/people-list.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -24,7 +23,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {PersonCardComponent} from './pages/people-list/person-card/person-card.component';
-import {TranslationService} from './services/translation.service';
 import {AvatarComponent} from './elements/avatar/avatar.component';
 import {AddPersonComponent} from './dialogs/add-person/add-person.component';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -39,11 +37,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
-import {AppDateAdapter, DynamicLocaleId} from './services/localization.adapters';
 import {TransactionFormComponent} from './elements/transaction-form/transaction-form.component';
 import {TransactionFormButtonsComponent} from './elements/transaction-form-buttons/transaction-form-buttons.component';
 import {TransactionPageComponent} from './pages/transaction-page/transaction-page.component';
 import {SpinnerButtonComponent} from './elements/spinner-button/spinner-button.component';
+import {TranslationModule} from './utils/translation/translation.module';
+import {AppDateAdapter} from './utils/translation/translation.utils';
 
 
 @NgModule({
@@ -51,7 +50,6 @@ import {SpinnerButtonComponent} from './elements/spinner-button/spinner-button.c
         AppComponent,
         NavbarComponent,
         LoginComponent,
-        TranslationPipe,
         PeopleListComponent,
         PersonCardComponent,
         AvatarComponent,
@@ -72,6 +70,7 @@ import {SpinnerButtonComponent} from './elements/spinner-button/spinner-button.c
         BrowserAnimationsModule,
         HttpClientModule,
         MomentModule,
+        TranslationModule,
         MatButtonModule,
         NgbModule,
         MatToolbarModule,
@@ -95,18 +94,13 @@ import {SpinnerButtonComponent} from './elements/spinner-button/spinner-button.c
     ],
     providers: [
         {
-            provide: LOCALE_ID,
-            deps: [TranslationService],
-            useClass: DynamicLocaleId
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptorService,
+            multi: true
         },
         {
             provide: DateAdapter,
             useClass: AppDateAdapter
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: RequestInterceptorService,
-            multi: true
         },
     ],
     bootstrap: [AppComponent]

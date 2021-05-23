@@ -1,4 +1,4 @@
-import {Injectable, Injector} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, from} from 'rxjs';
 import {ApiService, LoginStatus} from './api.service';
@@ -7,7 +7,6 @@ import {catchError, switchMap} from 'rxjs/operators';
 @Injectable()
 export class RequestInterceptorService implements HttpInterceptor {
     constructor(
-        private injector: Injector,
         private apiService: ApiService,
     ) {}
 
