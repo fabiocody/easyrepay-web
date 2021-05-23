@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 import {MatDialog} from '@angular/material/dialog';
-import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
+import {AddPersonComponent} from '../../people/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../../utils/info-dialog/info-dialog.component';
 import {Location} from '@angular/common';
 import {TransactionDialogComponent} from '../../dialogs/transaction-dialog/transaction-dialog.component';
@@ -11,6 +11,7 @@ import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {TransactionType} from '../../../../../src/model/transaction-type';
 import {MediaObserver} from '@angular/flex-layout';
 import {SubSink} from 'subsink';
+import {PeopleService} from '../../people/people.service';
 
 @Component({
     selector: 'app-transactions-list',
@@ -31,12 +32,13 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
         private dialog: MatDialog,
         private mediaObserver: MediaObserver,
         private apiService: ApiService,
+        private peopleService: PeopleService,
     ) {}
 
     ngOnInit(): void {
         this.loading = true;
         const personId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-        this.apiService.getPerson(personId).then(person => {
+        this.peopleService.getPerson(personId).then(person => {
             this.person = person;
             this.updateTransactions();
         }).catch(error => console.error(error));
@@ -77,7 +79,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.getPerson(this.person!.id)
+                this.peopleService.getPerson(this.person!.id)
                     .then(person => this.person = person)
                     .catch(error => console.error(error));
             }
@@ -97,7 +99,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
             autoFocus: false,
         }).afterClosed().subscribe(value => {
             if (value) {
-                this.apiService.deletePerson(this.person!.id)
+                this.peopleService.deletePerson(this.person!.id)
                     .then(_ => this.location.back())
                     .catch(error => console.error(error));
             }

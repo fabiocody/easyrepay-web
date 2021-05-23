@@ -1,22 +1,22 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
-import {ApiService} from '../../services/api.service';
+import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
+import {PeopleService} from './people.service';
+import {AddPersonComponent} from './add-person/add-person.component';
 import {MatDialog} from '@angular/material/dialog';
-import {AddPersonComponent} from '../../dialogs/add-person/add-person.component';
 import {SubSink} from 'subsink';
 
 @Component({
-    selector: 'app-people-list',
-    templateUrl: './people-list.component.html',
-    styleUrls: ['./people-list.component.scss']
+    selector: 'app-people',
+    templateUrl: './people.component.html',
+    styleUrls: ['./people.component.scss']
 })
-export class PeopleListComponent implements OnInit, OnDestroy {
+export class PeopleComponent implements OnInit, OnDestroy {
     public people: PersonDetailDto[] = [];
     public loading = false;
     private subs = new SubSink();
 
     constructor(
-        private apiService: ApiService,
+        private peopleService: PeopleService,
         private dialog: MatDialog,
     ) {}
 
@@ -30,7 +30,7 @@ export class PeopleListComponent implements OnInit, OnDestroy {
     }
 
     private updatePeople(): void {
-        this.apiService.getPeople()
+        this.peopleService.getPeople()
             .then(people => this.people = people)
             .catch(error => console.error(error))
             .finally(() => this.loading = false);

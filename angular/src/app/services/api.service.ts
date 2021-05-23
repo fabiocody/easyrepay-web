@@ -5,8 +5,6 @@ import {TokenDto} from '../../../../src/model/dto/token.dto';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {UserDto} from '../../../../src/model/dto/user.dto';
-import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
-import {PersonDto} from '../../../../src/model/dto/person.dto';
 import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {TransactionDto} from '../../../../src/model/dto/transaction.dto';
@@ -88,22 +86,6 @@ export class ApiService {
 
     public getUserInfo(): Promise<UserDto> {
         return this.http.get<UserDto>(environment.apiUrl + '/api/me').toPromise();
-    }
-
-    public getPeople(): Promise<PersonDetailDto[]> {
-        return this.http.get<PersonDetailDto[]>(environment.apiUrl + '/api/people').toPromise();
-    }
-
-    public savePerson(personDto: PersonDto): Promise<object> {
-        return this.http.post(environment.apiUrl + '/api/people', personDto).toPromise();
-    }
-
-    public getPerson(personId: number): Promise<PersonDetailDto> {
-        return this.http.get<PersonDetailDto>(environment.apiUrl + `/api/person/${personId}`).toPromise();
-    }
-
-    public deletePerson(personId: number): Promise<object> {
-        return this.http.delete(environment.apiUrl + `/api/person/${personId}`).toPromise();
     }
 
     public getTransactions(personId: number, completed: boolean): Promise<TransactionDto[]> {

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PersonDetailDto} from '../../../../../../src/model/dto/person-detail.dto';
+import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 
 @Component({
     selector: 'app-person-card',

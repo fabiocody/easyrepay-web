@@ -15,15 +15,11 @@ import {LoginComponent} from './pages/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {MomentModule} from 'ngx-moment';
-import {PeopleListComponent} from './pages/people-list/people-list.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {PersonCardComponent} from './pages/people-list/person-card/person-card.component';
-import {AvatarComponent} from './elements/avatar/avatar.component';
-import {AddPersonComponent} from './dialogs/add-person/add-person.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TransactionsListComponent} from './pages/transactions-list/transactions-list.component';
 import {RequestInterceptorService} from './services/request-interceptor.service';
@@ -43,16 +39,13 @@ import {SpinnerModule} from './utils/spinner/spinner.module';
 import {SpinnerButtonModule} from './utils/spinner-button/spinner-button.module';
 import {InfoDialogModule} from './utils/info-dialog/info-dialog.module';
 import {NavbarModule} from './navbar/navbar.module';
+import {PeopleModule} from './people/people.module';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        PeopleListComponent,
-        PersonCardComponent,
-        AvatarComponent,
-        AddPersonComponent,
         TransactionsListComponent,
         TransactionCardComponent,
         TransactionDialogComponent,
@@ -71,6 +64,7 @@ import {NavbarModule} from './navbar/navbar.module';
         SpinnerButtonModule,
         InfoDialogModule,
         NavbarModule,
+        PeopleModule,
         MatButtonModule,
         NgbModule,
         MatToolbarModule,
