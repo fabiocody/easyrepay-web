@@ -11,9 +11,7 @@ export interface ThemeOption {
     icon: string;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class ThemeService {
     private themeSubject: BehaviorSubject<Theme>;
     public theme: Observable<Theme>;

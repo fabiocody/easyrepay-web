@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NavbarComponent} from './elements/navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
@@ -43,12 +42,12 @@ import {AppDateAdapter} from './utils/translation/translation.utils';
 import {SpinnerModule} from './utils/spinner/spinner.module';
 import {SpinnerButtonModule} from './utils/spinner-button/spinner-button.module';
 import {InfoDialogModule} from './utils/info-dialog/info-dialog.module';
+import {NavbarModule} from './navbar/navbar.module';
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavbarComponent,
         LoginComponent,
         PeopleListComponent,
         PersonCardComponent,
@@ -71,6 +70,7 @@ import {InfoDialogModule} from './utils/info-dialog/info-dialog.module';
         SpinnerModule,
         SpinnerButtonModule,
         InfoDialogModule,
+        NavbarModule,
         MatButtonModule,
         NgbModule,
         MatToolbarModule,
