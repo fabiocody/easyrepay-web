@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ApiService} from '../../services/api.service';
+import {PeopleService} from '../people.service';
 import {PersonDto} from '../../../../../src/model/dto/person.dto';
 import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 
@@ -20,7 +20,7 @@ export class AddPersonComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public person: PersonDetailDto,
         private dialogRef: MatDialogRef<AddPersonComponent>,
         private fb: FormBuilder,
-        private apiService: ApiService,
+        private peopleService: PeopleService,
     ) {}
 
     ngOnInit(): void {
@@ -37,7 +37,7 @@ export class AddPersonComponent implements OnInit {
             id: this.edit ? this.person.id : -1,
             name: this.nameForm.value
         };
-        this.apiService.savePerson(personDto).then(_ => {
+        this.peopleService.savePerson(personDto).then(_ => {
             this.loading = false;
             this.dialogRef.close(true);
         }).catch(error => {
