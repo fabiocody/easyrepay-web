@@ -29,6 +29,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module';
 import {PeopleModule} from '../people/people.module';
 import {InfoDialogModule} from '../utils/info-dialog/info-dialog.module';
+import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
+import {AppDateAdapter} from '../utils/translation/translation.utils';
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import {InfoDialogModule} from '../utils/info-dialog/info-dialog.module';
         SpinnerButtonModule,
         FlexLayoutModule,
         FormsModule,
+        ReactiveFormsModule,
         MomentModule,
         MatButtonModule,
         MatIconModule,
@@ -58,14 +61,20 @@ import {InfoDialogModule} from '../utils/info-dialog/info-dialog.module';
         MatDividerModule,
         MatCardModule,
         MatDialogModule,
-        ReactiveFormsModule,
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
         MatDatepickerModule,
         MatCheckboxModule,
+        MatNativeDateModule
     ],
-    providers: [TransactionsService]
+    providers: [
+        TransactionsService,
+        {
+            provide: DateAdapter,
+            useClass: AppDateAdapter
+        }
+    ]
 })
 export class TransactionsModule {
 }
