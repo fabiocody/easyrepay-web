@@ -39,10 +39,10 @@ import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
 import {TransactionFormComponent} from './elements/transaction-form/transaction-form.component';
 import {TransactionFormButtonsComponent} from './elements/transaction-form-buttons/transaction-form-buttons.component';
 import {TransactionPageComponent} from './pages/transaction-page/transaction-page.component';
-import {SpinnerButtonComponent} from './elements/spinner-button/spinner-button.component';
 import {TranslationModule} from './utils/translation/translation.module';
 import {AppDateAdapter} from './utils/translation/translation.utils';
 import {SpinnerModule} from './utils/spinner/spinner.module';
+import {SpinnerButtonModule} from './utils/spinner-button/spinner-button.module';
 
 
 @NgModule({
@@ -61,7 +61,6 @@ import {SpinnerModule} from './utils/spinner/spinner.module';
         TransactionFormComponent,
         TransactionFormButtonsComponent,
         TransactionPageComponent,
-        SpinnerButtonComponent,
     ],
     imports: [
         BrowserModule,
@@ -71,6 +70,7 @@ import {SpinnerModule} from './utils/spinner/spinner.module';
         MomentModule,
         TranslationModule,
         SpinnerModule,
+        SpinnerButtonModule,
         MatButtonModule,
         NgbModule,
         MatToolbarModule,
