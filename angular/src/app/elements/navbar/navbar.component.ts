@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Theme, ThemeOption, ThemeService} from '../../services/theme.service';
 import {UserService} from '../../services/user.service';
-import {TranslationService} from '../../services/translation.service';
+import {TranslationService} from '../../utils/translation/translation.service';
 import {SubSink} from 'subsink';
 
 @Component({
