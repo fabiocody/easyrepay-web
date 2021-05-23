@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
-import {ApiService} from '../../services/api.service';
+import {TransactionsService} from '../transactions.service';
+import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {InfoDialogComponent, InfoDialogData} from '../../utils/info-dialog/info-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {SubSink} from 'subsink';
-import {TransactionDialogComponent} from '../../dialogs/transaction-dialog/transaction-dialog.component';
 import {Location} from '@angular/common';
+import {SubSink} from 'subsink';
 
 @Component({
     selector: 'app-transaction-form-buttons',
@@ -24,7 +24,7 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
     constructor(
         private dialog: MatDialog,
         private location: Location,
-        private apiService: ApiService,
+        private transactionsService: TransactionsService,
         @Optional() private dialogRef?: MatDialogRef<TransactionDialogComponent>,
     ) {}
 
@@ -46,7 +46,7 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
 
     public saveTransaction(): void {
         this.saving = true;
-        this.apiService.saveTransaction(this.transaction!).then(_ => {
+        this.transactionsService.saveTransaction(this.transaction!).then(_ => {
             this.saving = false;
             if (this.dialogRef) {
                 this.dialogRef.close(true);
@@ -74,7 +74,7 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
         }).afterClosed().subscribe(value => {
             if (value) {
                 this.deleting = true;
-                this.apiService.deleteTransaction(this.transaction!.personId, this.transaction!.id).then(_ => {
+                this.transactionsService.deleteTransaction(this.transaction!.personId, this.transaction!.id).then(_ => {
                     this.deleting = false;
                     if (this.dialogRef) {
                         this.dialogRef.close(true);

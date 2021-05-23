@@ -3,6 +3,7 @@ import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
 import {PeopleService} from './people.service';
 import {AddPersonComponent} from './add-person/add-person.component';
 import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 import {SubSink} from 'subsink';
 
 @Component({
@@ -18,6 +19,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
     constructor(
         private peopleService: PeopleService,
         private dialog: MatDialog,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
@@ -44,5 +46,9 @@ export class PeopleComponent implements OnInit, OnDestroy {
                 this.updatePeople();
             }
         });
+    }
+
+    public openPerson(person: PersonDetailDto): void {
+        this.router.navigate(['/transactions'], {state: {person}}).then();
     }
 }
