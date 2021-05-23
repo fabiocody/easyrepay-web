@@ -7,7 +7,8 @@
 
 <app-spinner [loading]="loading"></app-spinner>
 
-<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary" (click)="openTransaction(null)">
+<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary"
+        (click)="openTransaction(null)" [attr.aria-label]="'ADD_TRANSACTION' | translate">
     <mat-icon>add</mat-icon>
 </button>
 

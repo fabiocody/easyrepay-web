@@ -3,7 +3,7 @@
     <span class="ml-1">{{title | uppercase}}</span>
     <span class="spacer"></span>
     <span class="mr-2" fxHide fxShow.gt-xs>{{userName}}</span>
-    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" [attr.aria-label]="'SETTINGS' | translate">
         <mat-icon>{{userName === '' ? 'person_outline' : 'person'}}</mat-icon>
     </button>
     <mat-menu #userMenu>
