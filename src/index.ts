@@ -16,20 +16,30 @@ import {AuthService} from './services/auth.service';
 import {Action, useExpressServer} from 'routing-controllers';
 
 dotenv.config();
+const dev = process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true;
 
 const app = express();
 app.set('trust proxy', 1);
 
 /* MIDDLEWARES */
 app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-time ms'));
-app.use(cors());
-app.use(rateLimit({windowMs: 1000, max: 300}));
+app.use(cors({
+    origin: (origin, callback) => {
+        if ((dev && origin === 'http://localhost:4200') || (!dev && origin === 'https://easyrepay.heroku.com')) {
+            callback(null, origin);
+        } else {
+            callback(null);
+        }
+    },
+    optionsSuccessStatus: 200,
+}));
+app.use(rateLimit({windowMs: 1000, max: 50}));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.join(__dirname, '../api/swagger.yaml'))));
 
 /* SETUP SERVER WITH API ROUTES AND AUTHENTICATION */
 useExpressServer(app, {
     routePrefix: '/api',
-    development: process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true,
+    development: dev,
     defaults: {undefinedResultCode: 204},
     controllers: [AuthController, PersonController, UserController, TransactionController],
     authorizationChecker: async (action: Action, _: string[]) => {
