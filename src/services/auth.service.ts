@@ -95,9 +95,9 @@ export class AuthService {
             const authType = authHeader.split(' ')[0];
             const token = authHeader.split(' ')[1];
             if (authType === 'Basic') {
-                return await this.basicAuthentication(token);
+                return this.basicAuthentication(token);
             } else {
-                return await this.jwtAuthentication(token);
+                return this.jwtAuthentication(token);
             }
         } else {
             return undefined;

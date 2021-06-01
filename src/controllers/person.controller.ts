@@ -10,7 +10,7 @@ export class PersonController {
     @Get('/people')
     public async getPeople(@CurrentUser() user: UserEntity): Promise<PersonDetailDto[]> {
         const people = await PersonService.getByUserId(user.id);
-        return Promise.all(people.map(async p => await PersonService.getPersonDetailDto(p)));
+        return Promise.all(people.map(async p => PersonService.getPersonDetailDto(p)));
     }
 
     @Authorized()
