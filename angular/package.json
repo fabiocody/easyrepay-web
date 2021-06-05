@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ngcc"
+    "postinstall": "ngcc",
+    "upgrade": "sudo npm i -g @angular/cli && ng update @angular/cli @angular/core @angular/cdk @angular/material"
   },
   "private": true,
   "dependencies": {
