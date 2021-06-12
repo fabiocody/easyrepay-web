@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import * as swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yamljs';
 import 'reflect-metadata';
-import morgan from 'morgan';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import {AuthController} from './controllers/auth.controller';
@@ -15,6 +14,10 @@ import {TransactionController} from './controllers/transaction.controller';
 import {AuthService} from './services/auth.service';
 import {Action, useExpressServer} from 'routing-controllers';
 
+// Temporary workaround
+// Should be import morgan from 'morgan';
+const morgan = require('morgan');
+
 dotenv.config();
 const dev = process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true;
 
@@ -22,7 +25,7 @@ const app = express();
 app.set('trust proxy', 1);
 
 /* MIDDLEWARES */
-app.use(morgan('[:method] :url (:status) - :res[content-length] B - :response-time ms'));
+app.use(morgan('tiny'));
 app.use(cors({
     origin: (origin, callback) => {
         if ((dev && origin === 'http://localhost:4200') || (!dev && origin === 'https://easyrepay.heroku.com')) {
