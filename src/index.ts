@@ -22,20 +22,15 @@ const app = express();
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
-    'https://easyrepay.heroku.com',
     'https://easyrepay.fabiocodiglioni.ovh'
 ];
 
 /* MIDDLEWARES */
 // @ts-ignore
 app.use(morgan('tiny'));
-app.use((req, _, next) => {
-    req.headers.origin = req.headers.origin || req.headers.host;
-    next();
-});
 app.use(cors({
     origin: (origin, callback) => {
-        if (dev) {
+        if (dev || !origin) {
             callback(null);
         } else if (origin && allowedOrigins.includes(origin)) {
             callback(null, origin);
