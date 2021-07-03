@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yamljs';
+import morgan from 'morgan';
 import 'reflect-metadata';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
@@ -14,24 +15,31 @@ import {TransactionController} from './controllers/transaction.controller';
 import {AuthService} from './services/auth.service';
 import {Action, useExpressServer} from 'routing-controllers';
 
-// Temporary workaround
-// Should be import morgan from 'morgan';
-const morgan = require('morgan');
-
 dotenv.config();
 const dev = process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true;
 
 const app = express();
 app.set('trust proxy', 1);
 
+const allowedOrigins = [
+    'https://easyrepay.heroku.com',
+    'https://easyrepay.fabiocodiglioni.ovh'
+];
+
 /* MIDDLEWARES */
+// @ts-ignore
 app.use(morgan('tiny'));
 app.use(cors({
     origin: (origin, callback) => {
-        if ((dev && origin === 'http://localhost:4200') || (!dev && origin === 'https://easyrepay.heroku.com')) {
+        if (dev) {
+            console.log('CORS: DEV');
+            callback(null);
+        } else if (origin && allowedOrigins.includes(origin)) {
+            console.log(`CORS: origin ${origin} allowed`);
             callback(null, origin);
         } else {
-            callback(null);
+            console.log(`CORS: origin ${origin} not allowed`);
+            callback(new Error(`Origin ${origin} not allowed`));
         }
     },
     optionsSuccessStatus: 200,
