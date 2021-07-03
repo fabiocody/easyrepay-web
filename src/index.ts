@@ -29,16 +29,17 @@ const allowedOrigins = [
 /* MIDDLEWARES */
 // @ts-ignore
 app.use(morgan('tiny'));
+app.use((req, res, next) => {
+    req.headers.origin = req.headers.origin || req.headers.host;
+    next();
+});
 app.use(cors({
     origin: (origin, callback) => {
         if (dev) {
-            console.log('CORS: DEV');
             callback(null);
         } else if (origin && allowedOrigins.includes(origin)) {
-            console.log(`CORS: origin ${origin} allowed`);
             callback(null, origin);
         } else {
-            console.log(`CORS: origin ${origin} not allowed`);
             callback(new Error(`Origin ${origin} not allowed`));
         }
     },
