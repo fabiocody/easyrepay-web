@@ -9,7 +9,7 @@
     "main": "src/index.ts",
     "scripts": {
         "start": "node dist/src/index.js",
-        "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+        "dev": "ts-node-dev --respawn --pretty src/index.ts",
         "build": "tsc && cp -R api dist/",
         "test": "echo \"Error: no test specified\" && exit 1",
         "knex": "node node_modules/.bin/knex",

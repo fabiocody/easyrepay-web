@@ -8,7 +8,7 @@ echo "-> Updating dependencies and building frontend"
 cd angular
 npm ci
 npm run build
-echo "-> Updateing dependencies and building backend"
+echo "-> Updating dependencies and building backend"
 cd ..
 npm ci
 npm run build

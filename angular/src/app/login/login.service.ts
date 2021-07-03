@@ -5,7 +5,6 @@ import {UserDto} from '../../../../src/model/dto/user.dto';
 import {SubSink} from 'subsink';
 import {Router} from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {environment} from '../../environments/environment';
 import {TokenDto} from '../../../../src/model/dto/token.dto';
 import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
 
@@ -79,7 +78,7 @@ export class LoginService implements OnDestroy {
 
     public async login(username: string, password: string): Promise<void> {
         try {
-            const tokens = await this.http.post<TokenDto>(environment.apiUrl + '/api/auth/authenticate', {}, {
+            const tokens = await this.http.post<TokenDto>('/api/auth/authenticate', {}, {
                 headers: {authorization: 'Basic ' + window.btoa(`${username}:${password}`)}
             }).toPromise();
             this.saveTokens(tokens.access, tokens.refresh);
@@ -96,13 +95,13 @@ export class LoginService implements OnDestroy {
 
     public async refreshToken(): Promise<TokenDto> {
         const refreshTokenDto = new RefreshTokenDto({token: this.refresh!});
-        const tokens = await this.http.post<TokenDto>(environment.apiUrl + '/api/auth/refresh-token', refreshTokenDto).toPromise();
+        const tokens = await this.http.post<TokenDto>('/api/auth/refresh-token', refreshTokenDto).toPromise();
         this.saveTokens(tokens.access, tokens.refresh);
         return tokens;
     }
 
     public getUserInfo(): Promise<UserDto> {
-        return this.http.get<UserDto>(environment.apiUrl + '/api/me').toPromise();
+        return this.http.get<UserDto>('/api/me').toPromise();
     }
 
     private saveTokens(access: string | null, refresh: string | null): void {
