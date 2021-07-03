@@ -14,7 +14,7 @@ export class AuthService {
                 this.secretKey = process.env.SECRET_KEY;
             } else {
                 console.warn('Generating new secret key');
-                this.secretKey = crypto.randomBytes(256).toString('hex');
+                this.secretKey = crypto.randomBytes(512).toString('hex');
             }
         }
         return this.secretKey;
