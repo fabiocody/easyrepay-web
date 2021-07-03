@@ -31,6 +31,7 @@ app.use(morgan('tiny'));
 app.use(cors({
     origin: (origin, callback) => {
         if (dev || !origin) {
+            console.log('DEV environment or no origin specified');
             callback(null);
         } else if (origin && allowedOrigins.includes(origin)) {
             callback(null, origin);
