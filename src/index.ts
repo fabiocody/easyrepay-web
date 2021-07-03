@@ -29,7 +29,7 @@ const allowedOrigins = [
 /* MIDDLEWARES */
 // @ts-ignore
 app.use(morgan('tiny'));
-app.use((req, res, next) => {
+app.use((req, _, next) => {
     req.headers.origin = req.headers.origin || req.headers.host;
     next();
 });
