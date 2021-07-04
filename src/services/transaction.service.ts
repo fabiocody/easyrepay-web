@@ -32,7 +32,9 @@ export class TransactionService {
     public static async save(transactionDto: TransactionDto): Promise<void> {
         const person = await PersonService.get(transactionDto.personId);
         if (transactionDto.id < 0) {
-            const transaction = new TransactionEntity(transactionDto);
+            const tempTransactionDto = Object.assign(transactionDto);
+            delete tempTransactionDto.id;
+            const transaction = new TransactionEntity(tempTransactionDto);
             transaction.person = Promise.resolve(person);
             await transaction.save();
         } else {

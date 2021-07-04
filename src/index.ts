@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import 'reflect-metadata';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import {AuthController} from './controllers/auth.controller';
 import {UserController} from './controllers/user.controller';
 import {PersonController} from './controllers/person.controller';
@@ -33,6 +34,8 @@ const allowedOrigins = [
 /* MIDDLEWARES */
 // @ts-ignore
 app.use(morgan('tiny'));
+// @ts-ignore
+app.use(helmet());
 app.use(cors({
     origin: (origin, callback) => {
         if (dev || !origin) {
