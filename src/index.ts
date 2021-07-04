@@ -13,6 +13,7 @@ import {AuthController} from './controllers/auth.controller';
 import {UserController} from './controllers/user.controller';
 import {PersonController} from './controllers/person.controller';
 import {TransactionController} from './controllers/transaction.controller';
+import {UtilsController} from './controllers/utils.controller';
 import {AuthService} from './services/auth.service';
 import {Action, useExpressServer} from 'routing-controllers';
 import {createConnection} from 'typeorm';
@@ -23,6 +24,10 @@ const dev = process.env.NODE_ENV ? process.env.NODE_ENV === 'development' : true
 createConnection()
     .then(_ => console.log('DB connection created'))
     .catch(err => console.error('Error while establishing DB connection:', err));
+
+if (process.env.RELEASE_INFO) {
+    console.log(process.env.RELEASE_INFO);
+}
 
 const app = express();
 app.set('trust proxy', 1);
@@ -56,7 +61,7 @@ useExpressServer(app, {
     routePrefix: '/api',
     development: dev,
     defaults: {undefinedResultCode: 204},
-    controllers: [AuthController, PersonController, UserController, TransactionController],
+    controllers: [AuthController, PersonController, UserController, TransactionController, UtilsController],
     authorizationChecker: async (action: Action, _: string[]) => {
         const headers = action.request.headers;
         return AuthService.authorizationChecker(headers);

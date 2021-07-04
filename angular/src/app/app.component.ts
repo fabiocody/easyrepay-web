@@ -2,6 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from './login/login.service';
 import {SubSink} from 'subsink';
+import {ReleaseInfoService} from './utils/release-info/release-info.service';
 
 @Component({
     selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnDestroy{
     constructor(
         private router: Router,
         private loginService: LoginService,
+        private releaseInfoService: ReleaseInfoService,
     ) {
         this.subs.sink = this.loginService.user.subscribe(user => {
             if (user) {
@@ -30,6 +32,7 @@ export class AppComponent implements OnDestroy{
                 this.loading = true;
             }
         });
+        this.releaseInfoService.getReleaseInfo().then(releaseInfo => console.log('Release', releaseInfo));
     }
 
     ngOnDestroy(): void {
