@@ -2,6 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import * as crypto from 'crypto';
 import {UserEntity} from '../model/user.entity';
 import {TokenEntity} from '../model/token.entity';
+import {TokenType} from '../model/token-type';
 import {UserService} from './user.service';
 import {UnauthorizedError} from 'routing-controllers';
 import {EntityManager, getManager} from 'typeorm';
@@ -22,11 +23,13 @@ export class AuthService {
     }
 
     public static getAccessToken(userId: number): string {
-        return jwt.sign({userId}, this.getSecretKey(), {expiresIn: '15m'});
+        const payload = {userId, type: TokenType.ACCESS};
+        return jwt.sign(payload, this.getSecretKey(), {expiresIn: '15m'});
     }
 
     public static async getRefreshToken(userId: number): Promise<string> {
-        const refreshToken = jwt.sign({userId}, this.getSecretKey(), {expiresIn: '15d'});
+        const payload = {userId, type: TokenType.REFRESH};
+        const refreshToken = jwt.sign(payload, this.getSecretKey(), {expiresIn: '15d'});
         await this.updateRefreshTokens(userId, refreshToken);
         return refreshToken;
     }
@@ -36,7 +39,7 @@ export class AuthService {
             const user = await manager.findOneOrFail(UserEntity, userId);
             for (const token of await user.tokens) {
                 try {
-                    jwt.verify(token.token, this.getSecretKey());
+                    this.verifyToken(token.token, TokenType.REFRESH);
                 } catch {
                     await manager.remove(token);
                 }
@@ -46,12 +49,12 @@ export class AuthService {
         });
     }
 
-    public static async refreshToken(token: string): Promise<[string, string]> {
-        const dbToken = await TokenEntity.findOne({token});
-        if (dbToken) {
-            const decoded = jwt.verify(token, this.getSecretKey()) as any;
+    public static async refreshToken(refreshToken: string): Promise<[string, string]> {
+        const token = await TokenEntity.findOne({token: refreshToken});
+        if (token) {
+            const decoded = this.verifyToken(refreshToken, TokenType.REFRESH);
             const userId = decoded.userId;
-            await dbToken.remove();
+            await token.remove();
             const access = this.getAccessToken(userId);
             const refresh = await this.getRefreshToken(userId);
             return [access, refresh];
@@ -60,8 +63,12 @@ export class AuthService {
         }
     }
 
-    public static verifyToken(token: string): any {
-        return jwt.verify(token, this.getSecretKey());
+    public static verifyToken(token: string, type: TokenType): any {
+        const decoded = jwt.verify(token, this.getSecretKey()) as any;
+        if (decoded.type !== type) {
+            throw new UnauthorizedError();
+        }
+        return decoded;
     }
 
     private static async basicAuthentication(credentials: string): Promise<UserEntity> {
@@ -78,7 +85,7 @@ export class AuthService {
 
     private static async jwtAuthentication(token: string): Promise<UserEntity> {
         try {
-            const decoded = this.verifyToken(token);
+            const decoded = this.verifyToken(token, TokenType.ACCESS);
             const userId = decoded.userId;
             return await UserService.get(userId);
         } catch {
@@ -104,5 +111,16 @@ export class AuthService {
     public static async authorizationChecker(headers: any): Promise<boolean> {
         const user = await this.currentUserChecker(headers);
         return !!user;
+    }
+
+    public static async logout(user: UserEntity, refreshToken: string): Promise<void> {
+        const token = await TokenEntity.findOne({token: refreshToken});
+        if (token) {
+            const decoded = this.verifyToken(refreshToken, TokenType.REFRESH);
+            const userId = decoded.userId;
+            if (userId === user.id) {
+                await token.remove();
+            }
+        }
     }
 }
