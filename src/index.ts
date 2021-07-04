@@ -28,17 +28,30 @@ const app = express();
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
-    'https://easyrepay.fabiocodiglioni.ovh'
+    'https://easyrepay.fabiocodiglioni.ovh',
+    'easyrepay.fabiocodiglioni.ovh',
 ];
 
 /* MIDDLEWARES */
 // @ts-ignore
 app.use(morgan('tiny'));
 // @ts-ignore
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+            scriptSrc: ['\'self\'', '\'unsafe-inline\'']
+        }
+    }
+}));
+app.use((req, _, next) => {
+    req.headers.origin = req.headers.origin ?? req.headers.host;
+    next();
+});
 app.use(cors({
     origin: (origin, callback) => {
         if (dev || !origin) {
+            console.log('CORS: dev or no origin');
             callback(null);
         } else if (origin && allowedOrigins.includes(origin)) {
             callback(null, origin);
