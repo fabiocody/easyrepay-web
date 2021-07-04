@@ -10,6 +10,7 @@ import {NavbarModule} from './navbar/navbar.module';
 import {SpinnerModule} from './utils/spinner/spinner.module';
 import {TranslationService} from './utils/translation/translation.service';
 import {DynamicLocaleId} from './utils/translation/translation.utils';
+import {ReleaseInfoModule} from './utils/release-info/release-info.module';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {DynamicLocaleId} from './utils/translation/translation.utils';
         BrowserAnimationsModule,
         HttpClientModule,
         NavbarModule,
-        SpinnerModule
+        SpinnerModule,
+        ReleaseInfoModule,
     ],
     providers: [
         {
