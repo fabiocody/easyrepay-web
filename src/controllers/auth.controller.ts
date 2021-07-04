@@ -21,4 +21,10 @@ export class AuthController {
         const refresh = tokens[1];
         return new TokenDto({access, refresh});
     }
+
+    @Authorized()
+    @Post('/logout')
+    public async logout(@CurrentUser() user: UserEntity, @Body() refreshTokenDto: RefreshTokenDto): Promise<void> {
+        await AuthService.logout(user, refreshTokenDto.token);
+    }
 }

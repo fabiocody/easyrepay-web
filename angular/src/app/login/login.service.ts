@@ -90,6 +90,8 @@ export class LoginService implements OnDestroy {
     }
 
     public logout(): void {
+        const refreshTokenDto = new RefreshTokenDto({token: this.refresh!});
+        this.http.post('/api/auth/logout', refreshTokenDto).toPromise().then();
         this.saveTokens(null, null);
     }
 

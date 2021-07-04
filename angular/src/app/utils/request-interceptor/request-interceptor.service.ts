@@ -11,7 +11,8 @@ export class RequestInterceptorService implements HttpInterceptor {
     ) {}
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.url.indexOf('/auth/') < 0 && req.url.indexOf('/i18n/') < 0) {
+        const nonAuthenticatedPaths = ['/auth/authenticate', '/auth/refresh-token', '/i18n/'];
+        if (nonAuthenticatedPaths.filter(path => req.url.indexOf(path) >= 0).length === 0) {
             req = this.addTokenToRequest(req);
         }
         return next.handle(req).pipe(
