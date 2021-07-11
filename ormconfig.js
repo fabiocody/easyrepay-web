@@ -9,7 +9,7 @@ const configs = {
     development: {
         name: 'default',
         type: 'sqlite',
-        database: './test-db-type.sqlite3',
+        database: './test-db.sqlite3',
         synchronize: true,
         entities: [__dirname + '/src/model/*.ts'],
         // migrations: [__dirname + '../database/migrations/*{.js,.ts}'],

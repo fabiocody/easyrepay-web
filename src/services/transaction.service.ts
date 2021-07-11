@@ -11,7 +11,7 @@ export class TransactionService {
         const person = await PersonService.get(personId);
         return (await person.transactions)
             .filter(t => t.completed === completed)
-            .sort((a, b) => a.date < b.date ? -1 : (a.date > b.date ? 1 : 0));
+            .sort((a, b) => dateComparator(a.date, b.date));
     }
 
     public static async get(id: number): Promise<TransactionEntity> {
