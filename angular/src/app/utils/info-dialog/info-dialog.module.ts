@@ -5,16 +5,9 @@ import {TranslationModule} from '../translation/translation.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 
-
 @NgModule({
     declarations: [InfoDialogComponent],
-    imports: [
-        CommonModule,
-        TranslationModule,
-        MatDialogModule,
-        MatButtonModule
-    ],
-    exports: [InfoDialogComponent]
+    imports: [CommonModule, TranslationModule, MatDialogModule, MatButtonModule],
+    exports: [InfoDialogComponent],
 })
-export class InfoDialogModule {
-}
+export class InfoDialogModule {}

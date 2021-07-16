@@ -1,12 +1,16 @@
 <button mat-icon-button class="back-button" (click)="location.back()">
     <mat-icon>arrow_back</mat-icon>
 </button>
-<h1 class="page-title">{{(transaction ? 'EDIT_TRANSACTION' : 'NEW_TRANSACTION') | translate}}</h1>
+<h1 class="page-title">{{ (transaction ? "EDIT_TRANSACTION" : "NEW_TRANSACTION") | translate }}</h1>
 
 <div class="mt-4">
     <app-transaction-form [(transaction)]="transaction" [personId]="personId" [error]="error"></app-transaction-form>
 </div>
 
 <div class="float-right pb-4">
-    <app-transaction-form-buttons [transaction]="transaction" [showDelete]="showDelete" (transactionError)="error = $event"></app-transaction-form-buttons>
+    <app-transaction-form-buttons
+        [transaction]="transaction"
+        [showDelete]="showDelete"
+        (transactionError)="error = $event"
+    ></app-transaction-form-buttons>
 </div>

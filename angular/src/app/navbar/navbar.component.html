@@ -1,48 +1,48 @@
 <mat-toolbar color="primary" class="mat-elevation-z6 app-toolbar" fxLayout="row">
     <mat-icon>account_balance_wallet</mat-icon>
-    <span class="ml-1">{{title | uppercase}}</span>
+    <span class="ml-1">{{ title | uppercase }}</span>
     <span class="spacer"></span>
-    <span class="mr-2" fxHide fxShow.gt-xs>{{userName}}</span>
+    <span class="mr-2" fxHide fxShow.gt-xs>{{ userName }}</span>
     <button mat-icon-button [matMenuTriggerFor]="userMenu" [attr.aria-label]="'SETTINGS' | translate">
-        <mat-icon>{{userName === '' ? 'person_outline' : 'person'}}</mat-icon>
+        <mat-icon>{{ userName === "" ? "person_outline" : "person" }}</mat-icon>
     </button>
     <mat-menu #userMenu>
         <ng-container *ngIf="userName !== ''">
             <div mat-menu-item disabled fxHide fxShow.lt-sm>
                 <mat-icon>person</mat-icon>
-                {{userName}}
+                {{ userName }}
             </div>
             <mat-divider fxHide fxShow.lt-sm></mat-divider>
         </ng-container>
         <button mat-menu-item [matMenuTriggerFor]="languageMenu">
             <mat-icon>language</mat-icon>
-            {{'LANGUAGE' | translate}}
+            {{ "LANGUAGE" | translate }}
         </button>
         <button mat-menu-item [matMenuTriggerFor]="appearanceMenu">
             <mat-icon>settings_brightness</mat-icon>
-            {{'APPEARANCE' | translate}}
+            {{ "APPEARANCE" | translate }}
         </button>
         <ng-container *ngIf="userName !== ''">
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="logout()">
                 <mat-icon>logout</mat-icon>
-                {{'LOGOUT' | translate}}
+                {{ "LOGOUT" | translate }}
             </button>
         </ng-container>
     </mat-menu>
     <mat-menu #languageMenu>
         <button mat-menu-item (click)="setLanguage('it')">
-            {{'ITALIAN' | translate}}
+            {{ "ITALIAN" | translate }}
         </button>
         <button mat-menu-item (click)="setLanguage('en')">
-            {{'ENGLISH' | translate}}
+            {{ "ENGLISH" | translate }}
         </button>
     </mat-menu>
     <mat-menu #appearanceMenu>
         <ng-container *ngFor="let theme of getThemes()">
             <button mat-menu-item (click)="setTheme(theme.label)">
-                <mat-icon>{{theme.icon}}</mat-icon>
-                {{theme.label | translate}}
+                <mat-icon>{{ theme.icon }}</mat-icon>
+                {{ theme.label | translate }}
             </button>
         </ng-container>
     </mat-menu>

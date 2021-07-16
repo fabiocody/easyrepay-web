@@ -1,23 +1,23 @@
 openapi: 3.0.3
 info:
     title: EasyRepay API
-    version: 1.0.0
+    version: 2.0.0
 servers:
-    - url: https://easyrepay.herokuapp.com/api
+    - url: https://easyrepay.fabiocodiglioni.ovh/api
 paths:
-    /auth/authenticate:
+    /auth/login:
         post:
             tags: [Authentication]
             summary: Request a new pair of authentication token from a username and a password
             security:
                 - basicAuth: []
             responses:
-                200:
+                201:
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/TokenDto'
+                                $ref: "#/components/schemas/TokenDto"
     /auth/refresh-token:
         post:
             tags: [Authentication]
@@ -27,15 +27,30 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RefreshTokenDto'
+                            $ref: "#/components/schemas/RefreshTokenDto"
             responses:
-                200:
+                201:
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/TokenDto'
-    /me:
+                                $ref: "#/components/schemas/TokenDto"
+    /auth/logout:
+        post:
+            tags: [Authentication]
+            summary: Invalidate the provided refresh token
+            security:
+                - jwtAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RefreshTokenDto"
+            responses:
+                201:
+                    description: OK
+    /user:
         get:
             tags: [User]
             summary: Get information about the currently logged user
@@ -47,8 +62,8 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserDto'
-    /people:
+                                $ref: "#/components/schemas/UserDto"
+    /person:
         get:
             tags: [People]
             summary: Get the people related to the currently logged user
@@ -62,7 +77,7 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/PersonDetailDto'
+                                    $ref: "#/components/schemas/PersonDetailDto"
         post:
             tags: [People]
             summary: Save the provided person
@@ -73,14 +88,14 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/PersonDto'
+                            $ref: "#/components/schemas/PersonDto"
             responses:
-                200:
+                201:
                     description: OK
-    /person/{personId}:
+    /person/{id}:
         parameters:
             - in: path
-              name: personId
+              name: id
               schema:
                   type: integer
               required: true
@@ -96,7 +111,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PersonDto'
+                                $ref: "#/components/schemas/PersonDto"
         delete:
             tags: [People]
             summary: Delete the specified person
@@ -105,20 +120,19 @@ paths:
             responses:
                 200:
                     description: OK
-    /person/{personId}/transactions:
-        parameters:
-            - in: path
-              name: personId
-              schema:
-                  type: integer
-              required: true
-              description: Numeric ID of a person
+    /transaction:
         get:
             tags: [Transactions]
             summary: Get all transactions of the specified person
             security:
                 - jwtAuth: []
             parameters:
+                - in: query
+                  name: personId
+                  schema:
+                      type: integer
+                  required: true
+                  description: Numeric ID of a person
                 - in: query
                   name: completed
                   schema:
@@ -133,18 +147,39 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/TransactionDto'
+                                    $ref: "#/components/schemas/TransactionDto"
+        post:
+            tags: [Transactions]
+            summary: Save the provided transaction
+            security:
+                - jwtAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TransactionDto"
+            responses:
+                201:
+                    description: OK
         delete:
             tags: [Transactions]
             summary: Delete all transactions of the specified person
             security:
                 - jwtAuth: []
+            parameters:
+                - in: query
+                  name: personId
+                  schema:
+                      type: integer
+                  required: true
+                  description: Numeric ID of a person
             responses:
                 200:
                     description: OK
-    /person/{personId}/transactions/complete:
+    /transaction/complete:
         parameters:
-            - in: path
+            - in: query
               name: personId
               schema:
                   type: integer
@@ -156,7 +191,7 @@ paths:
             security:
                 - jwtAuth: []
             responses:
-                200:
+                201:
                     description: OK
         delete:
             tags: [Transactions]
@@ -166,37 +201,45 @@ paths:
             responses:
                 200:
                     description: OK
-    /transactions:
-        post:
+    /transaction/{id}:
+        parameters:
+            - in: path
+              name: id
+              schema:
+                  type: integer
+              required: true
+              description: Numeric ID of a transaction
+        get:
             tags: [Transactions]
-            summary: Save the provided transaction
+            summary: Retrieve a specific transaction
             security:
                 - jwtAuth: []
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/TransactionDto'
             responses:
                 200:
                     description: OK
-    /transaction/{transactionId}:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TransactionDto"
         delete:
             tags: [Transactions]
             summary: Delete the specified transaction
             security:
                 - jwtAuth: []
-            parameters:
-                - in: path
-                  name: transactionId
-                  schema:
-                      type: integer
-                  required: true
-                  description: Numeric ID of a transaction
             responses:
                 200:
                     description: OK
+    /utils/release-info:
+        get:
+            tags: [Utils]
+            summary: Retrieve release information
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ReleaseInfoDto"
 components:
     securitySchemes:
         basicAuth:
@@ -288,3 +331,11 @@ components:
                 - id
                 - username
                 - name
+        ReleaseInfoDto:
+            properties:
+                git_branch:
+                    type: string
+                git_commit:
+                    type: string
+                release_date:
+                    type: string

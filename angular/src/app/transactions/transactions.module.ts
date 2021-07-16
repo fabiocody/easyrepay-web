@@ -32,7 +32,6 @@ import {InfoDialogModule} from '../utils/info-dialog/info-dialog.module';
 import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
 import {AppDateAdapter} from '../utils/translation/translation.utils';
 
-
 @NgModule({
     declarations: [
         TransactionsComponent,
@@ -40,7 +39,7 @@ import {AppDateAdapter} from '../utils/translation/translation.utils';
         TransactionFormComponent,
         TransactionFormButtonsComponent,
         TransactionDialogComponent,
-        TransactionPageComponent
+        TransactionPageComponent,
     ],
     imports: [
         CommonModule,
@@ -66,15 +65,14 @@ import {AppDateAdapter} from '../utils/translation/translation.utils';
         MatInputModule,
         MatDatepickerModule,
         MatCheckboxModule,
-        MatNativeDateModule
+        MatNativeDateModule,
     ],
     providers: [
         TransactionsService,
         {
             provide: DateAdapter,
-            useClass: AppDateAdapter
-        }
-    ]
+            useClass: AppDateAdapter,
+        },
+    ],
 })
-export class TransactionsModule {
-}
+export class TransactionsModule {}

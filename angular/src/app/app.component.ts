@@ -7,9 +7,9 @@ import {ReleaseInfoService} from './utils/release-info/release-info.service';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnDestroy{
+export class AppComponent implements OnDestroy {
     public title = 'EasyRepay';
     public loading = false;
     private subs = new SubSink();

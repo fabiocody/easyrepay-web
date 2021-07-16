@@ -4,7 +4,7 @@ import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 @Component({
     selector: 'app-person-card',
     templateUrl: './person-card.component.html',
-    styleUrls: ['./person-card.component.scss']
+    styleUrls: ['./person-card.component.scss'],
 })
 export class PersonCardComponent implements OnInit {
     @Input() public person: PersonDetailDto = {
@@ -14,9 +14,7 @@ export class PersonCardComponent implements OnInit {
         total: 0,
     };
 
-    constructor() {
-    }
+    constructor() {}
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 }

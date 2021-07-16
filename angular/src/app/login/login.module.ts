@@ -12,7 +12,6 @@ import {MatInputModule} from '@angular/material/input';
 import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module';
 import {MatIconModule} from '@angular/material/icon';
 
-
 @NgModule({
     declarations: [LoginComponent],
     imports: [
@@ -26,8 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatIconModule
-    ]
+        MatIconModule,
+    ],
 })
-export class LoginModule {
-}
+export class LoginModule {}

@@ -10,7 +10,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 
-
 @NgModule({
     declarations: [NavbarComponent],
     imports: [
@@ -21,10 +20,9 @@ import {MatDividerModule} from '@angular/material/divider';
         MatButtonModule,
         MatIconModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
     ],
     exports: [NavbarComponent],
-    providers: [ThemeService]
+    providers: [ThemeService],
 })
-export class NavbarModule {
-}
+export class NavbarModule {}

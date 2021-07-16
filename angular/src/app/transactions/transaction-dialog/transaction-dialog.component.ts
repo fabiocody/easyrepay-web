@@ -10,15 +10,12 @@ export interface TransactionDialogData {
 @Component({
     selector: 'app-transaction-dialog',
     templateUrl: './transaction-dialog.component.html',
-    styleUrls: ['./transaction-dialog.component.scss']
+    styleUrls: ['./transaction-dialog.component.scss'],
 })
 export class TransactionDialogComponent implements OnInit {
     public error: string | null = null;
 
-    constructor(
-        @Inject(MAT_DIALOG_DATA) public data: TransactionDialogData,
-    ) {}
+    constructor(@Inject(MAT_DIALOG_DATA) public data: TransactionDialogData) {}
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 }

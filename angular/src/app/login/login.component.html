@@ -5,22 +5,28 @@
             <ng-form [formGroup]="form" (keydown.enter)="login()">
                 <div>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'USERNAME' | translate}}</mat-label>
-                        <input matInput formControlName="username" autocapitalize="off" required>
+                        <mat-label>{{ "USERNAME" | translate }}</mat-label>
+                        <input matInput formControlName="username" autocapitalize="off" required />
                     </mat-form-field>
                 </div>
                 <div>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'PASSWORD' | translate}}</mat-label>
-                        <input matInput type="password" formControlName="password" required>
+                        <mat-label>{{ "PASSWORD" | translate }}</mat-label>
+                        <input matInput type="password" formControlName="password" required />
                     </mat-form-field>
                 </div>
             </ng-form>
             <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
                 <mat-icon class="error-alert">error</mat-icon>
-                <span class="error-alert ml-1">{{error | translate}}</span>
+                <span class="error-alert ml-1">{{ error | translate }}</span>
             </div>
-            <app-spinner-button class="ml-2" text="LOGIN" [loading]="loading" [disabled]="!form.valid || loading" (btnClick)="login()"></app-spinner-button>
+            <app-spinner-button
+                class="ml-2"
+                text="LOGIN"
+                [loading]="loading"
+                [disabled]="!form.valid || loading"
+                (btnClick)="login()"
+            ></app-spinner-button>
         </mat-card-content>
     </mat-card>
 </div>

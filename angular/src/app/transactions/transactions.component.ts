@@ -9,14 +9,14 @@ import {InfoDialogComponent, InfoDialogData} from '../utils/info-dialog/info-dia
 import {Location} from '@angular/common';
 import {TransactionDialogComponent} from './transaction-dialog/transaction-dialog.component';
 import {TransactionDto} from '../../../../src/model/dto/transaction.dto';
-import {TransactionType} from '../../../../src/model/transaction-type';
+import {TransactionType} from '../../../../src/model/common/transaction-type';
 import {MediaObserver} from '@angular/flex-layout';
 import {SubSink} from 'subsink';
 
 @Component({
     selector: 'app-transactions',
     templateUrl: './transactions.component.html',
-    styleUrls: ['./transactions.component.scss']
+    styleUrls: ['./transactions.component.scss'],
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
     public person: PersonDetailDto | null = null;
@@ -46,10 +46,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     }
 
     public updateTransactions(): void {
-        this.transactionsService.getTransactions(this.person!.id, this.showCompleted)
-            .then(transactions => this.transactions = transactions)
+        this.transactionsService
+            .getTransactions(this.person!.id, this.showCompleted)
+            .then(transactions => (this.transactions = transactions))
             .catch(error => console.error(error))
-            .finally(() => this.loading = false);
+            .finally(() => (this.loading = false));
     }
 
     public get total(): number {
@@ -71,16 +72,20 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     }
 
     public editPerson(): void {
-        this.subs.sink = this.dialog.open(AddPersonComponent, {
-            data: this.person,
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.peopleService.getPerson(this.person!.id)
-                    .then(person => this.person = person)
-                    .catch(error => console.error(error));
-            }
-        });
+        this.subs.sink = this.dialog
+            .open(AddPersonComponent, {
+                data: this.person,
+                autoFocus: false,
+            })
+            .afterClosed()
+            .subscribe(value => {
+                if (value) {
+                    this.peopleService
+                        .getPerson(this.person!.id)
+                        .then(person => (this.person = person))
+                        .catch(error => console.error(error));
+                }
+            });
     }
 
     public deletePerson(): void {
@@ -89,29 +94,34 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             body: 'DELETE_PERSON_BODY',
             okBtnText: 'DELETE',
             cancelBtnText: 'CANCEL',
-            okBtnColor: 'warn'
+            okBtnColor: 'warn',
         };
-        this.subs.sink = this.dialog.open(InfoDialogComponent, {
-            data: dialogData,
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.peopleService.deletePerson(this.person!.id)
-                    .then(_ => this.location.back())
-                    .catch(error => {
-                        console.error(error);
-                        const errorDialogData: InfoDialogData = {
-                            title: 'ERROR',
-                            body: 'ERROR_DELETE_PERSON',
-                            okBtnText: 'OK'
-                        };
-                        this.dialog.open(InfoDialogComponent, {
-                            data: errorDialogData,
-                            autoFocus: false,
+        this.subs.sink = this.dialog
+            .open(InfoDialogComponent, {
+                data: dialogData,
+                autoFocus: false,
+            })
+            .afterClosed()
+            .subscribe(value => {
+                if (value) {
+                    this.peopleService
+                        .deletePerson(this.person!.id)
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        .then(_ => this.location.back())
+                        .catch(error => {
+                            console.error(error);
+                            const errorDialogData: InfoDialogData = {
+                                title: 'ERROR',
+                                body: 'ERROR_DELETE_PERSON',
+                                okBtnText: 'OK',
+                            };
+                            this.dialog.open(InfoDialogComponent, {
+                                data: errorDialogData,
+                                autoFocus: false,
+                            });
                         });
-                    });
-            }
-        });
+                }
+            });
     }
 
     public openTransaction(transaction: TransactionDto | null): void {
@@ -119,18 +129,21 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             const personId = this.person!.id;
             this.router.navigate(['/transactions/transaction'], {state: {transaction, personId}}).then();
         } else {
-            this.subs.sink = this.dialog.open(TransactionDialogComponent, {
-                data: {
-                    transaction: transaction,
-                    personId: this.person!.id,
-                },
-                maxWidth: '300px',
-                autoFocus: false,
-            }).afterClosed().subscribe(value => {
-                if (value) {
-                    this.updateTransactions();
-                }
-            });
+            this.subs.sink = this.dialog
+                .open(TransactionDialogComponent, {
+                    data: {
+                        transaction: transaction,
+                        personId: this.person!.id,
+                    },
+                    maxWidth: '300px',
+                    autoFocus: false,
+                })
+                .afterClosed()
+                .subscribe(value => {
+                    if (value) {
+                        this.updateTransactions();
+                    }
+                });
         }
     }
 
@@ -141,16 +154,21 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             okBtnText: 'CONFIRM',
             cancelBtnText: 'CANCEL',
         };
-        this.subs.sink = this.dialog.open(InfoDialogComponent, {
-            data: dialogData,
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.transactionsService.completeAllTransactions(this.person!.id)
-                    .then(_ => this.updateTransactions())
-                    .catch(error => console.error(error));
-            }
-        });
+        this.subs.sink = this.dialog
+            .open(InfoDialogComponent, {
+                data: dialogData,
+                autoFocus: false,
+            })
+            .afterClosed()
+            .subscribe(value => {
+                if (value) {
+                    this.transactionsService
+                        .completeAllTransactions(this.person!.id)
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        .then(_ => this.updateTransactions())
+                        .catch(error => console.error(error));
+                }
+            });
     }
 
     public deleteAllTransactions(): void {
@@ -161,16 +179,21 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             cancelBtnText: 'CANCEL',
             okBtnColor: 'warn',
         };
-        this.subs.sink = this.dialog.open(InfoDialogComponent, {
-            data: dialogData,
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.transactionsService.deleteAllTransactions(this.person!.id)
-                    .then(_ => this.updateTransactions())
-                    .catch(error => console.error(error));
-            }
-        });
+        this.subs.sink = this.dialog
+            .open(InfoDialogComponent, {
+                data: dialogData,
+                autoFocus: false,
+            })
+            .afterClosed()
+            .subscribe(value => {
+                if (value) {
+                    this.transactionsService
+                        .deleteAllTransactions(this.person!.id)
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        .then(_ => this.updateTransactions())
+                        .catch(error => console.error(error));
+                }
+            });
     }
 
     public deleteCompletedTransactions(): void {
@@ -179,17 +202,22 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             body: 'DELETE_COMPLETED_BODY',
             okBtnText: 'DELETE',
             cancelBtnText: 'CANCEL',
-            okBtnColor: 'warn'
+            okBtnColor: 'warn',
         };
-        this.subs.sink = this.dialog.open(InfoDialogComponent, {
-            data: dialogData,
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.transactionsService.deleteCompletedTransactions(this.person!.id)
-                    .then(_ => this.updateTransactions())
-                    .catch(error => console.error(error));
-            }
-        });
+        this.subs.sink = this.dialog
+            .open(InfoDialogComponent, {
+                data: dialogData,
+                autoFocus: false,
+            })
+            .afterClosed()
+            .subscribe(value => {
+                if (value) {
+                    this.transactionsService
+                        .deleteCompletedTransactions(this.person!.id)
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        .then(_ => this.updateTransactions())
+                        .catch(error => console.error(error));
+                }
+            });
     }
 }

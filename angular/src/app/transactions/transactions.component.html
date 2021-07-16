@@ -2,19 +2,24 @@
     <button mat-icon-button class="back-button" (click)="location.back()">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1 class="page-title">{{person.name}}</h1>
+    <h1 class="page-title">{{ person.name }}</h1>
 </ng-container>
 
 <app-spinner [loading]="loading"></app-spinner>
 
-<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary"
-        (click)="openTransaction(null)" [attr.aria-label]="'ADD_TRANSACTION' | translate">
+<button
+    mat-fab
+    class="mat-elevation-z3 mr-md-2 mb-md-2"
+    color="primary"
+    (click)="openTransaction(null)"
+    [attr.aria-label]="'ADD_TRANSACTION' | translate"
+>
     <mat-icon>add</mat-icon>
 </button>
 
 <div class="mt-3 align-items-center" *ngIf="person !== null" fxLayout="row">
     <mat-slide-toggle [(ngModel)]="showCompleted" (change)="updateTransactions()">
-        {{'SHOW_COMPLETED' | translate}}
+        {{ "SHOW_COMPLETED" | translate }}
     </mat-slide-toggle>
     <span class="spacer"></span>
     <button mat-icon-button [matMenuTriggerFor]="responsiveMenu">
@@ -23,47 +28,50 @@
     <mat-menu #responsiveMenu xPosition="before">
         <button mat-menu-item (click)="editPerson()">
             <mat-icon>create</mat-icon>
-            {{'EDIT_PERSON' | translate}}
+            {{ "EDIT_PERSON" | translate }}
         </button>
         <button mat-menu-item (click)="deletePerson()">
             <mat-icon color="warn">delete</mat-icon>
-            {{'DELETE_PERSON' | translate}}
+            {{ "DELETE_PERSON" | translate }}
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="completeAllTransactions()">
             <mat-icon>done_all</mat-icon>
-            {{'COMPLETE_ALL' | translate}}
+            {{ "COMPLETE_ALL" | translate }}
         </button>
         <button mat-menu-item (click)="deleteCompletedTransactions()">
             <mat-icon>clear_all</mat-icon>
-            {{'DELETE_COMPLETED' | translate}}
+            {{ "DELETE_COMPLETED" | translate }}
         </button>
         <button mat-menu-item (click)="deleteAllTransactions()">
             <mat-icon color="warn">delete_forever</mat-icon>
-            {{'DELETE_ALL' | translate}}
+            {{ "DELETE_ALL" | translate }}
         </button>
     </mat-menu>
 </div>
 
 <div class="row mt-4" *ngIf="!loading && person !== null">
     <ng-container *ngFor="let t of transactions">
-        <app-transaction-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [transaction]="t"
-                              (click)="openTransaction(t)"></app-transaction-card>
+        <app-transaction-card
+            class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer"
+            [transaction]="t"
+            (click)="openTransaction(t)"
+        ></app-transaction-card>
     </ng-container>
     <div *ngIf="transactions.length === 0" class="col-12 text-center mt-4">
-        <mat-card-subtitle>{{'NO_TRANSACTIONS' | translate}}</mat-card-subtitle>
+        <mat-card-subtitle>{{ "NO_TRANSACTIONS" | translate }}</mat-card-subtitle>
     </div>
 </div>
 
 <div *ngIf="transactions.length > 0">
     <mat-divider class="mb-3"></mat-divider>
     <div class="row">
-        <mat-card-subtitle class="col-6">{{'TOTAL' | translate}} </mat-card-subtitle>
-        <mat-card-subtitle class="col-6 text-right">{{total | currency:'EUR'}}</mat-card-subtitle>
-        <mat-card-subtitle class="col-6">{{'TOTAL_CREDIT' | translate}} </mat-card-subtitle>
-        <mat-card-subtitle class="col-6 text-right">{{totalCredit | currency:'EUR'}}</mat-card-subtitle>
-        <mat-card-subtitle class="col-6">{{'TOTAL_DEBT' | translate}}</mat-card-subtitle>
-        <mat-card-subtitle class="col-6 text-right">{{totalDebt | currency:'EUR'}}</mat-card-subtitle>
+        <mat-card-subtitle class="col-6">{{ "TOTAL" | translate }} </mat-card-subtitle>
+        <mat-card-subtitle class="col-6 text-right">{{ total | currency: "EUR" }}</mat-card-subtitle>
+        <mat-card-subtitle class="col-6">{{ "TOTAL_CREDIT" | translate }} </mat-card-subtitle>
+        <mat-card-subtitle class="col-6 text-right">{{ totalCredit | currency: "EUR" }}</mat-card-subtitle>
+        <mat-card-subtitle class="col-6">{{ "TOTAL_DEBT" | translate }}</mat-card-subtitle>
+        <mat-card-subtitle class="col-6 text-right">{{ totalDebt | currency: "EUR" }}</mat-card-subtitle>
     </div>
 </div>
 

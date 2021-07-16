@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
-import {TransactionType} from '../../../../../src/model/transaction-type';
+import {TransactionType} from '../../../../../src/model/common/transaction-type';
 import * as moment from 'moment';
 
 @Component({
     selector: 'app-transaction-card',
     templateUrl: './transaction-card.component.html',
-    styleUrls: ['./transaction-card.component.scss']
+    styleUrls: ['./transaction-card.component.scss'],
 })
 export class TransactionCardComponent implements OnInit {
     @Input() public transaction: TransactionDto = {
@@ -19,14 +19,13 @@ export class TransactionCardComponent implements OnInit {
         personId: 0,
     };
 
-    constructor() {
-    }
+    constructor() {}
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
     public get signedAmount(): number {
-        return [TransactionType.CREDIT, TransactionType.SETTLE_DEBT].includes(this.transaction.type) ?
-            this.transaction.amount : -this.transaction.amount;
+        return [TransactionType.CREDIT, TransactionType.SETTLE_DEBT].includes(this.transaction.type)
+            ? this.transaction.amount
+            : -this.transaction.amount;
     }
 }

@@ -627,3 +627,23 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,node,visualstudiocode,intellij+all,python,venv,pycharm+all,sublimetext,database,django
+
+# compiled output
+/dist
+/node_modules
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# IDE - VSCode
+!.vscode/settings.json
+!.vscode/extensions.json

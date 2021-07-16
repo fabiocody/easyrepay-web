@@ -8,7 +8,7 @@ import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
 @Component({
     selector: 'app-add-person',
     templateUrl: './add-person.component.html',
-    styleUrls: ['./add-person.component.scss']
+    styleUrls: ['./add-person.component.scss'],
 })
 export class AddPersonComponent implements OnInit {
     public nameForm = this.fb.control('', Validators.required);
@@ -35,19 +35,23 @@ export class AddPersonComponent implements OnInit {
         this.error = null;
         const personDto: PersonDto = {
             id: this.edit ? this.person.id : -1,
-            name: this.nameForm.value
+            name: this.nameForm.value,
         };
-        this.peopleService.savePerson(personDto).then(_ => {
-            this.loading = false;
-            this.dialogRef.close(true);
-        }).catch(error => {
-            console.error(error);
-            this.loading = false;
-            if (error.status === 409) {
-                this.error = 'ERROR_NAME_ALREADY_PRESENT';
-            } else {
-                this.error = 'ERROR_GENERIC';
-            }
-        });
+        this.peopleService
+            .savePerson(personDto)
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            .then(_ => {
+                this.loading = false;
+                this.dialogRef.close(true);
+            })
+            .catch(error => {
+                console.error(error);
+                this.loading = false;
+                if (error.status === 409) {
+                    this.error = 'ERROR_NAME_ALREADY_PRESENT';
+                } else {
+                    this.error = 'ERROR_GENERIC';
+                }
+            });
     }
 }

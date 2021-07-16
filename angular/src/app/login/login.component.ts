@@ -7,7 +7,7 @@ import {SubSink} from 'subsink';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
     public loading = false;
@@ -16,13 +16,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     public form = this.fb.group({
         username: ['', Validators.required],
-        password: ['', Validators.required]
+        password: ['', Validators.required],
     });
 
-    constructor(
-        private loginService: LoginService,
-        private fb: FormBuilder,
-    ) {}
+    constructor(private loginService: LoginService, private fb: FormBuilder) {}
 
     ngOnInit(): void {
         this.subs.sink = this.loginService.user.pipe(skip(1)).subscribe(user => {

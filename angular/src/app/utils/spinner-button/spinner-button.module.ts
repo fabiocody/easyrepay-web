@@ -5,16 +5,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {TranslationModule} from '../translation/translation.module';
 import {MatButtonModule} from '@angular/material/button';
 
-
 @NgModule({
     declarations: [SpinnerButtonComponent],
-    imports: [
-        CommonModule,
-        TranslationModule,
-        MatProgressSpinnerModule,
-        MatButtonModule
-    ],
-    exports: [SpinnerButtonComponent]
+    imports: [CommonModule, TranslationModule, MatProgressSpinnerModule, MatButtonModule],
+    exports: [SpinnerButtonComponent],
 })
-export class SpinnerButtonModule {
-}
+export class SpinnerButtonModule {}

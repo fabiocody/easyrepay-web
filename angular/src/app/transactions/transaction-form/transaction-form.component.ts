@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
-import {TransactionType} from '../../../../../src/model/transaction-type';
+import {TransactionType} from '../../../../../src/model/common/transaction-type';
 import {FormBuilder, Validators} from '@angular/forms';
 import {SubSink} from 'subsink';
 import * as moment from 'moment';
@@ -8,7 +8,7 @@ import * as moment from 'moment';
 @Component({
     selector: 'app-transaction-form',
     templateUrl: './transaction-form.component.html',
-    styleUrls: ['./transaction-form.component.scss']
+    styleUrls: ['./transaction-form.component.scss'],
 })
 export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
     public readonly TRANSACTION_TYPES = Object.values(TransactionType);
@@ -29,9 +29,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
         time: [TransactionFormComponent.roundTime(new Date().toTimeString().slice(0, 5)), Validators.required],
     });
 
-    constructor(
-        private fb: FormBuilder,
-    ) {
+    constructor(private fb: FormBuilder) {
         this.createTimeSlots();
     }
 
@@ -55,7 +53,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
                 description: val.description,
                 completed: val.completed,
                 date,
-                personId: this.personId
+                personId: this.personId,
             };
             this.transactionChange.emit(transaction);
         });
@@ -65,6 +63,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
         this.subs.unsubscribe();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ngOnChanges(changes: SimpleChanges): void {
         if (!this.initialized && this.transaction) {
             const date = moment(this.transaction.date);
@@ -73,7 +72,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
             this.form.get('description')!.setValue(this.transaction.description);
             this.form.get('completed')!.setValue(this.transaction.completed);
             this.form.get('date')!.setValue(date.startOf('minute').toDate());
-            this.form.get('time')!.setValue(TransactionFormComponent.roundTime(date.toDate().toTimeString().slice(0, 5)));
+            this.form
+                .get('time')!
+                .setValue(TransactionFormComponent.roundTime(date.toDate().toTimeString().slice(0, 5)));
             this.initialized = true;
         }
     }

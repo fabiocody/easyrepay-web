@@ -8,9 +8,8 @@ describe('TransactionComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TransactionDialogComponent]
-        })
-            .compileComponents();
+            declarations: [TransactionDialogComponent],
+        }).compileComponents();
     });
 
     beforeEach(() => {
