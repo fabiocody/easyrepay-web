@@ -10,7 +10,7 @@ import {SubSink} from 'subsink';
 @Component({
     selector: 'app-transaction-form-buttons',
     templateUrl: './transaction-form-buttons.component.html',
-    styleUrls: ['./transaction-form-buttons.component.scss']
+    styleUrls: ['./transaction-form-buttons.component.scss'],
 })
 export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
     @Input() public transaction: TransactionDto | null = null;
@@ -28,9 +28,7 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
         @Optional() private dialogRef?: MatDialogRef<TransactionDialogComponent>,
     ) {}
 
-    ngOnInit(): void {
-    }
-
+    ngOnInit(): void {}
 
     ngOnDestroy(): void {
         this.subs.unsubscribe();
@@ -46,18 +44,22 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
 
     public saveTransaction(): void {
         this.saving = true;
-        this.transactionsService.saveTransaction(this.transaction!).then(_ => {
-            this.saving = false;
-            if (this.dialogRef) {
-                this.dialogRef.close(true);
-            } else {
-                this.location.back();
-            }
-        }).catch(error => {
-            console.error(error);
-            this.saving = false;
-            this.transactionError.emit('ERROR_GENERIC');
-        });
+        this.transactionsService
+            .saveTransaction(this.transaction!)
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            .then(_ => {
+                this.saving = false;
+                if (this.dialogRef) {
+                    this.dialogRef.close(true);
+                } else {
+                    this.location.back();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                this.saving = false;
+                this.transactionError.emit('ERROR_GENERIC');
+            });
     }
 
     public deleteTransaction(): void {
@@ -66,26 +68,33 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
             body: 'DELETE_TRANSACTION_BODY',
             okBtnText: 'DELETE',
             cancelBtnText: 'CANCEL',
-            okBtnColor: 'warn'
+            okBtnColor: 'warn',
         };
-        this.subs.sink = this.dialog.open(InfoDialogComponent, {
-            data: dialogData,
-            autoFocus: false,
-        }).afterClosed().subscribe(value => {
-            if (value) {
-                this.deleting = true;
-                this.transactionsService.deleteTransaction(this.transaction!.personId, this.transaction!.id).then(_ => {
-                    this.deleting = false;
-                    if (this.dialogRef) {
-                        this.dialogRef.close(true);
-                    } else {
-                        this.location.back();
-                    }
-                }).catch(error => {
-                    console.error(error);
-                    this.transactionError.emit('ERROR_GENERIC');
-                });
-            }
-        });
+        this.subs.sink = this.dialog
+            .open(InfoDialogComponent, {
+                data: dialogData,
+                autoFocus: false,
+            })
+            .afterClosed()
+            .subscribe(value => {
+                if (value) {
+                    this.deleting = true;
+                    this.transactionsService
+                        .deleteTransaction(this.transaction!.personId, this.transaction!.id)
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        .then(_ => {
+                            this.deleting = false;
+                            if (this.dialogRef) {
+                                this.dialogRef.close(true);
+                            } else {
+                                this.location.back();
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            this.transactionError.emit('ERROR_GENERIC');
+                        });
+                }
+            });
     }
 }

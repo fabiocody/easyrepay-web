@@ -1,18 +1,26 @@
-<h1 class="page-title">{{'PEOPLE' | translate}}</h1>
+<h1 class="page-title">{{ "PEOPLE" | translate }}</h1>
 
 <app-spinner [loading]="loading"></app-spinner>
 
-<button mat-fab class="mat-elevation-z3 mr-md-2 mb-md-2" color="primary"
-        (click)="addPerson()" [attr.aria-label]="'ADD_PERSON' | translate">
+<button
+    mat-fab
+    class="mat-elevation-z3 mr-md-2 mb-md-2"
+    color="primary"
+    (click)="addPerson()"
+    [attr.aria-label]="'ADD_PERSON' | translate"
+>
     <mat-icon>person_add</mat-icon>
 </button>
 
 <div class="row mt-4" *ngIf="!loading">
     <ng-container *ngFor="let p of people">
-        <app-person-card class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer" [person]="p"
-                         (click)="openPerson(p)"></app-person-card>
+        <app-person-card
+            class="col-12 col-md-6 col-lg-4 mb-3 cursor-pointer"
+            [person]="p"
+            (click)="openPerson(p)"
+        ></app-person-card>
     </ng-container>
     <div *ngIf="people.length === 0" class="col-12 text-center mt-4">
-        <mat-card-subtitle>{{'NO_PEOPLE' | translate}}</mat-card-subtitle>
+        <mat-card-subtitle>{{ "NO_PEOPLE" | translate }}</mat-card-subtitle>
     </div>
 </div>

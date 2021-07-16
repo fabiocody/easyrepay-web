@@ -1,5 +1,5 @@
-import {TransactionType} from '../transaction-type';
 import {IsDefined, IsEnum, IsInt, Min} from 'class-validator';
+import {TransactionType} from '../common/transaction-type';
 
 export class TransactionDto {
     @IsDefined()

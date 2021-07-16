@@ -26,12 +26,12 @@ export class ThemeService {
     public readonly THEMES: ThemeOption[] = [
         {
             label: Theme.LIGHT,
-            icon: 'brightness_7'
+            icon: 'brightness_7',
         },
         {
             label: Theme.DARK,
-            icon: 'brightness_4'
-        }
+            icon: 'brightness_4',
+        },
     ];
 
     public setTheme(theme: Theme): void {

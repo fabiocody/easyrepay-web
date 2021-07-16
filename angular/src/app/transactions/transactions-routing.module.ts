@@ -5,12 +5,11 @@ import {TransactionPageComponent} from './transaction-page/transaction-page.comp
 
 const routes: Routes = [
     {path: '', component: TransactionsComponent},
-    {path: 'transaction', component: TransactionPageComponent}
+    {path: 'transaction', component: TransactionPageComponent},
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class TransactionsRoutingModule {
-}
+export class TransactionsRoutingModule {}

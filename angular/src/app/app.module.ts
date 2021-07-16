@@ -12,11 +12,8 @@ import {TranslationService} from './utils/translation/translation.service';
 import {DynamicLocaleId} from './utils/translation/translation.utils';
 import {ReleaseInfoModule} from './utils/release-info/release-info.module';
 
-
 @NgModule({
-    declarations: [
-        AppComponent,
-    ],
+    declarations: [AppComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -30,15 +27,14 @@ import {ReleaseInfoModule} from './utils/release-info/release-info.module';
         {
             provide: HTTP_INTERCEPTORS,
             useClass: RequestInterceptorService,
-            multi: true
+            multi: true,
         },
         {
             provide: LOCALE_ID,
             deps: [TranslationService],
-            useClass: DynamicLocaleId
-        }
+            useClass: DynamicLocaleId,
+        },
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -18,14 +18,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module';
 
-
 @NgModule({
-    declarations: [
-        PeopleComponent,
-        PersonCardComponent,
-        AvatarComponent,
-        AddPersonComponent,
-    ],
+    declarations: [PeopleComponent, PersonCardComponent, AvatarComponent, AddPersonComponent],
     imports: [
         CommonModule,
         PeopleRoutingModule,
@@ -39,9 +33,8 @@ import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
-        SpinnerButtonModule
+        SpinnerButtonModule,
     ],
-    providers: [PeopleService]
+    providers: [PeopleService],
 })
-export class PeopleModule {
-}
+export class PeopleModule {}

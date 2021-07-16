@@ -6,16 +6,14 @@ import '@angular/common/locales/global/en';
 import * as moment from 'moment';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TranslationService {
     private data: any = {};
     private languageSubject: BehaviorSubject<string>;
     public language: Observable<string>;
 
-    constructor(
-        private http: HttpClient,
-    ) {
+    constructor(private http: HttpClient) {
         const lang = localStorage.getItem('lang') || 'it';
         this.languageSubject = new BehaviorSubject(lang);
         this.language = this.languageSubject.asObservable();
@@ -38,21 +36,25 @@ export class TranslationService {
         return this.data[key] || key;
     }
 
-    public use(lang: string): Promise<{}> {
+    public use(lang: string): Promise<any> {
         localStorage.setItem('lang', lang);
-        return new Promise<{}>((resolve, _) => {
+        return new Promise<any>(resolve => {
             moment.locale(lang);
-            const langPath = `assets/i18n/${lang}.json`;
-            this.http.get<object>(langPath).toPromise().then(translation => {
-                this.data = Object.assign({}, translation || {});
-                this.languageSubject.next(lang);
-                resolve(this.data);
-            }).catch(error => {
-                console.error(error);
-                this.data = {};
-                this.languageSubject.next(lang);
-                resolve(this.data);
-            });
+            const langPath = `/assets/i18n/${lang}.json`;
+            this.http
+                .get<any>(langPath)
+                .toPromise()
+                .then(translation => {
+                    this.data = Object.assign({}, translation || {});
+                    this.languageSubject.next(lang);
+                    resolve(this.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.data = {};
+                    this.languageSubject.next(lang);
+                    resolve(this.data);
+                });
         });
     }
 }

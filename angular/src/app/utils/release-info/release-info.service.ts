@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {ReleaseInfoModule} from './release-info.module';
 import {HttpClient} from '@angular/common/http';
+import {ReleaseInfoDto} from '../../../../../src/model/dto/release-info.dto';
 
 @Injectable({
-    providedIn: ReleaseInfoModule
+    providedIn: ReleaseInfoModule,
 })
 export class ReleaseInfoService {
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
-    public async getReleaseInfo(): Promise<any> {
-        return this.http.get('/api/utils/release-info').toPromise();
+    public async getReleaseInfo(): Promise<ReleaseInfoDto> {
+        return this.http.get<ReleaseInfoDto>('/api/utils/release-info').toPromise();
     }
 }

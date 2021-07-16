@@ -11,11 +11,11 @@ import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
 export enum LoginStatus {
     LOGGED_OUT,
     TOKEN_EXPIRED,
-    LOGGED_IN
+    LOGGED_IN,
 }
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class LoginService implements OnDestroy {
     public loginStatus: Observable<LoginStatus>;
@@ -26,10 +26,7 @@ export class LoginService implements OnDestroy {
     public user = this.userSubject.asObservable();
     private subs = new SubSink();
 
-    constructor(
-        private router: Router,
-        private http: HttpClient,
-    ) {
+    constructor(private router: Router, private http: HttpClient) {
         let initialStatus = LoginStatus.LOGGED_OUT;
         if (this.access) {
             const jwt = new JwtHelperService();
@@ -78,9 +75,15 @@ export class LoginService implements OnDestroy {
 
     public async login(username: string, password: string): Promise<void> {
         try {
-            const tokens = await this.http.post<TokenDto>('/api/auth/authenticate', {}, {
-                headers: {authorization: 'Basic ' + window.btoa(`${username}:${password}`)}
-            }).toPromise();
+            const tokens = await this.http
+                .post<TokenDto>(
+                    '/api/auth/login',
+                    {},
+                    {
+                        headers: {authorization: 'Basic ' + window.btoa(`${username}:${password}`)},
+                    },
+                )
+                .toPromise();
             this.saveTokens(tokens.access, tokens.refresh);
             await this.router.navigate(['/people']);
         } catch (e) {
@@ -103,7 +106,7 @@ export class LoginService implements OnDestroy {
     }
 
     public getUserInfo(): Promise<UserDto> {
-        return this.http.get<UserDto>('/api/me').toPromise();
+        return this.http.get<UserDto>('/api/user').toPromise();
     }
 
     private saveTokens(access: string | null, refresh: string | null): void {

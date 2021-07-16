@@ -1,23 +1,29 @@
-<h1 mat-dialog-title>{{'ADD_PERSON' | translate}}</h1>
+<h1 mat-dialog-title>{{ "ADD_PERSON" | translate }}</h1>
 
 <mat-dialog-content class="text-center">
     <ng-form (keydown.enter)="addPerson()">
         <mat-form-field appearance="outline">
-            <mat-label>{{'NAME' | translate}}</mat-label>
-            <input matInput [formControl]="nameForm" required>
+            <mat-label>{{ "NAME" | translate }}</mat-label>
+            <input matInput [formControl]="nameForm" required />
         </mat-form-field>
     </ng-form>
     <div>
         <div *ngIf="error" class="alert alert-danger error-alert" role="alert">
             <mat-icon class="error-alert">error</mat-icon>
-            <span class="error-alert ml-1">{{error | translate}}</span>
+            <span class="error-alert ml-1">{{ error | translate }}</span>
         </div>
     </div>
 </mat-dialog-content>
 
 <mat-dialog-actions class="float-right">
     <button mat-flat-button color="primary" mat-dialog-close>
-        {{'CANCEL' | translate}}
+        {{ "CANCEL" | translate }}
     </button>
-    <app-spinner-button class="ml-2" text="OK" [loading]="loading" [disabled]="!nameForm.valid || loading" (btnClick)="addPerson()"></app-spinner-button>
+    <app-spinner-button
+        class="ml-2"
+        text="OK"
+        [loading]="loading"
+        [disabled]="!nameForm.valid || loading"
+        (btnClick)="addPerson()"
+    ></app-spinner-button>
 </mat-dialog-actions>

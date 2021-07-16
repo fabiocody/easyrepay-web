@@ -6,7 +6,7 @@ import {Location} from '@angular/common';
 @Component({
     selector: 'app-transaction',
     templateUrl: './transaction-page.component.html',
-    styleUrls: ['./transaction-page.component.scss']
+    styleUrls: ['./transaction-page.component.scss'],
 })
 export class TransactionPageComponent implements OnInit {
     public transaction: TransactionDto | null;
@@ -14,15 +14,11 @@ export class TransactionPageComponent implements OnInit {
     public showDelete: boolean;
     public error: string | null = null;
 
-    constructor(
-        private router: Router,
-        public location: Location,
-    ) {
+    constructor(private router: Router, public location: Location) {
         this.transaction = this.router.getCurrentNavigation()!.extras!.state!.transaction;
         this.personId = this.router.getCurrentNavigation()!.extras!.state!.personId;
         this.showDelete = !!this.transaction;
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 }
