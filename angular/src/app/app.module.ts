@@ -1,6 +1,5 @@
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -9,7 +8,6 @@ import {RequestInterceptorService} from './utils/request-interceptor/request-int
 import {NavbarModule} from './navbar/navbar.module';
 import {SpinnerModule} from './utils/spinner/spinner.module';
 import {TranslationService} from './utils/translation/translation.service';
-import {DynamicLocaleId} from './utils/translation/translation.utils';
 import {ReleaseInfoModule} from './utils/release-info/release-info.module';
 
 @NgModule({
@@ -32,7 +30,7 @@ import {ReleaseInfoModule} from './utils/release-info/release-info.module';
         {
             provide: LOCALE_ID,
             deps: [TranslationService],
-            useClass: DynamicLocaleId,
+            useFactory: (translationService: TranslationService) => translationService.localeId,
         },
     ],
     bootstrap: [AppComponent],
