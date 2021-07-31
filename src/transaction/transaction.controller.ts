@@ -17,7 +17,6 @@ import {TransactionDto} from '../model/dto/transaction.dto';
 import {PersonService} from '../person/person.service';
 import {RequiredPipe} from '../utils/pipes/required.pipe';
 
-// TODO: Fix endpoints in client
 @Controller('transaction')
 export class TransactionController {
     constructor(private transactionService: TransactionService, private personService: PersonService) {}

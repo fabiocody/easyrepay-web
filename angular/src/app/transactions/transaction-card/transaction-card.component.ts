@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {TransactionType} from '../../../../../src/model/common/transaction-type';
 import * as moment from 'moment';
@@ -8,7 +8,7 @@ import * as moment from 'moment';
     templateUrl: './transaction-card.component.html',
     styleUrls: ['./transaction-card.component.scss'],
 })
-export class TransactionCardComponent implements OnInit {
+export class TransactionCardComponent {
     @Input() public transaction: TransactionDto = {
         id: 0,
         type: TransactionType.CREDIT,
@@ -18,10 +18,6 @@ export class TransactionCardComponent implements OnInit {
         date: moment().toDate(),
         personId: 0,
     };
-
-    constructor() {}
-
-    ngOnInit(): void {}
 
     public get signedAmount(): number {
         return [TransactionType.CREDIT, TransactionType.SETTLE_DEBT].includes(this.transaction.type)

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {ThemePalette} from '@angular/material/core';
 
@@ -15,8 +15,6 @@ export interface InfoDialogData {
     templateUrl: './info-dialog.component.html',
     styleUrls: ['./info-dialog.component.scss'],
 })
-export class InfoDialogComponent implements OnInit {
+export class InfoDialogComponent {
     constructor(@Inject(MAT_DIALOG_DATA) public data: InfoDialogData) {}
-
-    ngOnInit(): void {}
 }

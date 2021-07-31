@@ -4,7 +4,6 @@ import {PersonDetailDto} from '../model/dto/person-detail.dto';
 import {PersonService} from './person.service';
 import {PersonDto} from '../model/dto/person.dto';
 
-// TODO: Fix endpoints in client
 @Controller('person')
 export class PersonController {
     constructor(private personService: PersonService) {}

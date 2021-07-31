@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ThemePalette} from '@angular/material/core';
 
 @Component({
@@ -6,16 +6,12 @@ import {ThemePalette} from '@angular/material/core';
     templateUrl: './spinner-button.component.html',
     styleUrls: ['./spinner-button.component.scss'],
 })
-export class SpinnerButtonComponent implements OnInit {
+export class SpinnerButtonComponent {
     @Input() public loading = false;
     @Input() public disabled = false;
     @Input() public text = '';
     @Input() public color: ThemePalette = 'primary';
     @Output() public btnClick = new EventEmitter();
-
-    constructor() {}
-
-    ngOnInit(): void {}
 
     public onClick(): void {
         this.btnClick.emit();
