@@ -6,7 +6,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RequestInterceptorService} from './utils/request-interceptor/request-interceptor.service';
 import {NavbarModule} from './navbar/navbar.module';
-import {SpinnerModule} from './utils/spinner/spinner.module';
 import {TranslationService} from './utils/translation/translation.service';
 import {ReleaseInfoModule} from './utils/release-info/release-info.module';
 
@@ -18,7 +17,6 @@ import {ReleaseInfoModule} from './utils/release-info/release-info.module';
         BrowserAnimationsModule,
         HttpClientModule,
         NavbarModule,
-        SpinnerModule,
         ReleaseInfoModule,
     ],
     providers: [

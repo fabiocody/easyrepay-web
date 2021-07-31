@@ -5,7 +5,6 @@ import {TransactionsRoutingModule} from './transactions-routing.module';
 import {TransactionsComponent} from './transactions.component';
 import {TransactionCardComponent} from './transaction-card/transaction-card.component';
 import {TranslationModule} from '../utils/translation/translation.module';
-import {SpinnerModule} from '../utils/spinner/spinner.module';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -26,7 +25,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module';
 import {PeopleModule} from '../people/people.module';
 import {InfoDialogModule} from '../utils/info-dialog/info-dialog.module';
 import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
@@ -47,8 +45,6 @@ import {AppDateAdapter} from '../utils/translation/translation.utils';
         TranslationModule,
         InfoDialogModule,
         PeopleModule,
-        SpinnerModule,
-        SpinnerButtonModule,
         FlexLayoutModule,
         FormsModule,
         ReactiveFormsModule,

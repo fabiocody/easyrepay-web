@@ -20,13 +20,9 @@
                 <mat-icon class="error-alert">error</mat-icon>
                 <span class="error-alert ml-1">{{ error | translate }}</span>
             </div>
-            <app-spinner-button
-                class="ml-2"
-                text="LOGIN"
-                [loading]="loading"
-                [disabled]="!form.valid || loading"
-                (btnClick)="login()"
-            ></app-spinner-button>
+            <button mat-flat-button color="primary" [disabled]="!form.valid || loading" (click)="login()">
+                {{ "LOGIN" | translate }}
+            </button>
         </mat-card-content>
     </mat-card>
 </div>

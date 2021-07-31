@@ -9,8 +9,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {TranslationModule} from '../utils/translation/translation.module';
 import {MatInputModule} from '@angular/material/input';
-import {SpinnerButtonModule} from '../utils/spinner-button/spinner-button.module';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
     declarations: [LoginComponent],
@@ -18,7 +18,6 @@ import {MatIconModule} from '@angular/material/icon';
         CommonModule,
         LoginRoutingModule,
         TranslationModule,
-        SpinnerButtonModule,
         FlexLayoutModule,
         FormsModule,
         ReactiveFormsModule,
@@ -26,6 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
+        MatButtonModule,
     ],
 })
 export class LoginModule {}

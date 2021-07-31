@@ -19,11 +19,7 @@
     <button mat-flat-button color="primary" mat-dialog-close>
         {{ "CANCEL" | translate }}
     </button>
-    <app-spinner-button
-        class="ml-2"
-        text="OK"
-        [loading]="loading"
-        [disabled]="!nameForm.valid || loading"
-        (btnClick)="addPerson()"
-    ></app-spinner-button>
+    <button mat-flat-button class="ml-2" color="primary" [disabled]="!nameForm.valid || loading" (click)="addPerson()">
+        {{ "OK" | translate }}
+    </button>
 </mat-dialog-actions>

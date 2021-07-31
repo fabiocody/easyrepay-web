@@ -1,19 +1,22 @@
 <div class="d-flex">
     <button mat-flat-button color="primary" (click)="cancel()">{{ "CANCEL" | translate }}</button>
-    <app-spinner-button
-        class="ml-2"
-        text="DELETE"
+    <button
+        mat-flat-button
         *ngIf="showDelete"
-        color="warn"
-        [loading]="deleting"
-        [disabled]="saving || deleting"
-        (btnClick)="deleteTransaction()"
-    ></app-spinner-button>
-    <app-spinner-button
         class="ml-2"
-        text="SAVE"
-        [loading]="saving"
+        color="warn"
+        [disabled]="saving || deleting"
+        (click)="deleteTransaction()"
+    >
+        {{ "DELETE" | translate }}
+    </button>
+    <button
+        mat-flat-button
+        class="ml-2"
+        color="primary"
         [disabled]="!formValid || saving || deleting"
-        (btnClick)="saveTransaction()"
-    ></app-spinner-button>
+        (click)="saveTransaction()"
+    >
+        {{ "SAVE" | translate }}
+    </button>
 </div>
