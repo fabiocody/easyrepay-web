@@ -32,7 +32,9 @@ export class AppComponent implements OnDestroy {
                 this.loading = true;
             }
         });
-        this.releaseInfoService.getReleaseInfo().then(releaseInfo => console.log('Release', releaseInfo));
+        this.releaseInfoService
+            .getReleaseInfo()
+            .then(releaseInfo => console.log('Release', JSON.stringify(releaseInfo)));
     }
 
     ngOnDestroy(): void {
