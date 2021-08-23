@@ -4,6 +4,8 @@ import {UserService} from '../user/user.service';
 import {PersonDetailDto} from '../model/dto/person-detail.dto';
 import {PersonDto} from '../model/dto/person.dto';
 import {TransactionType} from '../model/common/transaction-type';
+import {EntityManager, getManager} from 'typeorm';
+import {TransactionEntity} from '../model/entities/transaction.entity';
 
 @Injectable()
 export class PersonService {
@@ -60,8 +62,12 @@ export class PersonService {
     }
 
     public async delete(id: number): Promise<void> {
-        const person = await this.get(id);
-        await person.remove();
+        await getManager().transaction(async (manager: EntityManager) => {
+            const person = await manager.findOneOrFail(PersonEntity, id);
+            const transactions = await manager.find(TransactionEntity, {person: Promise.resolve(person)});
+            transactions.forEach(t => manager.remove(t));
+            await manager.remove(person);
+        });
     }
 
     public async checkUser(personId: number, userId: number): Promise<void> {
