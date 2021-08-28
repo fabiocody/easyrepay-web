@@ -86,15 +86,20 @@ function setupSecurity(app: NestExpressApplication): void {
 
 function setupSwagger(app: NestExpressApplication): void {
     const logger = new Logger('SwaggerUI');
-    for (const swaggerFile of config.swaggerFiles) {
-        if (existsSync(swaggerFile)) {
-            logger.log(`Found swagger file at ${swaggerFile}`);
-            const swaggerDoc = loadYaml(swaggerFile);
-            app.use('/api-docs', swaggerServe, swaggerSetup(swaggerDoc));
-            return;
+    try {
+        for (const swaggerFile of config.swaggerFiles) {
+            if (existsSync(swaggerFile)) {
+                logger.log(`Found swagger file at ${swaggerFile}`);
+                const swaggerDoc = loadYaml(swaggerFile);
+                app.use('/api-docs', swaggerServe, swaggerSetup(swaggerDoc));
+                return;
+            } else {
+                logger.warn('No swagger.yaml file found');
+            }
         }
+    } catch (error) {
+        logger.error(error);
     }
-    logger.warn('No swagger.yaml file found');
 }
 
 function setupAngularClient(): void {
