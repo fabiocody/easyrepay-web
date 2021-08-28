@@ -17,7 +17,7 @@ export class PersonService {
 
     public async getByUserId(userId: number): Promise<PersonEntity[]> {
         const user = await this.userService.get(userId);
-        return user.people;
+        return (await user.people).sort((a, b) => a.name.localeCompare(b.name));
     }
 
     public async getPersonDetailDto(person: PersonEntity): Promise<PersonDetailDto> {
