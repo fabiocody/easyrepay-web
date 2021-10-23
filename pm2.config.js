@@ -6,7 +6,7 @@ module.exports = {
             watch: true,
             watch_delay: 15000,
             exec_mode: 'cluster',
-            instances: 2,
+            instances: 1,
         },
     ],
 };
