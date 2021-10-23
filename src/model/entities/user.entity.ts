@@ -7,8 +7,7 @@ export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    // TODO: This should be unique, but doing so breaks the automatic schema migration
-    @Column()
+    @Column({unique: true})
     public username!: string;
 
     @Column()

@@ -11,7 +11,7 @@ export class PersonController {
     @UseGuards(JwtAuthGuard)
     @Get('')
     public async getPeople(@Req() req): Promise<PersonDetailDto[]> {
-        const people = await this.personService.getByUserId(req.user.id);
+        const people = await this.personService.getByUserId(req.user);
         const detailPromises = people.map(async p => this.personService.getPersonDetailDto(p));
         return Promise.all(detailPromises);
     }
@@ -19,13 +19,13 @@ export class PersonController {
     @UseGuards(JwtAuthGuard)
     @Post('')
     public async savePerson(@Req() req, @Body() person: PersonDto): Promise<void> {
-        await this.personService.save(person, req.user.id);
+        await this.personService.save(person, req.user);
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
     public async getPerson(@Req() req, @Param('id') id: number): Promise<PersonDto> {
-        await this.personService.checkUser(id, req.user.id);
+        await this.personService.checkUser(id, req.user);
         const person = await this.personService.get(id);
         return person.toDto();
     }
@@ -33,7 +33,7 @@ export class PersonController {
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     public async deletePerson(@Req() req, @Param('id') id: number): Promise<void> {
-        await this.personService.checkUser(id, req.user.id);
+        await this.personService.checkUser(id, req.user);
         return this.personService.delete(id);
     }
 }

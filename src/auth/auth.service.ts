@@ -63,20 +63,20 @@ export class AuthService {
         return decoded;
     }
 
-    public async validateUser(username: string, password: string): Promise<UserEntity> {
+    public async validateUser(username: string, password: string): Promise<number> {
         try {
             const user = await this.userService.getByUsername(username);
             await this.userService.hasValidPasswordThrowing(user, password);
-            return user;
+            return user.id;
         } catch (error) {
             this.logger.error(error);
             throw new UnauthorizedException();
         }
     }
 
-    public async login(user: UserEntity): Promise<TokenDto> {
-        const access = await this.getAccessToken(user.id);
-        const refresh = await this.getRefreshToken(user.id);
+    public async login(userId: number): Promise<TokenDto> {
+        const access = await this.getAccessToken(userId);
+        const refresh = await this.getRefreshToken(userId);
         return new TokenDto({access, refresh});
     }
 
@@ -94,12 +94,11 @@ export class AuthService {
         }
     }
 
-    public async logout(user: UserEntity, refreshToken: string): Promise<void> {
+    public async logout(userId: number, refreshToken: string): Promise<void> {
         const token = await TokenEntity.findOne({token: refreshToken});
         if (token) {
             const decoded = await this.verifyToken(refreshToken, TokenType.REFRESH);
-            const userId = decoded.userId;
-            if (userId === user.id) {
+            if (decoded.userId === userId) {
                 await token.remove();
             }
         }

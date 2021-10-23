@@ -17,7 +17,7 @@ export class UserService implements OnModuleInit {
             this.logger.debug('Initializing users');
             const users = await UserEntity.find();
             if (users.length === 0) {
-                this.logger.debug('Creating first user');
+                this.logger.debug(`Creating first user {username=${username}, password=${password}, name=${name}}`);
                 this.save(username, password, name).then();
             } else {
                 this.logger.debug('Skipping first user creation: user found');
@@ -29,6 +29,10 @@ export class UserService implements OnModuleInit {
 
     public async get(id: number): Promise<UserEntity> {
         return UserEntity.findOneOrFail(id);
+    }
+
+    public async exists(id: number): Promise<boolean> {
+        return (await UserEntity.count({id})) === 1;
     }
 
     public async getByUsername(username: string): Promise<UserEntity> {

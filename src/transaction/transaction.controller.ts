@@ -28,7 +28,7 @@ export class TransactionController {
         @Query('personId', RequiredPipe) personId: number,
         @Query('completed', new DefaultValuePipe(false), ParseBoolPipe) completed: boolean,
     ): Promise<TransactionDto[]> {
-        await this.personService.checkUser(personId, req.user.id);
+        await this.personService.checkUser(personId, req.user);
         const transactions = await this.transactionService.getTransactions(personId, completed);
         const dtoPromises = transactions.map(t => t.toDto());
         return Promise.all(dtoPromises);
@@ -37,28 +37,28 @@ export class TransactionController {
     @UseGuards(JwtAuthGuard)
     @Post('')
     public async saveTransaction(@Req() req, @Body() transaction: TransactionDto): Promise<void> {
-        await this.personService.checkUser(transaction.personId, req.user.id);
+        await this.personService.checkUser(transaction.personId, req.user);
         await this.transactionService.save(transaction);
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete('')
     public async deleteAllTransactions(@Req() req, @Query('personId', RequiredPipe) personId: number): Promise<void> {
-        await this.personService.checkUser(personId, req.user.id);
+        await this.personService.checkUser(personId, req.user);
         return this.transactionService.deleteAll(personId);
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('complete')
     public async setCompleted(@Req() req, @Query('personId', RequiredPipe) personId: number): Promise<void> {
-        await this.personService.checkUser(personId, req.user.id);
+        await this.personService.checkUser(personId, req.user);
         return this.transactionService.setCompleted(personId);
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete('complete')
     public async deleteCompleted(@Req() req, @Query('personId', RequiredPipe) personId: number): Promise<void> {
-        await this.personService.checkUser(personId, req.user.id);
+        await this.personService.checkUser(personId, req.user);
         return this.transactionService.deleteCompleted(personId);
     }
 
@@ -66,7 +66,7 @@ export class TransactionController {
     @Get(':id')
     public async getTransaction(@Req() req, @Param('id') id: number): Promise<TransactionDto> {
         const transaction = await this.transactionService.get(id);
-        await this.personService.checkUser((await transaction.person).id, req.user.id);
+        await this.personService.checkUser((await transaction.person).id, req.user);
         return transaction.toDto();
     }
 
@@ -74,7 +74,7 @@ export class TransactionController {
     @Delete(':id')
     public async deleteTransaction(@Req() req, @Param('id') id: number): Promise<void> {
         const transaction = await this.transactionService.get(id);
-        await this.personService.checkUser((await transaction.person).id, req.user.id);
+        await this.personService.checkUser((await transaction.person).id, req.user);
         return this.transactionService.delete(id);
     }
 }
