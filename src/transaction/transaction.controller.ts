@@ -17,7 +17,7 @@ import {TransactionDto} from '../model/dto/transaction.dto';
 import {PersonService} from '../person/person.service';
 import {RequiredPipe} from '../utils/pipes/required.pipe';
 
-@Controller('transaction')
+@Controller('transactions')
 export class TransactionController {
     constructor(private transactionService: TransactionService, private personService: PersonService) {}
 
@@ -49,25 +49,17 @@ export class TransactionController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post('complete')
+    @Post('set-completed')
     public async setCompleted(@Req() req, @Query('personId', RequiredPipe) personId: number): Promise<void> {
         await this.personService.checkUser(personId, req.user);
         return this.transactionService.setCompleted(personId);
     }
 
     @UseGuards(JwtAuthGuard)
-    @Delete('complete')
+    @Delete('delete-completed')
     public async deleteCompleted(@Req() req, @Query('personId', RequiredPipe) personId: number): Promise<void> {
         await this.personService.checkUser(personId, req.user);
         return this.transactionService.deleteCompleted(personId);
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Get(':id')
-    public async getTransaction(@Req() req, @Param('id') id: number): Promise<TransactionDto> {
-        const transaction = await this.transactionService.get(id);
-        await this.personService.checkUser((await transaction.person).id, req.user);
-        return transaction.toDto();
     }
 
     @UseGuards(JwtAuthGuard)

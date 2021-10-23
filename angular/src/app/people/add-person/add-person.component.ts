@@ -23,7 +23,7 @@ export class AddPersonComponent implements OnInit {
         private peopleService: PeopleService,
     ) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (this.person) {
             this.nameForm.setValue(this.person.name);
             this.edit = true;

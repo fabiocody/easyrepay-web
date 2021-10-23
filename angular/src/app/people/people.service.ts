@@ -8,18 +8,18 @@ export class PeopleService {
     constructor(private http: HttpClient) {}
 
     public getPeople(): Promise<PersonDetailDto[]> {
-        return this.http.get<PersonDetailDto[]>('/api/person').toPromise();
+        return this.http.get<PersonDetailDto[]>('/api/people').toPromise();
     }
 
     public savePerson(personDto: PersonDto): Promise<any> {
-        return this.http.post('/api/person', personDto).toPromise();
+        return this.http.post('/api/people', personDto).toPromise();
     }
 
     public getPerson(personId: number): Promise<PersonDetailDto> {
-        return this.http.get<PersonDetailDto>(`/api/person/${personId}`).toPromise();
+        return this.http.get<PersonDetailDto>(`/api/people/${personId}`).toPromise();
     }
 
     public deletePerson(personId: number): Promise<any> {
-        return this.http.delete(`/api/person/${personId}`).toPromise();
+        return this.http.delete(`/api/people/${personId}`).toPromise();
     }
 }

@@ -18,12 +18,12 @@ export class PeopleComponent implements OnInit, OnDestroy {
 
     constructor(private peopleService: PeopleService, private dialog: MatDialog, private router: Router) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.loading = true;
         this.updatePeople();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 
@@ -39,6 +39,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
         this.subs.sink = this.dialog
             .open(AddPersonComponent, {
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {

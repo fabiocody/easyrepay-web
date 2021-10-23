@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     constructor(private loginService: LoginService, private fb: FormBuilder) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.subs.sink = this.loginService.user.pipe(skip(1)).subscribe(user => {
             this.loading = false;
             if (user) {
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 

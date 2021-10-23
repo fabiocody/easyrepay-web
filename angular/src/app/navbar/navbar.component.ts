@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         private loginService: LoginService,
     ) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.subs.sink = this.loginService.user.subscribe(user => {
             if (user) {
                 this.userName = user.name;
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 

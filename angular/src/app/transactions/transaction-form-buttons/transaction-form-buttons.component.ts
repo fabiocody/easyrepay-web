@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, Optional, Output} from '@angular/core';
 import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
 import {TransactionsService} from '../transactions.service';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
@@ -12,7 +12,7 @@ import {SubSink} from 'subsink';
     templateUrl: './transaction-form-buttons.component.html',
     styleUrls: ['./transaction-form-buttons.component.scss'],
 })
-export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
+export class TransactionFormButtonsComponent implements OnDestroy {
     @Input() public transaction: TransactionDto | null = null;
     @Input() public formValid = true;
     @Output() public transactionError = new EventEmitter<string>();
@@ -28,9 +28,7 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
         @Optional() private dialogRef?: MatDialogRef<TransactionDialogComponent>,
     ) {}
 
-    ngOnInit(): void {}
-
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 
@@ -74,6 +72,7 @@ export class TransactionFormButtonsComponent implements OnInit, OnDestroy {
             .open(InfoDialogComponent, {
                 data: dialogData,
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {

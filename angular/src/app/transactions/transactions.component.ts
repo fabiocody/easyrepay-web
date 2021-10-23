@@ -37,11 +37,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this.person = this.router.getCurrentNavigation()!.extras!.state!.person;
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.updateTransactions();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 
@@ -76,6 +76,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             .open(AddPersonComponent, {
                 data: this.person,
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {
@@ -100,6 +101,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             .open(InfoDialogComponent, {
                 data: dialogData,
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {
@@ -118,6 +120,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
                             this.dialog.open(InfoDialogComponent, {
                                 data: errorDialogData,
                                 autoFocus: false,
+                                restoreFocus: false,
                             });
                         });
                 }
@@ -137,6 +140,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
                     },
                     maxWidth: '300px',
                     autoFocus: false,
+                    restoreFocus: false,
                 })
                 .afterClosed()
                 .subscribe(value => {
@@ -158,6 +162,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             .open(InfoDialogComponent, {
                 data: dialogData,
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {
@@ -183,6 +188,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             .open(InfoDialogComponent, {
                 data: dialogData,
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {
@@ -208,6 +214,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             .open(InfoDialogComponent, {
                 data: dialogData,
                 autoFocus: false,
+                restoreFocus: false,
             })
             .afterClosed()
             .subscribe(value => {

@@ -37,7 +37,7 @@ export class AppComponent implements OnDestroy {
             .then(releaseInfo => console.log('Release', JSON.stringify(releaseInfo)));
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 }

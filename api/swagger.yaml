@@ -63,7 +63,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/UserDto"
-    /person:
+    /people:
         get:
             tags: [People]
             summary: Get the people related to the currently logged user
@@ -92,7 +92,7 @@ paths:
             responses:
                 201:
                     description: OK
-    /person/{id}:
+    /people/{id}:
         parameters:
             - in: path
               name: id
@@ -120,7 +120,7 @@ paths:
             responses:
                 200:
                     description: OK
-    /transaction:
+    /transactions:
         get:
             tags: [Transactions]
             summary: Get all transactions of the specified person
@@ -177,7 +177,7 @@ paths:
             responses:
                 200:
                     description: OK
-    /transaction/complete:
+    /transactions/set-completed:
         parameters:
             - in: query
               name: personId
@@ -193,6 +193,14 @@ paths:
             responses:
                 201:
                     description: OK
+    /transactions/delete-completed:
+        parameters:
+            - in: query
+              name: personId
+              schema:
+                  type: integer
+              required: true
+              description: Numeric ID of a person
         delete:
             tags: [Transactions]
             summary: Delete all completed transactions of the specified person
@@ -201,7 +209,7 @@ paths:
             responses:
                 200:
                     description: OK
-    /transaction/{id}:
+    /transactions/{id}:
         parameters:
             - in: path
               name: id

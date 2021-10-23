@@ -4,7 +4,7 @@ import {PersonDetailDto} from '../model/dto/person-detail.dto';
 import {PersonService} from './person.service';
 import {PersonDto} from '../model/dto/person.dto';
 
-@Controller('person')
+@Controller('people')
 export class PersonController {
     constructor(private personService: PersonService) {}
 

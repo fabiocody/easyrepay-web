@@ -40,7 +40,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
         return hours + ':' + (minutes === 0 ? '00' : minutes);
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.form.valueChanges.subscribe(val => {
             const hours = parseInt(val.time.split(':')[0], 10);
             const minutes = parseInt(val.time.split(':')[1], 10);
@@ -59,12 +59,12 @@ export class TransactionFormComponent implements OnInit, OnDestroy, OnChanges {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         if (!this.initialized && this.transaction) {
             const date = moment(this.transaction.date);
             this.form.get('type')!.setValue(this.transaction.type);
