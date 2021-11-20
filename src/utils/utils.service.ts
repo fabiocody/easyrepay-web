@@ -25,7 +25,11 @@ export class UtilsService {
     }
 
     public getReleaseInfo(): ReleaseInfoDto {
-        const releaseInfo = JSON.parse(this.configService.get<string>('RELEASE_INFO', '{}'));
+        const releaseInfo = {
+            branch: this.configService.get<string>('GIT_BRANCH'),
+            commit: this.configService.get<string>('GIT_COMMIT'),
+            date: this.configService.get<string>('RELEASE_DATE'),
+        };
         return new ReleaseInfoDto(releaseInfo);
     }
 }
