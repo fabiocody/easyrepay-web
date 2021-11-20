@@ -43,7 +43,7 @@ export class PersonService {
 
     public async save(personDto: PersonDto, userId: number): Promise<void> {
         const user = await this.userService.get(userId);
-        const homonyms = await PersonEntity.find({user: Promise.resolve(user), name: personDto.name});
+        const homonyms = await PersonEntity.find({user: user, name: personDto.name});
         if (homonyms.length > 0) {
             throw new ConflictException(`A person with name ${personDto.name} is already present in the database`);
         }
@@ -64,7 +64,7 @@ export class PersonService {
     public async delete(id: number): Promise<void> {
         await getManager().transaction(async (manager: EntityManager) => {
             const person = await manager.findOneOrFail(PersonEntity, id);
-            const transactions = await manager.find(TransactionEntity, {person: Promise.resolve(person)});
+            const transactions = await manager.find(TransactionEntity, {person: person});
             transactions.forEach(t => manager.remove(t));
             await manager.remove(person);
         });
