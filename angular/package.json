@@ -9,7 +9,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "postinstall": "ngcc",
-        "upgrade": "sudo npm i -g @angular/cli && ng update @angular/cli @angular/core @angular/cdk @angular/material"
+        "upgrade": "sudo npm i -g @angular/cli && ng update @angular/cli @angular/core @angular/cdk @angular/material @angular/flex-layout"
     },
     "private": true,
     "dependencies": {
