@@ -9,7 +9,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "postinstall": "ngcc",
-        "upgrade": "sudo npm i -g @angular/cli && ng update @angular/cli @angular/core @angular/cdk @angular/material"
+        "upgrade": "sudo npm i -g @angular/cli && ng update @angular/cli @angular/core @angular/cdk @angular/material @angular/flex-layout"
     },
     "private": true,
     "dependencies": {
@@ -30,7 +30,7 @@
         "bootstrap": "^4.5.0",
         "class-validator": "^0.13.1",
         "moment": "^2.29.1",
-        "ngx-moment": "^5.0.0",
+        "ngx-moment": "^6.0.0",
         "rxjs": "~6.6.0",
         "subsink": "^1.0.2",
         "tslib": "^2.3.1",
