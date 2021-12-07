@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
-import {PersonDto} from '../../../../src/model/dto/person.dto';
+import {PersonDetailDto} from '../../model/person-detail.dto';
+import {PersonDto} from '../../model/person.dto';
 
 @Injectable()
 export class PeopleService {

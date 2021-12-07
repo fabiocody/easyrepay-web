@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
+import {TransactionDto} from '../../../model/transaction.dto';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 

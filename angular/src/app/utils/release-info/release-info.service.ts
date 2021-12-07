@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ReleaseInfoModule} from './release-info.module';
 import {HttpClient} from '@angular/common/http';
-import {ReleaseInfoDto} from '../../../../../src/model/dto/release-info.dto';
+import {ReleaseInfoDto} from '../../../model/release-info.dto';
 
 @Injectable({
     providedIn: ReleaseInfoModule,

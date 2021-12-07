@@ -23,7 +23,7 @@
                 "build": {
                     "builder": "@angular-builders/custom-webpack:browser",
                     "options": {
-                        "outputPath": "dist/easyrepay-angular",
+                        "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+echo "Running go fmt"
+go fmt ./...
+
+echo "Running prettier"
+cd angular
+npx pretty-quick --staged

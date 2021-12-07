@@ -2,14 +2,14 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TransactionsService} from './transactions.service';
 import {PeopleService} from '../people/people.service';
-import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
+import {PersonDetailDto} from '../../model/person-detail.dto';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPersonComponent} from '../people/add-person/add-person.component';
 import {InfoDialogComponent, InfoDialogData} from '../utils/info-dialog/info-dialog.component';
 import {Location} from '@angular/common';
 import {TransactionDialogComponent} from './transaction-dialog/transaction-dialog.component';
-import {TransactionDto} from '../../../../src/model/dto/transaction.dto';
-import {TransactionType} from '../../../../src/model/common/transaction-type';
+import {TransactionDto} from '../../model/transaction.dto';
+import {TransactionType} from '../../model/transaction-type';
 import {MediaObserver} from '@angular/flex-layout';
 import {SubSink} from 'subsink';
 

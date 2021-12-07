@@ -1,349 +1,349 @@
 openapi: 3.0.3
 info:
-    title: EasyRepay API
-    version: 2.0.0
+  title: EasyRepay API
+  version: "2.0"
 servers:
-    - url: https://easyrepay.fabiocodiglioni.ovh/api
+  - url: https://easyrepay.fabiocodiglioni.ovh/api
 paths:
-    /auth/login:
-        post:
-            tags: [Authentication]
-            summary: Request a new pair of authentication token from a username and a password
-            security:
-                - basicAuth: []
-            responses:
-                201:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TokenDto"
-    /auth/refresh-token:
-        post:
-            tags: [Authentication]
-            summary: Request a new pair of authentication token from a refresh token
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/RefreshTokenDto"
-            responses:
-                201:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TokenDto"
-    /auth/logout:
-        post:
-            tags: [Authentication]
-            summary: Invalidate the provided refresh token
-            security:
-                - jwtAuth: []
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/RefreshTokenDto"
-            responses:
-                201:
-                    description: OK
-    /user:
-        get:
-            tags: [User]
-            summary: Get information about the currently logged user
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/UserDto"
-    /people:
-        get:
-            tags: [People]
-            summary: Get the people related to the currently logged user
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/PersonDetailDto"
-        post:
-            tags: [People]
-            summary: Save the provided person
-            security:
-                - jwtAuth: []
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/PersonDto"
-            responses:
-                201:
-                    description: OK
-    /people/{id}:
-        parameters:
-            - in: path
-              name: id
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Request a new pair of authentication token from a username and a password
+      security:
+        - basicAuth: []
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
               schema:
-                  type: integer
-              required: true
-              description: Numeric ID of the person to get
-        get:
-            tags: [People]
-            summary: Get information about the specified person
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/PersonDto"
-        delete:
-            tags: [People]
-            summary: Delete the specified person
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-    /transactions:
-        get:
-            tags: [Transactions]
-            summary: Get all transactions of the specified person
-            security:
-                - jwtAuth: []
-            parameters:
-                - in: query
-                  name: personId
-                  schema:
-                      type: integer
-                  required: true
-                  description: Numeric ID of a person
-                - in: query
-                  name: completed
-                  schema:
-                      type: boolean
-                  required: false
-                  description: Whether to retrieve completed transactions or not
-            responses:
-                200:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/TransactionDto"
-        post:
-            tags: [Transactions]
-            summary: Save the provided transaction
-            security:
-                - jwtAuth: []
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/TransactionDto"
-            responses:
-                201:
-                    description: OK
-        delete:
-            tags: [Transactions]
-            summary: Delete all transactions of the specified person
-            security:
-                - jwtAuth: []
-            parameters:
-                - in: query
-                  name: personId
-                  schema:
-                      type: integer
-                  required: true
-                  description: Numeric ID of a person
-            responses:
-                200:
-                    description: OK
-    /transactions/set-completed:
-        parameters:
-            - in: query
-              name: personId
+                $ref: "#/components/schemas/TokenDto"
+  /auth/refresh-token:
+    post:
+      tags: [Authentication]
+      summary: Request a new pair of authentication token from a refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenDto"
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
               schema:
-                  type: integer
-              required: true
-              description: Numeric ID of a person
-        post:
-            tags: [Transactions]
-            summary: Complete all transactions of the specified person
-            security:
-                - jwtAuth: []
-            responses:
-                201:
-                    description: OK
-    /transactions/delete-completed:
-        parameters:
-            - in: query
-              name: personId
+                $ref: "#/components/schemas/TokenDto"
+  /auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Invalidate the provided refresh token
+      security:
+        - jwtAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenDto"
+      responses:
+        201:
+          description: OK
+  /user:
+    get:
+      tags: [User]
+      summary: Get information about the currently logged user
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
               schema:
-                  type: integer
-              required: true
-              description: Numeric ID of a person
-        delete:
-            tags: [Transactions]
-            summary: Delete all completed transactions of the specified person
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-    /transactions/{id}:
-        parameters:
-            - in: path
-              name: id
+                $ref: "#/components/schemas/UserDto"
+  /people:
+    get:
+      tags: [People]
+      summary: Get the people related to the currently logged user
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
               schema:
-                  type: integer
-              required: true
-              description: Numeric ID of a transaction
-        get:
-            tags: [Transactions]
-            summary: Retrieve a specific transaction
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TransactionDto"
-        delete:
-            tags: [Transactions]
-            summary: Delete the specified transaction
-            security:
-                - jwtAuth: []
-            responses:
-                200:
-                    description: OK
-    /utils/release-info:
-        get:
-            tags: [Utils]
-            summary: Retrieve release information
-            responses:
-                200:
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/ReleaseInfoDto"
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonDetailDto"
+    post:
+      tags: [People]
+      summary: Save the provided person
+      security:
+        - jwtAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonDto"
+      responses:
+        201:
+          description: OK
+  /people/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the person to get
+    get:
+      tags: [People]
+      summary: Get information about the specified person
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonDto"
+    delete:
+      tags: [People]
+      summary: Delete the specified person
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+  /people/{id}/transactions:
+    get:
+      tags: [Transactions]
+      summary: Get all transactions of the specified person
+      security:
+        - jwtAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of a person
+        - in: query
+          name: completed
+          schema:
+            type: boolean
+          required: false
+          description: Whether to retrieve completed transactions or not
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransactionDto"
+    post:
+      tags: [Transactions]
+      summary: Save the provided transaction
+      security:
+        - jwtAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of a person
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionDto"
+      responses:
+        201:
+          description: OK
+    delete:
+      tags: [Transactions]
+      summary: Delete all transactions of the specified person
+      security:
+        - jwtAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of a person
+      responses:
+        200:
+          description: OK
+  /people/{id}/transactions/completed:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of a person
+    post:
+      tags: [Transactions]
+      summary: Complete all transactions of the specified person
+      security:
+        - jwtAuth: []
+      responses:
+        201:
+          description: OK
+    delete:
+      tags: [Transactions]
+      summary: Delete all completed transactions of the specified person
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+  /transactions/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of a transaction
+    get:
+      tags: [Transactions]
+      summary: Retrieve a specific transaction
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionDto"
+    delete:
+      tags: [Transactions]
+      summary: Delete the specified transaction
+      security:
+        - jwtAuth: []
+      responses:
+        200:
+          description: OK
+  /utils/release-info:
+    get:
+      tags: [Utils]
+      summary: Retrieve release information
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseInfoDto"
+
 components:
-    securitySchemes:
-        basicAuth:
-            type: http
-            scheme: basic
-        jwtAuth:
-            type: http
-            scheme: bearer
-            bearerFormat: JWT
-    schemas:
-        PersonDto:
-            properties:
-                id:
-                    type: integer
-                name:
-                    type: string
-            required:
-                - id
-                - name
-        PersonDetailDto:
-            properties:
-                id:
-                    type: integer
-                name:
-                    type: string
-                count:
-                    type: integer
-                total:
-                    type: number
-            required:
-                - id
-                - name
-                - count
-                - total
-        RefreshTokenDto:
-            properties:
-                token:
-                    type: string
-            required:
-                - token
-        TokenDto:
-            properties:
-                access:
-                    type: string
-                refresh:
-                    type: string
-            required:
-                - access
-                - refresh
-        TransactionDto:
-            properties:
-                id:
-                    type: integer
-                personId:
-                    type: integer
-                type:
-                    type: string
-                    enum:
-                        - CREDIT
-                        - DEBT
-                        - SETTLE_CREDIT
-                        - SETTLE_DEBT
-                amount:
-                    type: number
-                description:
-                    type: string
-                completed:
-                    type: boolean
-                date:
-                    type: string
-                    format: date-time
-            required:
-                - id
-                - personId
-                - type
-                - amount
-                - description
-                - completed
-                - date
-        UserDto:
-            properties:
-                id:
-                    type: integer
-                username:
-                    type: string
-                name:
-                    type: string
-            required:
-                - id
-                - username
-                - name
-        ReleaseInfoDto:
-            properties:
-                git_branch:
-                    type: string
-                git_commit:
-                    type: string
-                release_date:
-                    type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    PersonDto:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    PersonDetailDto:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        count:
+          type: integer
+        total:
+          type: number
+      required:
+        - id
+        - name
+        - count
+        - total
+    RefreshTokenDto:
+      properties:
+        token:
+          type: string
+      required:
+        - token
+    TokenDto:
+      properties:
+        access:
+          type: string
+        refresh:
+          type: string
+      required:
+        - access
+        - refresh
+    TransactionDto:
+      properties:
+        id:
+          type: integer
+        personId:
+          type: integer
+        type:
+          type: string
+          enum:
+            - CREDIT
+            - DEBT
+            - SETTLE_CREDIT
+            - SETTLE_DEBT
+        amount:
+          type: number
+        description:
+          type: string
+        completed:
+          type: boolean
+        date:
+          type: string
+          format: date-time
+      required:
+        - id
+        - personId
+        - type
+        - amount
+        - description
+        - completed
+        - date
+    UserDto:
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - username
+        - name
+    ReleaseInfoDto:
+      properties:
+        git_branch:
+          type: string
+        git_commit:
+          type: string
+        release_date:
+          type: string

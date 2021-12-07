@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
-import {TransactionType} from '../../../../../src/model/common/transaction-type';
+import {TransactionDto} from '../../../model/transaction.dto';
+import {TransactionType} from '../../../model/transaction-type';
 import * as moment from 'moment';
 
 @Component({

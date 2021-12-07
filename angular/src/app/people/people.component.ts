@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PersonDetailDto} from '../../../../src/model/dto/person-detail.dto';
+import {PersonDetailDto} from '../../model/person-detail.dto';
 import {PeopleService} from './people.service';
 import {AddPersonComponent} from './add-person/add-person.component';
 import {MatDialog} from '@angular/material/dialog';

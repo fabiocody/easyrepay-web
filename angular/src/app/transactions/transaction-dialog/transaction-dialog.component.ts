@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
+import {TransactionDto} from '../../../model/transaction.dto';
 
 export interface TransactionDialogData {
     transaction: TransactionDto | null;

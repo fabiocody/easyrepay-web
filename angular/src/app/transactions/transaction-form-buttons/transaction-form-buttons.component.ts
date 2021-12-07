@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, Optional, Output} from '@angular/core';
-import {TransactionDto} from '../../../../../src/model/dto/transaction.dto';
+import {TransactionDto} from '../../../model/transaction.dto';
 import {TransactionsService} from '../transactions.service';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {InfoDialogComponent, InfoDialogData} from '../../utils/info-dialog/info-dialog.component';

@@ -2,8 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {PeopleService} from '../people.service';
-import {PersonDto} from '../../../../../src/model/dto/person.dto';
-import {PersonDetailDto} from '../../../../../src/model/dto/person-detail.dto';
+import {PersonDto} from '../../../model/person.dto';
+import {PersonDetailDto} from '../../../model/person-detail.dto';
 
 @Component({
     selector: 'app-add-person',

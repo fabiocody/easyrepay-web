@@ -1,12 +1,12 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {UserDto} from '../../../../src/model/dto/user.dto';
+import {UserDto} from '../../model/user.dto';
 import {SubSink} from 'subsink';
 import {Router} from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {TokenDto} from '../../../../src/model/dto/token.dto';
-import {RefreshTokenDto} from '../../../../src/model/dto/refresh-token.dto';
+import {TokenDto} from '../../model/token.dto';
+import {RefreshTokenDto} from '../../model/refresh-token.dto';
 
 export enum LoginStatus {
     LOGGED_OUT,

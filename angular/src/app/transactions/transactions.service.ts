@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {TransactionDto} from '../../../../src/model/dto/transaction.dto';
+import {TransactionDto} from '../../model/transaction.dto';
 
 @Injectable()
 export class TransactionsService {
