@@ -27,6 +27,7 @@ RUN make backend
 ## Deploy
 FROM gcr.io/distroless/static AS final
 WORKDIR /
+ENV DATABASE /data/easyrepay.db
 COPY --from=build_be /data /data
 COPY --from=build_be /app/easyrepay /easyrepay
 COPY --from=build_be /app/healthcheck /healthcheck

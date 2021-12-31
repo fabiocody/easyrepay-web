@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/alexflint/go-arg"
 	"github.com/fabiocody/easyrepay/controllers"
 	"github.com/fabiocody/easyrepay/model"
 	"github.com/fabiocody/easyrepay/utils"
@@ -14,7 +15,13 @@ func main() {
 		FullTimestamp: true,
 	})
 	log.SetReportCaller(true)
-	log.SetLevel(log.DebugLevel)
+	arg.MustParse(&utils.Args)
+	if utils.Args.Debug {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
+	utils.CheckSecretKey()
 	model.SetupDB()
 	r := gin.Default()
 	controllers.SetupRoutes(r)

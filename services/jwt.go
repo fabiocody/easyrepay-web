@@ -28,7 +28,7 @@ func createJwt(userId uint64, expiresIn time.Duration, tokenType model.TokenType
 		Type: tokenType,
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(utils.Env().SecretKey)
+	return token.SignedString(utils.Args.SecretKey())
 }
 
 func verifyToken(tokenString string, tokenType model.TokenType) (*JwtClaims, error) {
@@ -36,7 +36,7 @@ func verifyToken(tokenString string, tokenType model.TokenType) (*JwtClaims, err
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return utils.Env().SecretKey, nil
+		return utils.Args.SecretKey(), nil
 	})
 	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
 		if claims.Type != tokenType {

@@ -12,8 +12,7 @@ var DB *gorm.DB
 
 func SetupDB() {
 	var err error
-	// TODO: postgres
-	DB, err = gorm.Open(sqlite.Open(utils.Env().DatabaseUrl))
+	DB, err = gorm.Open(sqlite.Open(utils.Args.Database))
 	utils.FailOnError(err)
 	err = DB.AutoMigrate(&User{}, &Token{}, &Person{}, &Transaction{})
 	utils.FailOnError(err)
@@ -26,15 +25,15 @@ func createFirstUser() {
 		log.Error(result.Error)
 		return
 	} else if len(users) == 0 {
-		password, err := bcrypt.GenerateFromPassword([]byte(utils.Env().InitPassword), 10)
+		password, err := bcrypt.GenerateFromPassword([]byte(utils.Args.InitPassword), 10)
 		if err != nil {
 			log.Error(err)
 			return
 		}
 		user := User{
-			Username: utils.Env().InitUsername,
+			Username: utils.Args.InitUsername,
 			Password: string(password),
-			Name:     utils.Env().InitName,
+			Name:     utils.Args.InitName,
 		}
 		log.Debug("Creating first user %#v", user)
 		if result = DB.Save(&user); result.Error != nil {
